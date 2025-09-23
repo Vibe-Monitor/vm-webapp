@@ -185,7 +185,7 @@ export class ApiService {
     created_at: string;
     updated_at: string;
   }[]>> {
-    return this.get('/api/v1/workspaces');
+    return this.get('/api/v1/workspaces/');
   }
 
   async createWorkspace(data: {
@@ -200,7 +200,7 @@ export class ApiService {
     created_at: string;
     updated_at: string;
   }>> {
-    return this.post('/api/v1/workspaces', data);
+    return this.post('/api/v1/workspaces/', data);
   }
 
   async getWorkspaceById(workspaceId: string): Promise<ApiResponse<{
