@@ -23,6 +23,77 @@ const mockLogs = [
   "2025-09-11 00:02:09.789 | Background job processed: email_queue",
   "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
   "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+    "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
+  "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+    "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
+  "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+    "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
+  "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+   "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
   "2025-09-11 00:02:12.890 | Session cleanup job started"
 ]
 
@@ -77,12 +148,9 @@ export default function LogsDashboard() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-black text-white">
-    
-   
-
+    <div className="flex flex-col h-screen bg-black text-white overflow-hidden">
       {/* Filters */}
-      <div className="border-b px-6 py-3" style={{
+      <div className="flex-shrink-0 border-b px-6 py-3" style={{
         background: "var(--color-background-subtle)",
         borderColor: "var(--color-border-subtle)",
         borderWidth: "0.5px"
@@ -189,7 +257,7 @@ export default function LogsDashboard() {
 
       {/* Log Stream */}
       <div className="flex-1 overflow-hidden bg-black">
-        <div className="h-full overflow-y-auto p-4" style={{
+        <div className="h-full overflow-y-auto sidebar-scrollbar p-4" style={{
           fontFamily: "var(--font-mono)"
         }}>
           {mockLogs.map((log, index) => (
@@ -211,4 +279,5 @@ export default function LogsDashboard() {
 
     </div>
   )
+  
 }
