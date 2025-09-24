@@ -32,7 +32,7 @@ export default function ConnectApp({ onBack, workspaceId }: ConnectAppProps) {
     setTimeout(() => {
       setIsLoading(false);
       if (workspaceId) {
-        router.push(`/${workspaceId}`);
+        router.push(`workspace/${workspaceId}`);
       } else {
         router.push("/");
       }
