@@ -56,7 +56,7 @@ export default function WorkspacePage() {
         setVisibleToOrg(false);
         setShowCreateForm(false);
         // Navigate to the new workspace
-        window.location.href = `/${result.payload.id}`;
+        window.location.href = `workspace/${result.payload.id}`;
       }
       // If creation failed, the error will be shown via createError state
     }
