@@ -49,7 +49,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 const items = [
   {
     title: "Home",
-    url: "/",
+    url: "/workspace",
     icon: Home,
   },
   {

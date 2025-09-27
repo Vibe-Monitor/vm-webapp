@@ -1,21 +1,32 @@
+"use client";
 import { Construction, Clock, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface PageInProgressProps {
   title?: string
   showBackButton?: boolean
   backUrl?: string
   estimatedTime?: string
+  useHistoryBack?: boolean
 }
 
 export function PageInProgress({
   title = "Page Under Construction",
   showBackButton = true,
   backUrl = "/",
-  estimatedTime
+  estimatedTime,
+  useHistoryBack = true
 }: PageInProgressProps) {
+  const router = useRouter()
+
+  const handleGoBack = () => {
+    if (useHistoryBack) {
+      router.back()
+    }
+  }
   return (
     <div className="h-full w-full flex items-center justify-center p-6">
       <div className="flex flex-col items-center text-center max-w-md mx-auto">
@@ -48,12 +59,19 @@ export function PageInProgress({
 
         {showBackButton && (
           <div className="pt-6">
-            <Button asChild variant="outline">
-              <Link href={backUrl} className="inline-flex items-center gap-2">
+            {useHistoryBack ? (
+              <Button onClick={handleGoBack} variant="outline" className="inline-flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
                 Go Back
-              </Link>
-            </Button>
+              </Button>
+            ) : (
+              <Button asChild variant="outline">
+                <Link href={backUrl} className="inline-flex items-center gap-2">
+                  <ArrowLeft className="w-4 h-4" />
+                  Go Back
+                </Link>
+              </Button>
+            )}
           </div>
         )}
       </div>
