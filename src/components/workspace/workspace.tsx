@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 import Image from "next/image"
 import { useState, useEffect } from "react"
@@ -13,8 +12,6 @@ import ConnectApp from "./ConnectApp"
 
 export default function WorkspacePage() {
   const [workspaceName, setWorkspaceName] = useState("");
-  const [workspaceDomain, setWorkspaceDomain] = useState("");
-  const [visibleToOrg, setVisibleToOrg] = useState(false);
   const [showConnectApp, setShowConnectApp] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState<string>("");
@@ -37,13 +34,22 @@ export default function WorkspacePage() {
     }
   }, [createError, dispatch]);
 
+  useEffect(() => {
+    // Auto-open create form ONLY if user has no workspaces
+    if (!loading) {
+      if (workspaces.length === 0) {
+        setShowCreateForm(true);
+      } else {
+        setShowCreateForm(false);
+      }
+    }
+  }, [loading, workspaces.length]);
+
   const handleCreateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (workspaceName.trim() && workspaceDomain.trim()) {
+    if (workspaceName.trim()) {
       const result = await dispatch(createWorkspace({
-        name: workspaceName.trim(),
-        domain: workspaceDomain.trim(),
-        visible_to_org: visibleToOrg
+        name: workspaceName.trim()
       }));
 
       if (createWorkspace.fulfilled.match(result)) {
@@ -52,8 +58,6 @@ export default function WorkspacePage() {
         // Set the newly created workspace as current
         dispatch(setCurrentWorkspace(result.payload));
         setWorkspaceName("");
-        setWorkspaceDomain("");
-        setVisibleToOrg(false);
         setShowCreateForm(false);
         // Navigate to the new workspace
         window.location.href = `workspace/${result.payload.id}`;
@@ -199,27 +203,7 @@ export default function WorkspacePage() {
               ))}
             </div>
           </div>
-        ) : (
-          <div className="text-center py-8">
-            <div
-              className="w-12 h-12 mx-auto mb-4 rounded-lg flex items-center justify-center"
-              style={{
-                backgroundColor: 'var(--color-surface-secondary)',
-                color: 'var(--color-text-secondary)'
-              }}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-            <p className="font-medium mb-1" style={{ color: 'var(--color-text-primary)' }}>
-              No workspaces yet
-            </p>
-            <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-              Create your first workspace to get started
-            </p>
-          </div>
-        )}
+        ) : null}
 
         {workspaces.length > 0 && (
           <div className="relative">
@@ -280,36 +264,10 @@ export default function WorkspacePage() {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="workspace-domain" className="mb-2 block">
-                  Domain
-                </Label>
-                <Input
-                  type="text"
-                  id="workspace-domain"
-                  placeholder="Enter workspace domain"
-                  value={workspaceDomain}
-                  onChange={(e) => setWorkspaceDomain(e.target.value)}
-                  disabled={createLoading}
-                />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="visible-to-org"
-                  checked={visibleToOrg}
-                  onCheckedChange={(checked) => setVisibleToOrg(checked === true)}
-                  disabled={createLoading}
-                />
-                <Label htmlFor="visible-to-org" className="text-sm">
-                  Visible to organization
-                </Label>
-              </div>
-
               <div className="flex space-x-2">
                 <Button
                   type="submit"
-                  disabled={createLoading || !workspaceName.trim() || !workspaceDomain.trim()}
+                  disabled={createLoading || !workspaceName.trim()}
                   className="flex-1 text-white"
                   style={{ backgroundColor: 'var(--color-text-brand)' }}
                 >
@@ -321,8 +279,6 @@ export default function WorkspacePage() {
                   onClick={() => {
                     setShowCreateForm(false);
                     setWorkspaceName("");
-                    setWorkspaceDomain("");
-                    setVisibleToOrg(false);
                     dispatch(clearCreateError());
                   }}
                   disabled={createLoading}

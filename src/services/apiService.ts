@@ -180,8 +180,6 @@ export class ApiService {
   async getWorkspaces(): Promise<ApiResponse<{
     id: string;
     name: string;
-    domain: string;
-    visible_to_org: boolean;
     created_at: string;
     updated_at: string;
   }[]>> {
@@ -190,13 +188,9 @@ export class ApiService {
 
   async createWorkspace(data: {
     name: string;
-    domain: string;
-    visible_to_org: boolean;
   }): Promise<ApiResponse<{
     id: string;
     name: string;
-    domain: string;
-    visible_to_org: boolean;
     created_at: string;
     updated_at: string;
   }>> {
@@ -206,11 +200,9 @@ export class ApiService {
   async getWorkspaceById(workspaceId: string): Promise<ApiResponse<{
     id: string;
     name: string;
-    domain: string | null;
-    visible_to_org: boolean;
-    is_paid: boolean;
+    is_paid?: boolean;
     created_at: string;
-    user_role: string;
+    user_role?: string;
   }>> {
     return this.get(`/api/v1/workspaces/${workspaceId}`);
   }

@@ -49,7 +49,6 @@ export function WorkspaceSelector() {
   // Default workspace display if none selected
   const displayWorkspace = currentWorkspace || {
     name: "Select Workspace",
-    domain: "",
   };
 
   return (
@@ -88,7 +87,7 @@ export function WorkspaceSelector() {
                     className="truncate text-xs"
                     style={{ color: 'var(--color-text-secondary)' }}
                   >
-                    {currentWorkspace?.domain || "No workspace selected"}
+                    {currentWorkspace ? "Workspace selected" : "No workspace selected"}
                   </span>
                 </div>
               </div>
@@ -146,7 +145,7 @@ export function WorkspaceSelector() {
                         className="text-xs truncate"
                         style={{ color: 'var(--color-text-secondary)' }}
                       >
-                        {workspace.domain || "No domain"}
+                        Created {new Date(workspace.created_at).toLocaleDateString()}
                       </div>
                     </div>
                     {currentWorkspace?.id === workspace.id && (
