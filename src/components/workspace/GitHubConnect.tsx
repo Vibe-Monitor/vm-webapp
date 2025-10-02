@@ -20,7 +20,7 @@ export default function GitHubConnect({ workspaceId }: GitHubConnectProps) {
   // Check connection status on mount
   useEffect(() => {
     checkConnectionStatus()
-  }, [workspaceId])
+  })
 
   // Listen for GitHub connection events from callback
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function GitHubConnect({ workspaceId }: GitHubConnectProps) {
 
     window.addEventListener('github-connected', handleGithubConnected)
     return () => window.removeEventListener('github-connected', handleGithubConnected)
-  }, [])
+  })
 
   const checkConnectionStatus = async () => {
     setCheckingStatus(true)

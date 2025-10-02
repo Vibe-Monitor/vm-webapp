@@ -7,7 +7,7 @@ export interface ToastData {
 }
 
 class ToastManager {
-  info(arg0: string) {
+  info() {
     throw new Error('Method not implemented.')
   }
   private toasts: Set<string> = new Set()
