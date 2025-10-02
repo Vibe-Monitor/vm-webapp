@@ -206,6 +206,44 @@ export class ApiService {
   }>> {
     return this.get(`/api/v1/workspaces/${workspaceId}`);
   }
+
+  // GitHub integration API methods
+  async getGithubInstallUrl(workspaceId: string): Promise<ApiResponse<{ install_url: string; message: string }>> {
+    return this.get(`/api/v1/github/install?workspace_id=${workspaceId}`);
+  }
+
+
+  async handleGithubCallback(params: {
+    installation_id: string;
+    setup_action: string;
+    workspace_id: string;
+    state?: string;
+  }): Promise<ApiResponse<{ message: string }>> {
+    const queryParams = new URLSearchParams({
+      installation_id: params.installation_id,
+      setup_action: params.setup_action,
+      workspace_id: params.workspace_id,
+      ...(params.state && { state: params.state })
+    });
+    return this.get(`/api/v1/github/callback?${queryParams.toString()}`);
+  }
+
+  async getGithubStatus(workspaceId: string): Promise<ApiResponse<{
+    connected: boolean;
+    integration?: {
+      id: string;
+      github_username: string;
+      installation_id: string;
+      last_synced_at: string;
+    };
+  }>> {
+    return this.get(`/api/v1/github/status?workspace_id=${workspaceId}`);
+  }
+
+  async disconnectGithub(workspaceId: string): Promise<ApiResponse<{ message: string }>> {
+    return this.delete(`/api/v1/github/disconnect?workspace_id=${workspaceId}`);
+  }
+
 }
 
 export const apiService = new ApiService();

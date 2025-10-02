@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { fetchUserProfile, clearUser } from "@/lib/features/userSlice"
 import { fetchWorkspaces } from "@/lib/features/workspaceSlice"
 import { tokenService } from "@/services/tokenService"
+import { CookieUtils } from "@/utils/cookieUtils"
 import { WorkspaceSelector } from "@/components/workspace-selector"
 
 import {
@@ -101,8 +102,28 @@ export function AppSidebar() {
   }, [dispatch])
 
   const handleLogout = () => {
+    // Clear all tokens
     tokenService.clearTokens()
+
+    // Clear Redux state
     dispatch(clearUser())
+
+    // Clear all localStorage
+    localStorage.clear()
+
+    // Clear all sessionStorage
+    sessionStorage.clear()
+
+    // Clear all cookies
+    const cookies = document.cookie.split(';')
+    for (const cookie of cookies) {
+      const [name] = cookie.split('=')
+      if (name) {
+        CookieUtils.deleteCookie(name.trim())
+      }
+    }
+
+    // Redirect to auth page
     window.location.href = '/auth'
   }
 

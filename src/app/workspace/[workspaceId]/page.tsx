@@ -1,16 +1,18 @@
 "use client"
 
 import { useEffect } from "react"
-import { useParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/lib/store"
 import { fetchWorkspaceById } from "@/lib/features/workspaceSlice"
 import LogsDashboard from "@/components/dashboard/logs-dashboard"
 import { Skeleton } from "@/components/ui/skeleton"
 import Link from "next/link"
+import { toastManager } from "@/lib/toastManager"
 
 export default function WorkspacePage() {
   const params = useParams()
+  const searchParams = useSearchParams()
   const workspaceId = params.workspaceId as string
   const dispatch = useDispatch<AppDispatch>()
 
@@ -23,6 +25,26 @@ export default function WorkspacePage() {
       dispatch(fetchWorkspaceById(workspaceId))
     }
   }, [workspaceId, dispatch])
+
+  // Handle GitHub connection success/error messages
+  useEffect(() => {
+    const github = searchParams.get('github')
+    const githubError = searchParams.get('error')
+
+    if (github === 'connected') {
+      toastManager.success('GitHub App connected successfully!')
+      // Dispatch custom event to refresh GitHub status
+      window.dispatchEvent(new Event('github-connected'))
+      // Clean up URL without reloading
+      window.history.replaceState({}, '', `/workspace/${workspaceId}`)
+    } else if (githubError === 'github_connection_failed') {
+      toastManager.error('Failed to connect GitHub App. Please try again.')
+      window.history.replaceState({}, '', `/workspace/${workspaceId}`)
+    } else if (githubError === 'github_already_connected_to_another_user') {
+      toastManager.error('This GitHub account is already connected to another user. Please use a different GitHub account or contact your admin.')
+      window.history.replaceState({}, '', `/workspace/${workspaceId}`)
+    }
+  }, [searchParams, workspaceId])
 
   if (loading) {
     return (
@@ -77,5 +99,5 @@ export default function WorkspacePage() {
     )
   }
 
-  return <LogsDashboard />
+  return <LogsDashboard workspaceId={workspaceId} />
 }
