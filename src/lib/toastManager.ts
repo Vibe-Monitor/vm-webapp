@@ -7,6 +7,9 @@ export interface ToastData {
 }
 
 class ToastManager {
+  info() {
+    throw new Error('Method not implemented.')
+  }
   private toasts: Set<string> = new Set()
   private container: HTMLElement | null = null
   private recentMessages: Map<string, number> = new Map()

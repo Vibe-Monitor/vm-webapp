@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Search, Clock } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select"
+import GitHubConnect from "@/components/workspace/GitHubConnect"
 
 const mockLogs = [
   "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
@@ -97,7 +98,6 @@ const mockLogs = [
   "2025-09-11 00:02:12.890 | Session cleanup job started"
 ]
 
-
 // Time range options data organized by categories
 const timeRangeOptions = {
   quick: [
@@ -134,7 +134,11 @@ const getTimeZoneDisplay = () => {
   return { timeZone, offsetString }
 }
 
-export default function LogsDashboard() {
+interface LogsDashboardProps {
+  workspaceId: string
+}
+
+export default function LogsDashboard({ workspaceId }: LogsDashboardProps) {
   const [selectedTimeRange, setSelectedTimeRange] = useState("15m")
   const [selectedOrderBy, setSelectedOrderBy] = useState("desc")
   const [searchQuery, setSearchQuery] = useState("")
@@ -167,6 +171,8 @@ export default function LogsDashboard() {
               className="pl-10"
             />
           </div>
+
+          <GitHubConnect workspaceId={workspaceId} />
 
           <Select value={selectedTimeRange} onValueChange={setSelectedTimeRange}>
             <SelectTrigger className="w-48 min-w-fit">
