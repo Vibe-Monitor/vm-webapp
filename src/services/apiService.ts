@@ -278,6 +278,11 @@ export class ApiService {
     return this.delete(`/api/v1/grafana/disconnect/${workspaceId}`);
   }
 
+  // Slack integration API methods
+  async getSlackInstallUrl(workspaceId: string): Promise<ApiResponse<{ oauth_url: string }>> {
+    return this.get(`/api/v1/slack/install?workspace_id=${workspaceId}`);
+  }
+
 }
 
 export const apiService = new ApiService();

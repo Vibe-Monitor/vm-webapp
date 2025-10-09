@@ -16,7 +16,7 @@ import {
   Crown,
   Database,
   CheckCircle,
-  Slack,
+  MessageSquare,
 } from "lucide-react"
 import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
@@ -92,6 +92,7 @@ export function AppSidebar() {
   const hasFetchedUserRef = useRef(false)
   const [grafanaSheetOpen, setGrafanaSheetOpen] = useState(false)
   const [isGrafanaConnected, setIsGrafanaConnected] = useState(false)
+  const [slackInstalling, setSlackInstalling] = useState(false)
 
   useEffect(() => {
     // Only fetch if we have a token but no user data and haven't already tried
@@ -148,6 +149,26 @@ export function AppSidebar() {
 
     // Redirect to auth page
     window.location.href = '/auth'
+  }
+
+  const handleConnectSlack = async () => {
+    if (!currentWorkspace?.id) return
+
+    setSlackInstalling(true)
+
+    try {
+      const response = await apiService.getSlackInstallUrl(currentWorkspace.id)
+
+      if (response.status === 200 && response.data?.oauth_url) {
+        // Redirect to Slack OAuth URL
+        window.location.href = response.data.oauth_url
+      } else {
+        throw new Error(response.error || 'Failed to get Slack OAuth URL')
+      }
+    } catch (error) {
+      console.error('Slack installation failed:', error)
+      setSlackInstalling(false)
+    }
   }
 
   return (
@@ -298,9 +319,9 @@ export function AppSidebar() {
                           </>
                         )}
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Slack className="mr-2 h-4 w-4" />
-                        <span>Connect Slack</span>
+                      <DropdownMenuItem onClick={handleConnectSlack} disabled={slackInstalling}>
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        <span>{slackInstalling ? 'Connecting...' : 'Connect Slack'}</span>
                       </DropdownMenuItem>
                     </>
                   )}
