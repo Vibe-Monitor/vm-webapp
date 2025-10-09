@@ -244,6 +244,40 @@ export class ApiService {
     return this.delete(`/api/v1/github/disconnect?workspace_id=${workspaceId}`);
   }
 
+  // Grafana integration API methods
+  async connectGrafana(data: {
+    workspace_id: string;
+    grafana_url: string;
+    api_token: string;
+  }): Promise<ApiResponse<{
+    id: string;
+    workspace_id: string;
+    grafana_url: string;
+    connected: boolean;
+    created_at: string;
+    updated_at: string | null;
+  }>> {
+    return this.post('/api/v1/grafana/connect', data);
+  }
+
+  async getGrafanaStatus(workspaceId: string): Promise<ApiResponse<{
+    id: string;
+    workspace_id: string;
+    grafana_url: string;
+    connected: boolean;
+    created_at: string;
+    updated_at: string | null;
+  }>> {
+    return this.get(`/api/v1/grafana/status/${workspaceId}`);
+  }
+
+  async disconnectGrafana(workspaceId: string): Promise<ApiResponse<{
+    message: string;
+    workspace_id: string;
+  }>> {
+    return this.delete(`/api/v1/grafana/disconnect/${workspaceId}`);
+  }
+
 }
 
 export const apiService = new ApiService();
