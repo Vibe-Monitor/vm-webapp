@@ -32,6 +32,9 @@ export class ApiService {
 
       headers.set('Content-Type', 'application/json');
 
+      // Bypass ngrok browser warning
+      headers.set('ngrok-skip-browser-warning', 'true');
+
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
         headers
@@ -45,6 +48,7 @@ export class ApiService {
         if (refreshed) {
           // Retry the original request with new token
           headers.set('Authorization', `Bearer ${tokenService.getAccessToken()}`);
+          headers.set('ngrok-skip-browser-warning', 'true');
           const retryResponse = await fetch(`${this.baseUrl}${endpoint}`, {
             ...options,
             headers
@@ -96,7 +100,8 @@ export class ApiService {
       const response = await fetch(`${this.baseUrl}/api/v1/auth/refresh`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify({
           refresh_token: refreshToken
@@ -235,6 +240,9 @@ export class ApiService {
       github_username: string;
       installation_id: string;
       last_synced_at: string;
+      is_active?: boolean;
+      suspended_at?: string;
+      suspension_reason?: string;
     };
   }>> {
     return this.get(`/api/v1/github/status?workspace_id=${workspaceId}`);
