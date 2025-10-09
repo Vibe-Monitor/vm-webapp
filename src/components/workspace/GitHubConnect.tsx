@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { apiService } from '@/services/apiService'
 import { Button } from '@/components/ui/button'
 import { Loader2, CheckCircle, XCircle } from 'lucide-react'
@@ -17,22 +17,7 @@ export default function GitHubConnect({ workspaceId }: GitHubConnectProps) {
   const [checkingStatus, setCheckingStatus] = useState(true)
   const [githubUsername, setGithubUsername] = useState<string | null>(null)
 
-  // Check connection status on mount
-  useEffect(() => {
-    checkConnectionStatus()
-  })
-
-  // Listen for GitHub connection events from callback
-  useEffect(() => {
-    const handleGithubConnected = () => {
-      checkConnectionStatus()
-    }
-
-    window.addEventListener('github-connected', handleGithubConnected)
-    return () => window.removeEventListener('github-connected', handleGithubConnected)
-  })
-
-  const checkConnectionStatus = async () => {
+  const checkConnectionStatus = useCallback(async () => {
     setCheckingStatus(true)
     try {
       const response = await apiService.getGithubStatus(workspaceId)
@@ -49,7 +34,22 @@ export default function GitHubConnect({ workspaceId }: GitHubConnectProps) {
     } finally {
       setCheckingStatus(false)
     }
-  }
+  }, [workspaceId])
+
+  // Check connection status on mount
+  useEffect(() => {
+    checkConnectionStatus()
+  }, [checkConnectionStatus])
+
+  // Listen for GitHub connection events from callback
+  useEffect(() => {
+    const handleGithubConnected = () => {
+      checkConnectionStatus()
+    }
+
+    window.addEventListener('github-connected', handleGithubConnected)
+    return () => window.removeEventListener('github-connected', handleGithubConnected)
+  }, [checkConnectionStatus])
 
   // Simple GitHub install flow
   const handleConnectGitHub = async () => {
