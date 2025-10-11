@@ -64,7 +64,7 @@ export default function GrafanaConnect({
   const handleConnectGrafana = async () => {
     // Validate inputs
     if (!grafanaUrl.trim()) {
-      toastManager.error('Please enter your Grafana Cloud URL')
+      toastManager.error('Please enter your Grafana URL')
       return
     }
 
@@ -81,11 +81,7 @@ export default function GrafanaConnect({
 
     // Validate URL format
     try {
-      const url = new URL(formattedUrl)
-      if (!url.hostname.includes('grafana.net')) {
-        toastManager.error('Please enter a valid Grafana Cloud URL (e.g., https://mystack.grafana.net)')
-        return
-      }
+      new URL(formattedUrl)
     } catch {
       toastManager.error('Please enter a valid URL')
       return
@@ -105,7 +101,7 @@ export default function GrafanaConnect({
         setSheetOpen(false)
         setGrafanaUrl('')
         setApiToken('')
-        toastManager.success('Grafana Cloud connected successfully')
+        toastManager.success('Grafana connected successfully')
       } else {
         throw new Error(response.error || 'Failed to connect Grafana')
       }
@@ -155,17 +151,17 @@ export default function GrafanaConnect({
           <SheetHeader>
             <SheetTitle>Grafana Connection</SheetTitle>
             <SheetDescription>
-              Your workspace is connected to Grafana Cloud.
+              Your workspace is connected to Grafana.
             </SheetDescription>
           </SheetHeader>
 
           <div className="flex flex-col gap-4 py-4">
             <div className="bg-muted p-3 rounded-md">
               <p className="text-sm font-medium text-green-600 dark:text-green-400">
-                ✓ Grafana Cloud Connected
+                ✓ Grafana Connected
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                Your workspace is successfully connected to Grafana Cloud and receiving logs.
+                Your workspace is successfully connected to Grafana and receiving logs.
               </p>
             </div>
           </div>
@@ -200,50 +196,50 @@ export default function GrafanaConnect({
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Connect Grafana Cloud</SheetTitle>
+            <SheetTitle>Connect Grafana</SheetTitle>
             <SheetDescription>
-              Connect your Grafana Cloud instance to enable log streaming and monitoring. You&apos;ll need your Grafana Cloud stack URL and an Access Policy token with logs:read permissions.
+              Connect your self-hosted Grafana instance to enable log streaming and monitoring. You&apos;ll need your Grafana URL and an API token with appropriate permissions.
             </SheetDescription>
           </SheetHeader>
 
           <div className="flex flex-col gap-4 py-4">
             <div className="flex flex-col gap-2">
-              <Label htmlFor="grafana-url">Grafana Cloud URL</Label>
+              <Label htmlFor="grafana-url">Grafana URL</Label>
               <Input
                 id="grafana-url"
                 type="url"
-                placeholder="https://mystack.grafana.net"
+                placeholder="https://grafana.example.com"
                 value={grafanaUrl}
                 onChange={(e) => setGrafanaUrl(e.target.value)}
                 disabled={loading}
               />
               <p className="text-xs text-muted-foreground">
-                Your Grafana Cloud stack URL (e.g., https://mystack.grafana.net)
+                Your self-hosted Grafana instance URL (e.g., https://grafana.example.com)
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label htmlFor="api-token">Access Policy Token</Label>
+              <Label htmlFor="api-token">API Token</Label>
               <Input
                 id="api-token"
                 type="password"
-                placeholder="glc_..."
+                placeholder="Enter your API token"
                 value={apiToken}
                 onChange={(e) => setApiToken(e.target.value)}
                 disabled={loading}
               />
               <p className="text-xs text-muted-foreground">
-                Your Grafana Cloud Access Policy token with logs:read scope
+                Your Grafana API token with appropriate read permissions
               </p>
             </div>
 
             <div className="bg-muted p-3 rounded-md">
               <p className="text-sm font-medium mb-2">How to get your credentials:</p>
               <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
-                <li>Go to your Grafana Cloud portal</li>
-                <li>Navigate to Security &gt; Access Policies</li>
-                <li>Create a new Access Policy with logs:read scope</li>
-                <li>Generate a token and copy it here</li>
+                <li>Go to your Grafana instance</li>
+                <li>Navigate to Administration &gt; Service Accounts or API Keys</li>
+                <li>Create a new API token with appropriate read permissions</li>
+                <li>Copy the token and paste it here</li>
               </ol>
             </div>
           </div>
