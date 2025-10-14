@@ -2,6 +2,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Create .env file
+cp .env.example .env
+
+#### For local, put your ngrok url without any path in the backend url in .env file
+
 First, run the development server:
 
 ```bash
@@ -13,6 +18,10 @@ pnpm dev
 # or
 bun dev
 ```
+
+#### Or Start Using Docker:
+
+docker compose -f docker-compose.dev.yml up -d
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
