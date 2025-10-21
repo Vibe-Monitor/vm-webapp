@@ -5,6 +5,7 @@ import { Search, Clock } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select"
 import GitHubConnect from "@/components/workspace/GitHubConnect"
+import GitHubStatusIndicator from "@/components/ui/github-status-indicator"
 
 const mockLogs = [
   "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
@@ -173,6 +174,11 @@ export default function LogsDashboard({ workspaceId }: LogsDashboardProps) {
           </div>
 
           <GitHubConnect workspaceId={workspaceId} />
+          
+
+          
+          {/* GitHub Status Indicator */}
+          <GitHubStatusIndicator workspaceId={workspaceId} showDetails={false} className="flex-shrink-0" />
 
           <Select value={selectedTimeRange} onValueChange={setSelectedTimeRange}>
             <SelectTrigger className="w-48 min-w-fit">

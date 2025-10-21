@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   Home,
   Search,
@@ -14,7 +14,9 @@ import {
   CreditCard,
   LogOut,
   Crown,
-  Bell,
+  Database,
+  CheckCircle,
+  MessageSquare,
 } from "lucide-react"
 import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
@@ -23,6 +25,8 @@ import { fetchWorkspaces } from "@/lib/features/workspaceSlice"
 import { tokenService } from "@/services/tokenService"
 import { CookieUtils } from "@/utils/cookieUtils"
 import { WorkspaceSelector } from "@/components/workspace-selector"
+import GrafanaConnect from "@/components/workspace/GrafanaConnect"
+import { apiService } from "@/services/apiService"
 
 import {
   Sidebar,
@@ -84,7 +88,11 @@ export function AppSidebar() {
   const pathname = usePathname()
   const dispatch = useAppDispatch()
   const { user, loading } = useAppSelector((state) => state.user)
+  const { currentWorkspace } = useAppSelector((state) => state.workspace)
   const hasFetchedUserRef = useRef(false)
+  const [grafanaSheetOpen, setGrafanaSheetOpen] = useState(false)
+  const [isGrafanaConnected, setIsGrafanaConnected] = useState(false)
+  const [slackInstalling, setSlackInstalling] = useState(false)
 
   useEffect(() => {
     // Only fetch if we have a token but no user data and haven't already tried
@@ -100,6 +108,22 @@ export function AppSidebar() {
       dispatch(fetchWorkspaces())
     }
   }, [dispatch])
+
+  // Check Grafana connection status when workspace changes
+  useEffect(() => {
+    const checkGrafanaStatus = async () => {
+      if (currentWorkspace?.id) {
+        try {
+          const response = await apiService.getGrafanaStatus(currentWorkspace.id)
+          setIsGrafanaConnected(response.data?.connected || false)
+        } catch (error) {
+          setIsGrafanaConnected(false)
+        }
+      }
+    }
+
+    checkGrafanaStatus()
+  }, [currentWorkspace?.id, grafanaSheetOpen])
 
   const handleLogout = () => {
     // Clear all tokens
@@ -125,6 +149,26 @@ export function AppSidebar() {
 
     // Redirect to auth page
     window.location.href = '/auth'
+  }
+
+  const handleConnectSlack = async () => {
+    if (!currentWorkspace?.id) return
+
+    setSlackInstalling(true)
+
+    try {
+      const response = await apiService.getSlackInstallUrl(currentWorkspace.id)
+
+      if (response.status === 200 && response.data?.oauth_url) {
+        // Redirect to Slack OAuth URL
+        window.location.href = response.data.oauth_url
+      } else {
+        throw new Error(response.error || 'Failed to get Slack OAuth URL')
+      }
+    } catch (error) {
+      console.error('Slack installation failed:', error)
+      setSlackInstalling(false)
+    }
   }
 
   return (
@@ -179,6 +223,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -256,13 +301,30 @@ export function AppSidebar() {
                     <span>Billing</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Bell className="mr-2 h-4 w-4" />
-                    <span>Notifications</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Account Settings</span>
                   </DropdownMenuItem>
+                  {currentWorkspace && (
+                    <>
+                      <DropdownMenuItem onClick={() => setGrafanaSheetOpen(true)}>
+                        {isGrafanaConnected ? (
+                          <>
+                            <CheckCircle className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" />
+                            <span>Grafana Connected</span>
+                          </>
+                        ) : (
+                          <>
+                            <Database className="mr-2 h-4 w-4" />
+                            <span>Connect Grafana</span>
+                          </>
+                        )}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleConnectSlack} disabled={slackInstalling}>
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        <span>{slackInstalling ? 'Connecting...' : 'Connect Slack'}</span>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
@@ -274,6 +336,15 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
+
+      {/* Grafana Connection Modal */}
+      {currentWorkspace && (
+        <GrafanaConnect
+          workspaceId={currentWorkspace.id}
+          externalOpen={grafanaSheetOpen}
+          onOpenChange={setGrafanaSheetOpen}
+        />
+      )}
     </Sidebar>
   )
 }
