@@ -2,8 +2,6 @@
 @import "../styles/theme.css";
 @import "tw-animate-css";
 
-
-
 html, body {
   background: var(--color-background);
   color: var(--color-text-primary);
@@ -11,56 +9,22 @@ html, body {
   line-height: var(--leading-normal);
 }
 
-.sidebar-hover {
-  transition: background-color 200ms ease-in-out;
-}
-
-.sidebar-hover:hover {
-  background-color: var(--color-background-hover);
-}
-
-:root {
-  --sidebar: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
-}
-
-.dark {
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
-}
-
-/* Unified sidebar scrollbar styles */
-.sidebar-scrollbar,
+/* Auto-hide scrollbar styles */
 .auto-hide-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(203, 213, 225, 0.3) transparent;
   transition: scrollbar-color var(--transition-normal);
 }
 
-.sidebar-scrollbar::-webkit-scrollbar,
 .auto-hide-scrollbar::-webkit-scrollbar {
   width: 4px;
   height: 4px;
 }
 
-.sidebar-scrollbar::-webkit-scrollbar-track,
 .auto-hide-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.sidebar-scrollbar::-webkit-scrollbar-thumb,
 .auto-hide-scrollbar::-webkit-scrollbar-thumb {
   background-color: rgba(203, 213, 225, 0.3);
   border-radius: 2px;
@@ -68,27 +32,47 @@ html, body {
   opacity: 0;
 }
 
-.sidebar-scrollbar:hover::-webkit-scrollbar-thumb,
 .auto-hide-scrollbar:hover::-webkit-scrollbar-thumb {
   opacity: 0.5;
   background-color: rgba(203, 213, 225, 0.5);
 }
 
-.sidebar-scrollbar::-webkit-scrollbar-thumb:hover,
 .auto-hide-scrollbar::-webkit-scrollbar-thumb:hover {
   opacity: 0.8;
   background-color: rgba(241, 245, 249, 0.6);
 }
 
 /* Remove scrollbar arrows/buttons */
-.sidebar-scrollbar::-webkit-scrollbar-button,
 .auto-hide-scrollbar::-webkit-scrollbar-button {
   display: none;
 }
 
-.sidebar-scrollbar::-webkit-scrollbar-corner,
 .auto-hide-scrollbar::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* Custom scrollbar for log viewer */
+.log-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.log-scrollbar::-webkit-scrollbar-track {
+  background: rgba(47, 66, 87, 0.2);
+  border-radius: 4px;
+}
+
+.log-scrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+.log-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Hide scrollbar buttons (arrows) */
+.log-scrollbar::-webkit-scrollbar-button {
+  display: none;
 }
 
 

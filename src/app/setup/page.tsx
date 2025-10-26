@@ -25,8 +25,8 @@ export default function Page() {
   };
 
   const handleSetupComplete = async () => {
-    // Redirect to workspace page after setup
-    window.location.href = "/workspace";
+    // Redirect to dashboard page after setup
+    window.location.href = "/dashboard";
   };
 
   const renderCurrentState = () => {

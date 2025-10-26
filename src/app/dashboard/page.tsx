@@ -1,6 +1,10 @@
-import { PageInProgress } from "@/components/ui/page-in-progress"
-export default function Page() {    
-    return <>
-       <PageInProgress />
-    </>  
-    }
+import { LogViewerPage } from "@/components/logsViewerpage";
+
+export default function DashboardPage() {
+    return (
+      <>
+      <LogViewerPage/>
+
+    </>
+    )
+} 

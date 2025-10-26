@@ -23,14 +23,14 @@ export default function Home() {
   useEffect(() => {
     if (!loading && !error) {
       if (workspaces.length === 1) {
-        // If user has only one workspace, redirect to it
-        router.push(`/${workspaces[0].id}`)
+        // If user has only one workspace, redirect to dashboard
+        router.push(`/dashboard`)
       } else if (workspaces.length === 0) {
-        // If user has no workspaces, redirect to workspace creation
-        router.push('/workspace')
+        // If user has no workspaces, redirect to setup
+        router.push('/setup')
       } else {
-        // If user has multiple workspaces, redirect to workspace selection
-        router.push('/workspace')
+        // If user has multiple workspaces, redirect to setup
+        router.push('/setup')
       }
     }
   }, [workspaces, loading, error, router])
@@ -53,8 +53,8 @@ export default function Home() {
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Error Loading Workspaces</h1>
           <p className="text-gray-400 mb-4">{error}</p>
-          <Link href="/workspace" className="text-blue-500 hover:underline">
-            Go to workspace selection
+          <Link href="/setup" className="text-blue-500 hover:underline">
+            Go to setup
           </Link>
         </div>
       </div>

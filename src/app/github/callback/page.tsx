@@ -22,13 +22,13 @@ export default function GithubCallbackPage() {
         // Validate required parameters
         if (!installation_id) {
           setStatus('Missing installation ID')
-          router.replace('/workspace?error=missing_installation_id')
+          router.replace('/setup?error=missing_installation_id')
           return
         }
 
         if (!setup_action) {
           setStatus('Missing setup action')
-          router.replace('/workspace?error=missing_setup_action')
+          router.replace('/setup?error=missing_setup_action')
           return
         }
 
@@ -43,7 +43,7 @@ export default function GithubCallbackPage() {
 
         if (!workspace_id) {
           setStatus('Missing workspace ID')
-          router.replace('/workspace?error=missing_workspace_id')
+          router.replace('/setup?error=missing_workspace_id')
           return
         }
 
@@ -71,9 +71,9 @@ export default function GithubCallbackPage() {
 
         setStatus('GitHub connected successfully! Redirecting...')
 
-        // Redirect to workspace page with success message
+        // Redirect to setup page with success message
         setTimeout(() => {
-          router.replace(`/workspace/${workspace_id}?github=connected`)
+          router.replace(`/setup?github=connected`)
         }, 1000)
 
       } catch (error) {
@@ -92,9 +92,9 @@ export default function GithubCallbackPage() {
         }
 
         if (workspace_id) {
-          router.replace(`/workspace/${workspace_id}?error=github_connection_failed`)
+          router.replace(`/setup?error=github_connection_failed`)
         } else {
-          router.replace('/workspace?error=github_callback_failed')
+          router.replace('/setup?error=github_callback_failed')
         }
       }
     }

@@ -1,17 +1,17 @@
-import { useState, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+"use client";
+import { useState, useMemo, useEffect } from "react";
+import { Card, CardContent } from "./ui/card";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Badge } from "./ui/badge";
-import { ScrollArea } from "./ui/scroll-area";
 import { Search, Filter } from "lucide-react";
 
 interface LogEntry {
   id: string;
   timestamp: string;
-  level: "INFO" | "ERROR" | "WARN" | "DEBUG"; 
+  level: "INFO" | "ERROR" | "WARN" | "DEBUG";
   message: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 const sampleLogs: LogEntry[] = [
@@ -77,6 +77,11 @@ export function LogViewerPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("timestamp");
   const [levelFilter, setLevelFilter] = useState("all");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const filteredAndSortedLogs = useMemo(() => {
     let filtered = sampleLogs;
@@ -116,24 +121,24 @@ export function LogViewerPage() {
   const getLevelColor = (level: string) => {
     switch (level) {
       case "ERROR":
-        return "bg-destructive text-destructive-foreground";
+        return "bg-[#F87171] text-white";
       case "WARN":
-        return "bg-warning text-black";
+        return "bg-[#FBBF24] text-black";
       case "INFO":
-        return "bg-accent text-accent-foreground";
+        return "bg-[#FCD34D] text-black";
       case "DEBUG":
-        return "bg-muted text-muted-foreground";
+        return "bg-[#334155] text-white";
       default:
         return "bg-secondary text-secondary-foreground";
     }
   };
 
   return (
-    <div className="min-h-screen p-4 bg-gradient-to-br from-background via-background to-background/95">
+    <div className="min-h-screen p-4">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-accent/3 pointer-events-none" />
       
-      <div className="max-w-6xl mx-auto space-y-6">
-        <Card className="hover-lift transition-all duration-300 shadow-xl bg-card/95 backdrop-blur-sm">
+      <div className="max-w-6xl mx-auto space-y-6 bg-[#121A29]">
+        <Card className="hover-lift transition-all duration-300 shadow-xl bg-[rgba(27,41,61,0.1)] border-[#2F4257] backdrop-blur-sm">
           <CardContent className="space-y-4">
             {/* Controls */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -143,61 +148,80 @@ export function LogViewerPage() {
                   placeholder="Search logs..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 focus-glow transition-all bg-input border-border focus:border-primary"
+                  className="pl-10 transition-all bg-[rgba(27,41,61,0.3)] border-[#2F4257] focus:border-[#6266FA] focus:shadow-[0_0_0_3px_rgba(98,102,250,0.2)] text-[#E5E7EB] placeholder:text-[#9AA3B0]"
+                  style={{ backgroundColor: 'rgba(27, 41, 61, 0.3)' }}
                 />
               </div>
-              
+
               <div className="flex gap-2">
                 <Select value={levelFilter} onValueChange={setLevelFilter}>
-                  <SelectTrigger className="w-32 bg-input border-border hover:border-primary transition-colors">
+                  <SelectTrigger
+                    className="w-32 bg-[rgba(27,41,61,0.3)] border-[#2F4257] hover:border-[#6266FA] focus:border-[#6266FA] focus:shadow-[0_0_0_3px_rgba(98,102,250,0.2)] transition-colors text-[#E5E7EB]"
+                    style={{ backgroundColor: 'rgba(27, 41, 61, 0.3)' }}
+                  >
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Levels</SelectItem>
-                    <SelectItem value="ERROR">Error</SelectItem>
-                    <SelectItem value="WARN">Warning</SelectItem>
-                    <SelectItem value="INFO">Info</SelectItem>
-                    <SelectItem value="DEBUG">Debug</SelectItem>
+                  <SelectContent
+                    className="bg-[rgba(27,41,61,0.95)] border-[#2F4257]"
+                    style={{ backgroundColor: 'rgba(27, 41, 61, 0.95)', borderColor: '#2F4257' }}
+                  >
+                    <SelectItem value="all" className="text-[#E5E7EB] focus:bg-[#FCD34D] focus:text-black data-[state=checked]:bg-[#FCD34D] data-[state=checked]:text-black">All Levels</SelectItem>
+                    <SelectItem value="ERROR" className="text-[#E5E7EB] focus:bg-[#FCD34D] focus:text-black data-[state=checked]:bg-[#FCD34D] data-[state=checked]:text-black">Error</SelectItem>
+                    <SelectItem value="WARN" className="text-[#E5E7EB] focus:bg-[#FCD34D] focus:text-black data-[state=checked]:bg-[#FCD34D] data-[state=checked]:text-black">Warning</SelectItem>
+                    <SelectItem value="INFO" className="text-[#E5E7EB] focus:bg-[#FCD34D] focus:text-black data-[state=checked]:bg-[#FCD34D] data-[state=checked]:text-black">Info</SelectItem>
+                    <SelectItem value="DEBUG" className="text-[#E5E7EB] focus:bg-[#FCD34D] focus:text-black data-[state=checked]:bg-[#FCD34D] data-[state=checked]:text-black">Debug</SelectItem>
                   </SelectContent>
                 </Select>
-                
+
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-32 bg-input border-border hover:border-primary transition-colors">
+                  <SelectTrigger
+                    className="w-32 bg-[rgba(27,41,61,0.3)] border-[#2F4257] hover:border-[#6266FA] focus:border-[#6266FA] focus:shadow-[0_0_0_3px_rgba(98,102,250,0.2)] transition-colors text-[#E5E7EB]"
+                    style={{ backgroundColor: 'rgba(27, 41, 61, 0.3)' }}
+                  >
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="timestamp">Date</SelectItem>
-                    <SelectItem value="level">Severity</SelectItem>
+                  <SelectContent
+                    className="bg-[rgba(27,41,61,0.95)] border-[#2F4257]"
+                    style={{ backgroundColor: 'rgba(27, 41, 61, 0.95)', borderColor: '#2F4257' }}
+                  >
+                    <SelectItem value="timestamp" className="text-[#E5E7EB] focus:bg-[#FCD34D] focus:text-black data-[state=checked]:bg-[#FCD34D] data-[state=checked]:text-black">Date</SelectItem>
+                    <SelectItem value="level" className="text-[#E5E7EB] focus:bg-[#FCD34D] focus:text-black data-[state=checked]:bg-[#FCD34D] data-[state=checked]:text-black">Severity</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            
+
             {/* Log Display */}
-            <Card className="bg-background/50 border-border">
-              <ScrollArea className="h-96 p-4">
+            <Card className="bg-[rgba(47,66,87,0.2)] border-[rgba(47,66,87,0.5)]">
+              <div
+                className="h-96 p-4 overflow-y-auto log-scrollbar"
+                style={{
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: '#475569 rgba(47,66,87,0.2)'
+                }}
+              >
                 <div className="space-y-2 font-mono text-sm">
                   {filteredAndSortedLogs.map((log) => (
                     <div
                       key={log.id}
-                      className="group hover:bg-accent/5 p-2 rounded transition-colors cursor-default border-l-2 border-transparent hover:border-accent"
+                      className="group hover:bg-[rgba(252,211,77,0.08)] p-2 rounded transition-all duration-200 cursor-default border-l-2 border-transparent hover:border-l-4 hover:border-[#FCD34D] hover:shadow-[0_2px_8px_rgba(252,211,77,0.15)]"
                     >
                       <div className="flex items-start gap-3">
-                        <span className="text-muted-foreground text-xs whitespace-nowrap mt-0.5">
-                          [{formatTimestamp(log.timestamp)}]
+                        <span className="text-[#9CA3AF] text-xs whitespace-nowrap mt-0.5">
+                          [{mounted ? formatTimestamp(log.timestamp) : log.timestamp}]
                         </span>
                         <Badge
                           variant="secondary"
-                          className={`${getLevelColor(log.level)} text-xs font-mono flex-shrink-0`}
+                          className={`${getLevelColor(log.level)} text-xs font-mono flex-shrink-0 rounded-sm`}
                         >
                           {log.level}
                         </Badge>
                         <div className="flex-1 min-w-0">
-                          <div className="text-foreground group-hover:text-accent transition-colors">
+                          <div className="text-foreground group-hover:text-white transition-colors">
                             {log.message}
                           </div>
                           {log.metadata && (
-                            <div className="text-muted-foreground text-xs mt-1 italic">
+                            <div className="text-[#9CA3AF] text-xs mt-1 italic">
                               {JSON.stringify(log.metadata, null, 0)}
                             </div>
                           )}
@@ -213,12 +237,12 @@ export function LogViewerPage() {
                     </div>
                   )}
                 </div>
-              </ScrollArea>
+              </div>
             </Card>
             
-            <div className="flex justify-between items-center text-xs text-muted-foreground">
+            <div className="flex justify-between items-center text-xs text-[#9CA3AF]">
               <span>{filteredAndSortedLogs.length} log entries displayed</span>
-              <span>Live updating • Last refresh: {new Date().toLocaleTimeString()}</span>
+              <span>Live updating • Last refresh: {mounted ? new Date().toLocaleTimeString() : '--:--:--'}</span>
             </div>
           </CardContent>
         </Card>

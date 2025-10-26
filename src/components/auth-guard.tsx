@@ -28,8 +28,8 @@ export function AuthGuard({ children }: AuthGuardProps) {
       }
 
       if (hasValidToken && isAuthPage) {
-        // Has valid token but on auth page - redirect to workspace
-        router.push("/workspace")
+        // Has valid token but on auth page - redirect to setup
+        router.push("/setup")
         return
       }
 

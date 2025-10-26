@@ -1,6 +1,5 @@
 
 import "./globals.css";
-import { ConditionalLayout } from "@/components/conditional-layout"
 import StoreProvider from './StoreProvider';
 
 export default function RootLayout({
@@ -15,9 +14,9 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <StoreProvider>
-          <ConditionalLayout>
+       
             {children}
-          </ConditionalLayout>
+      
         </StoreProvider>
       </body>
     </html>
