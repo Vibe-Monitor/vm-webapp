@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
-import { CheckCircle2, Circle, Check, AlertTriangle } from "lucide-react";
+import { CheckCircle2, Circle, AlertTriangle } from "lucide-react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 import { apiService } from "@/services/apiService";
@@ -30,6 +30,7 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
   });
   const [githubStatus, setGithubStatus] = useState<'connected' | 'suspended' | 'not-connected' | 'error'>('not-connected');
   const [githubUsername, setGithubUsername] = useState<string>('');
+  const [slackTeamName, setSlackTeamName] = useState<string>('');
 
   const dispatch = useAppDispatch();
   const { currentWorkspace } = useAppSelector((state) => state.workspace);
@@ -98,11 +99,32 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       }
     };
 
+    const checkSlackStatus = async () => {
+      if (currentWorkspace?.id) {
+        try {
+          const response = await apiService.getSlackStatus(currentWorkspace.id);
+          if (response.data?.connected) {
+            setIntegrations((prev) => ({ ...prev, slack: true }));
+            // Store Slack team name if available
+            if (response.data.data?.team_name) {
+              setSlackTeamName(response.data.data.team_name);
+            }
+          }
+        } catch (error) {
+          console.error('Failed to check Slack status:', error);
+        }
+      }
+    };
+
     checkGithubStatus();
     checkGrafanaStatus();
+    checkSlackStatus();
 
-    // Set up polling to check GitHub status periodically
-    const interval = setInterval(checkGithubStatus, 30000); // Check every 30 seconds
+    // Set up polling to check GitHub and Slack status periodically
+    const interval = setInterval(() => {
+      checkGithubStatus();
+      checkSlackStatus();
+    }, 30000); // Check every 30 seconds
 
     return () => clearInterval(interval);
   }, [currentWorkspace?.id]);
@@ -258,9 +280,56 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
     }
   };
 
-  const handleContinue = () => {
-    toast.success("Workspace setup complete! 🎉");
-    onComplete();
+  const handleDisconnectSlack = async () => {
+    if (!currentWorkspace?.id) {
+      toast.error("Please select a workspace first");
+      return;
+    }
+
+    try {
+      const response = await apiService.disconnectSlack(currentWorkspace.id);
+
+      if (response.status === 200) {
+        setIntegrations((prev) => ({ ...prev, slack: false }));
+        setSlackTeamName('');
+        toast.success('Slack disconnected successfully');
+      } else {
+        throw new Error(response.error || 'Failed to disconnect Slack');
+      }
+    } catch (error) {
+      console.error('Slack disconnection failed:', error);
+      toast.error('Failed to disconnect Slack. Please try again.');
+    }
+  };
+
+  const handleContinue = async () => {
+    if (!currentWorkspace?.id) {
+      toast.error("Please select a workspace first");
+      return;
+    }
+
+    if (!workspaceName.trim()) {
+      toast.error("Please enter a workspace name");
+      return;
+    }
+
+    try {
+      const response = await apiService.updateWorkspace(currentWorkspace.id, {
+        name: workspaceName.trim()
+      });
+
+      if (response.status === 200 && response.data) {
+        // Update the workspace in Redux state with the new data
+        dispatch(setCurrentWorkspace(response.data));
+        toast.success("Workspace setup complete! 🎉");
+        onComplete();
+      } else {
+        throw new Error(response.error || 'Failed to update workspace');
+      }
+    } catch (error) {
+      console.error('Failed to update workspace:', error);
+      toast.error('Failed to complete setup. Please try again.');
+    }
   };
 
   return (
@@ -330,34 +399,49 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
                         <p className="text-sm leading-5 tracking-[-0.150391px] text-[#9AA3B0]">
                           Access channels for bot-delivered vibes—team sync made simple.
                         </p>
-                        <Button
-                          onClick={handleConnectSlack}
-                          disabled={slackInstalling || integrations.slack}
-                          className={`h-10 px-5 rounded-md text-sm font-medium leading-5 tracking-[-0.150391px] transition-all duration-300 ${
-                            integrations.slack
-                              ? "bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] cursor-not-allowed"
-                              : "bg-[#3F5ECC] hover:bg-[#3F5ECC]/90 text-white border border-[#3F5ECC]/20 hover:border-[#3F5ECC]"
-                          }`}
-                        >
-                          {slackInstalling ? (
-                            <span className="flex items-center gap-2">
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                              Connecting...
-                            </span>
-                          ) : integrations.slack ? (
-                            <span className="flex items-center gap-2">
-                              <Check className="w-4 h-4" />
-                              Integrated
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-2">
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
-                              </svg>
-                              Connect Slack
-                            </span>
-                          )}
-                        </Button>
+
+                        {/* Connected Status */}
+                        {integrations.slack && slackTeamName && (
+                          <div className="w-full p-3 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                              <span className="text-sm text-emerald-400">
+                                Connected to <strong>{slackTeamName}</strong>
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Show Connect or Remove button based on integration status */}
+                        {integrations.slack ? (
+                          <Button
+                            onClick={handleDisconnectSlack}
+                            variant="outline"
+                            className="h-10 px-5 rounded-md text-sm font-medium leading-5 tracking-[-0.150391px] transition-all duration-300 bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20 hover:border-red-500/50"
+                          >
+                            Remove Integration
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={handleConnectSlack}
+                            disabled={slackInstalling}
+                            className="h-10 px-5 rounded-md text-sm font-medium leading-5 tracking-[-0.150391px] transition-all duration-300 bg-[#3F5ECC] hover:bg-[#3F5ECC]/90 text-white border border-[#3F5ECC]/20 hover:border-[#3F5ECC]"
+                          >
+                            {slackInstalling ? (
+                              <span className="flex items-center gap-2">
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                Connecting...
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-2">
+                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
+                                </svg>
+                                Connect Slack
+                              </span>
+                            )}
+                          </Button>
+                        )}
                       </div>
                     </AccordionContent>
                   </div>

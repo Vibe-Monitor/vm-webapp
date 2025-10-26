@@ -23,8 +23,8 @@ export default function Home() {
   useEffect(() => {
     if (!loading && !error) {
       if (workspaces.length === 1) {
-        // If user has only one workspace, redirect to dashboard
-        router.push(`/dashboard`)
+        // If user has only one workspace, redirect to setup
+        router.push(`/setup`)
       } else if (workspaces.length === 0) {
         // If user has no workspaces, redirect to setup
         router.push('/setup')

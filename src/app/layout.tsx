@@ -1,6 +1,6 @@
-
 import "./globals.css";
 import StoreProvider from './StoreProvider';
+import { AuthGuard } from '@/components/auth-guard';
 
 export default function RootLayout({
   children,
@@ -14,9 +14,9 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <StoreProvider>
-       
+          <AuthGuard>
             {children}
-      
+          </AuthGuard>
         </StoreProvider>
       </body>
     </html>

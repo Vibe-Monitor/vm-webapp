@@ -2,10 +2,9 @@
 import { useState, useEffect } from "react";
 import { LandingPage } from "@/components/setup/setup";
 import { OnboardingPage } from "@/components/setup/OnboardingPage";
-import { SetupCompletePage } from "@/components/setup/SetupCompletepage";
 import { Toaster } from "sonner";
 
-type SetupState = "onboarding" | "landing" | "setup-complete";
+type SetupState = "onboarding" | "landing";
 
 export default function Page() {
   const [currentState, setCurrentState] = useState<SetupState>("onboarding");
@@ -20,13 +19,9 @@ export default function Page() {
     setCurrentState("landing");
   };
 
-  const handleLaunchClick = () => {
-    setCurrentState("setup-complete");
-  };
-
-  const handleSetupComplete = async () => {
-    // Redirect to dashboard page after setup
-    window.location.href = "/dashboard";
+  const handleLaunchClick = async () => {
+    // Keep user on the same page - no redirect
+    // User remains on the landing page component
   };
 
   const renderCurrentState = () => {
@@ -35,8 +30,6 @@ export default function Page() {
         return <OnboardingPage onComplete={handleOnboardingComplete} userName={userName} />;
       case "landing":
         return <LandingPage onLaunchClick={handleLaunchClick} />;
-      case "setup-complete":
-        return <SetupCompletePage onContinue={handleSetupComplete} />;
       default:
         return <OnboardingPage onComplete={handleOnboardingComplete} userName={userName} />;
     }
