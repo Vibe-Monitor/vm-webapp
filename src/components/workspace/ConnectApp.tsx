@@ -61,7 +61,7 @@ export default function ConnectApp({ onBack, workspaceId }: ConnectAppProps) {
             </Button>
             <div className="flex items-center">
               <Image
-                src="/images/logo.png"
+                src="/images/logo.svg"
                 alt="Vibe Monitor"
                 width={40}
                 height={40}

@@ -48,9 +48,17 @@ export default function GoogleSignInButton({
     <Button
       type="button"
       variant="ghost"
-      className={`w-full border border-gray-700 hover:bg-gray-900 transition-colors ${className}`}
+      className={`w-full hover:brightness-110 transition-colors ${className}`}
       onClick={handleGoogleSignIn}
       disabled={disabled || isLoading}
+      style={{
+        backgroundColor: '#6366F1',
+        color: 'var(--color-text-primary)',
+        height: '44px',
+        fontSize: 'var(--text-base)',
+        fontWeight: 'var(--font-medium)',
+        border: 'none'
+      }}
     >
       
       {isLoading ? (

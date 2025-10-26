@@ -18,7 +18,7 @@
   --color-purple-border: #4c1d95;
 
   /* Colors - Neutral - Dark Theme */
-  --color-background: #000000;
+  --color-background: #111827;
   --color-background-secondary: #1e293b;
   --color-background-tertiary: #334155;
   --color-background-subtle: rgba(255, 255, 255, 0.02);
@@ -32,9 +32,9 @@
   --color-border-subtle: rgba(156, 163, 175, 0.2);
 
   /* Colors - Text - Dark Theme */
-  --color-text-primary: #f1f5f9;
+  --color-text-primary: #E5E7EB;
   --color-text-secondary: #cbd5e1;
-  --color-text-tertiary: #94a3b8;
+  --color-text-tertiary: #9CA3AF;
   --color-text-inverse: #0f172a;
   --color-text-brand: #1769ed;  
   --color-text-dark-brand: #054cbf;  
@@ -54,7 +54,7 @@
   --color-info-dark: #2563eb;
 
   /* Typography */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "inter", system-ui, -apple-system, sans-serif;
   --font-mono: "Fira Code", "Consolas", monospace;
   --font-serif: "Merriweather", serif;
 
@@ -97,6 +97,7 @@
   --radius-none: 0;
   --radius-sm: 0.25rem;    /* 4px */
   --radius-md: 0.5rem;     /* 8px */
+  --radius-12: 0.75rem;    /* 12px */
   --radius-lg: 1rem;       /* 16px */
   --radius-xl: 1.5rem;     /* 24px */
   --radius-full: 9999px;

@@ -95,7 +95,7 @@ export default function WorkspacePage() {
         <div className="text-center">
           <div className="mb-4 flex items-center justify-center">
             <Image
-              src="/images/logo.png"
+              src="/images/logo.svg"
               alt="Vibe Monitor"
               width={40}
               height={40}
