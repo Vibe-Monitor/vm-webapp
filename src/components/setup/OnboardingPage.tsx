@@ -92,6 +92,9 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
             if (response.data.grafana_url) {
               setGrafanaUrl(response.data.grafana_url);
             }
+          } else {
+            // If not connected, ensure state reflects this
+            setIntegrations((prev) => ({ ...prev, grafana: false }));
           }
         } catch (error) {
           console.error('Failed to check Grafana status:', error);
@@ -116,20 +119,72 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       }
     };
 
+    // Check status immediately on mount
     checkGithubStatus();
     checkGrafanaStatus();
     checkSlackStatus();
 
-    // Set up polling to check GitHub and Slack status periodically
+    // Set up polling to check all integration statuses periodically
     const interval = setInterval(() => {
       checkGithubStatus();
+      checkGrafanaStatus();
       checkSlackStatus();
     }, 30000); // Check every 30 seconds
 
     return () => clearInterval(interval);
   }, [currentWorkspace?.id]);
 
+  // Listen for URL parameter changes when returning from OAuth
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const githubConnected = urlParams.get('github');
+      const slackConnected = urlParams.get('slack');
 
+      // If we just returned from GitHub or Slack OAuth, immediately re-check status
+      if (githubConnected === 'connected' || slackConnected === 'connected') {
+        // Remove the query parameter to avoid re-checking on every render
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+
+        // Force an immediate status check for all integrations
+        if (currentWorkspace?.id) {
+          const recheckStatuses = async () => {
+            try {
+              // Check GitHub status
+              if (githubConnected === 'connected') {
+                const result = await checkGitHubStatusWithService(currentWorkspace.id);
+                setGithubStatus(result.status);
+                if (result.data?.connected) {
+                  setIntegrations((prev) => ({ ...prev, github: true }));
+                  if (result.data.integration?.github_username) {
+                    setGithubUsername(result.data.integration.github_username);
+                  }
+                  toast.success('GitHub connected successfully!');
+                }
+              }
+
+              // Check Slack status
+              if (slackConnected === 'connected') {
+                const slackResponse = await apiService.getSlackStatus(currentWorkspace.id);
+                if (slackResponse.data?.connected) {
+                  setIntegrations((prev) => ({ ...prev, slack: true }));
+                  if (slackResponse.data.data?.team_name) {
+                    setSlackTeamName(slackResponse.data.data.team_name);
+                  }
+                  toast.success('Slack connected successfully!');
+                }
+              }
+            } catch (error) {
+              console.error('Failed to re-check integration status:', error);
+            }
+          };
+
+          recheckStatuses();
+        }
+      }
+    }
+  }, [currentWorkspace?.id]);
 
   const handleConnectGitHub = async () => {
     if (!currentWorkspace?.id) {
@@ -198,7 +253,11 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
 
       if (response.status === 200 && response.data) {
         setIntegrations((prev) => ({ ...prev, grafana: true }));
-        // Keep the URL to display it later
+        // Update the URL with the formatted version from the response
+        if (response.data.grafana_url) {
+          setGrafanaUrl(response.data.grafana_url);
+        }
+        // Clear the token for security
         setGrafanaToken('');
         toast.success('Grafana connected successfully! 🚀');
       } else {
