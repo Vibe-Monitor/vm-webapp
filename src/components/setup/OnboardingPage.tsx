@@ -221,9 +221,6 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
         throw new Error('Failed to get GitHub install URL');
       }
 
-      // Store workspace_id in sessionStorage for callback
-      sessionStorage.setItem('github_workspace_id', currentWorkspace.id);
-
       // Redirect to GitHub to install the app
       window.location.href = response.data.install_url;
     } catch (error) {
