@@ -3,6 +3,12 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  const defaultStyle = {
+    backgroundColor: 'var(--color-background-dropdown)',
+    borderColor: 'var(--color-border)',
+    color: 'var(--color-text-primary)',
+  };
+
   return (
     <input
       type={type}
@@ -12,19 +18,25 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         className
       )}
       style={{
-        backgroundColor: 'var(--color-background-dropdown)',
-        borderColor: 'var(--color-border)',
-        color: 'var(--color-text-primary)',
+        ...defaultStyle,
         ...props.style
       }}
       onFocus={(e) => {
-        e.target.style.borderColor = 'var(--color-border-light)';
-        e.target.style.backgroundColor = 'var(--color-background-dropdown)';
+        if (!props.style?.backgroundColor) {
+          e.target.style.backgroundColor = 'var(--color-background-dropdown)';
+        }
+        if (!props.style?.borderColor) {
+          e.target.style.borderColor = 'var(--color-border-light)';
+        }
         props.onFocus?.(e);
       }}
       onBlur={(e) => {
-        e.target.style.borderColor = 'var(--color-border)';
-        e.target.style.backgroundColor = 'var(--color-background-dropdown)';
+        if (!props.style?.backgroundColor) {
+          e.target.style.backgroundColor = 'var(--color-background-dropdown)';
+        }
+        if (!props.style?.borderColor) {
+          e.target.style.borderColor = 'var(--color-border)';
+        }
         props.onBlur?.(e);
       }}
       {...props}

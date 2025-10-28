@@ -63,8 +63,8 @@ export default function GoogleCallbackPage() {
 
         setStatus('Authentication successful! Redirecting...')
 
-        // Redirect to dashboard or home page
-        router.replace('/workspace')
+        // Redirect to setup page
+        router.replace('/setup')
 
       } catch (error) {
         console.error('Callback error:', error)

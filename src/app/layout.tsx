@@ -1,7 +1,6 @@
-
 import "./globals.css";
-import { ConditionalLayout } from "@/components/conditional-layout"
 import StoreProvider from './StoreProvider';
+import { AuthGuard } from '@/components/auth-guard';
 
 export default function RootLayout({
   children,
@@ -15,9 +14,9 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <StoreProvider>
-          <ConditionalLayout>
+          <AuthGuard>
             {children}
-          </ConditionalLayout>
+          </AuthGuard>
         </StoreProvider>
       </body>
     </html>

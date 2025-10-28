@@ -1,7 +1,6 @@
 'use client'
 
 import GoogleSignInButton from './GoogleSignInButton'
-import Image from 'next/image'
 
 export default function Auth() {
   const handleGoogleError = (error: string | Error) => {
@@ -10,73 +9,65 @@ export default function Auth() {
 
   return (
     <div
-      className="sm-w-[50%] md-w-full max-w-sm space-y-4 rounded-lg p-8 shadow-xl m-8"
+      className="px-12 py-10"
       style={{
-        backgroundColor: 'var(--color-surface)',
-        border: '1px solid var(--color-border)',
-        boxShadow: 'var(--shadow-xl)'
+        width: '520px',
+        backgroundColor: '#121A29',
+        border: '1px solid var(--color-border-light)',
+        borderRadius: 'var(--radius-12)',
+        boxShadow: '0 0 50px -12px rgba(0, 0, 0, 0.25)'
       }}
     >
-      {/* Logo and Brand Section */}
-      <div className="text-center">
-        <div className="mb-6 flex items-center justify-center">
-          <Image
-            src="/images/logo.png"
-            alt="Vibe Monitor"
-            width={42}
-            height={42}
-            className="mr-3"
-          />
-          <h1
-            className=" sm:text-xl md:text-2xl lg:text-2xl font-semibold"
-            style={{
-              color: 'var(--color-text-primary)',
-              fontFamily: 'var(--font-sans)',
-              fontWeight: 'var(--font-semibold)',
-            }}
-          >
-            Vibe Monitor
-          </h1>
-        </div>
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1
+          className="mb-3"
+          style={{
+            color: 'var(--color-text-primary)',
+            fontSize: 'var(--text-3xl)',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 'var(--font-leight)',
+            lineHeight: 'var(--leading-tight)'
+          }}
+        >
+          Join Vibemonitor.ai
+        </h1>
 
-        <div className="mb-8">
-
-          <p
-            className="leading-relaxed"
-            style={{
-              color: 'var(--color-text-secondary)',
-              fontSize: 'var(--text-sm)',
-              lineHeight: 'var(--leading-relaxed)'
-            }}
-          >
-           Sign in to monitor, trace, and troubleshoot your applications effortlessly.
-          </p>
-        </div>
+        <p
+          style={{
+            color: 'var(--color-text-tertiary)',
+            fontSize: 'var(--text-base)',
+            lineHeight: 'var(--leading-relaxed)'
+          }}
+        >
+          Monitor your application vibes with elegance
+        </p>
       </div>
 
-
-      {/* Google Sign In Button */}
-      <div className="space-y-4">
+      {/* Sign In Section */}
+      <div className="mb-8">
         <GoogleSignInButton
           onError={handleGoogleError}
-          text="Continue with Google"
+          text="Sign up with Google"
         />
 
         {/* Divider */}
-        <div className="relative">
+        <div className="relative mt-6">
           <div className="absolute inset-0 flex items-center">
             <span
               className="w-full border-t"
-              style={{ borderColor: 'var(--color-border)' }}
+              style={{ borderColor: 'var(--color-border-light)' }}
             />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span
-              className="px-2"
+              className="px-3"
               style={{
-                backgroundColor: 'var(--color-surface)',
+                backgroundColor: '#121A29',
                 color: 'var(--color-text-tertiary)',
-                fontSize: 'var(--text-xs)'
+                fontSize: 'var(--text-xs)',
+                fontWeight: 'var(--font-medium)',
+                letterSpacing: '0.05em'
               }}
             >
               Secure Authentication
@@ -86,13 +77,15 @@ export default function Auth() {
       </div>
 
       {/* Footer */}
-      <div className="space-y-4">
+      <div className="text-center space-y-4">
+       
+
         <p
-          className="text-center text-xs leading-relaxed"
+          className="px-4"
           style={{
             color: 'var(--color-text-tertiary)',
             fontSize: 'var(--text-xs)',
-            lineHeight: 'var(--leading-relaxed)'
+            lineHeight: '1.6'
           }}
         >
           By continuing, you agree to our{' '}
@@ -105,8 +98,8 @@ export default function Auth() {
             }}
           >
             Terms of Service
-          </a>{' '}
-          and{' '}
+          </a>
+          {' '}and{' '}
           <a
             href="#"
             className="underline hover:opacity-80 transition-opacity"
@@ -118,9 +111,6 @@ export default function Auth() {
             Privacy Policy
           </a>
         </p>
-
-     
-    
       </div>
     </div>
   )

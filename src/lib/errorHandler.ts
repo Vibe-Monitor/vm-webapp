@@ -1,5 +1,5 @@
 import { tokenService } from '@/services/tokenService'
-import { toastManager } from '@/lib/toastManager'
+import { toast } from 'sonner'
 
 export interface ErrorHandlerOptions {
   showAlert?: boolean
@@ -19,7 +19,7 @@ export class ErrorHandler {
     // Show error message if needed
     if (showAlert) {
       const message = customMessage || 'Authentication failed. Please log in again.'
-      toastManager.error(message)
+      toast.error(message)
     }
 
     // Redirect to auth page
@@ -37,7 +37,7 @@ export class ErrorHandler {
 
     if (showAlert) {
       const message = customMessage || 'Network error occurred. Please check your connection.'
-      toastManager.error(message)
+      toast.error(message)
     }
   }
 
@@ -48,7 +48,7 @@ export class ErrorHandler {
 
     if (showAlert) {
       const message = customMessage || 'An error occurred. Please try again.'
-      toastManager.error(message)
+      toast.error(message)
     }
   }
 

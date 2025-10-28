@@ -140,6 +140,7 @@ export class ApiService {
 
       // Clear tokens on network error during refresh (could indicate expired refresh token)
       tokenService.clearTokens();
+      CookieUtils.clearRefreshToken();
 
       errorHandler.handleNetworkError(errorMessage, {
         customMessage: 'Unable to refresh your session. Please log in again.',
@@ -163,6 +164,13 @@ export class ApiService {
   async put<T>(endpoint: string, data: unknown): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async patch<T>(endpoint: string, data: unknown): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, {
+      method: 'PATCH',
       body: JSON.stringify(data)
     });
   }
@@ -210,6 +218,19 @@ export class ApiService {
     user_role?: string;
   }>> {
     return this.get(`/api/v1/workspaces/${workspaceId}`);
+  }
+
+  async updateWorkspace(workspaceId: string, data: {
+    name: string;
+  }): Promise<ApiResponse<{
+    id: string;
+    name: string;
+    domain: string;
+    visible_to_org: boolean;
+    is_paid: boolean;
+    created_at: string;
+  }>> {
+    return this.patch(`/api/v1/workspaces/${workspaceId}`, data);
   }
 
   // GitHub integration API methods
@@ -289,6 +310,24 @@ export class ApiService {
   // Slack integration API methods
   async getSlackInstallUrl(workspaceId: string): Promise<ApiResponse<{ oauth_url: string }>> {
     return this.get(`/api/v1/slack/install?workspace_id=${workspaceId}`);
+  }
+
+  async getSlackStatus(workspaceId: string): Promise<ApiResponse<{
+    connected: boolean;
+    message: string;
+    data?: {
+      team_id: string;
+      team_name: string;
+      bot_user_id: string;
+      workspace_id: string;
+      installed_at: string;
+    };
+  }>> {
+    return this.get(`/api/v1/slack/connection/status?workspace_id=${workspaceId}`);
+  }
+
+  async disconnectSlack(workspaceId: string): Promise<ApiResponse<{ message: string }>> {
+    return this.delete(`/api/v1/slack/disconnect?workspace_id=${workspaceId}`);
   }
 
 }
