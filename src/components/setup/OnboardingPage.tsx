@@ -1,4 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -18,6 +21,7 @@ interface OnboardingPageProps {
 }
 
 export function OnboardingPage({ onComplete, userName = "Komal Bains" }: OnboardingPageProps) {
+  const searchParams = useSearchParams();
   const [workspaceName, setWorkspaceName] = useState("");
   const [grafanaUrl, setGrafanaUrl] = useState("");
   const [grafanaToken, setGrafanaToken] = useState("");
@@ -136,55 +140,71 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
 
   // Listen for URL parameter changes when returning from OAuth
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const githubConnected = urlParams.get('github');
-      const slackConnected = urlParams.get('slack');
+    const githubConnected = searchParams.get('github');
+    const slackConnected = searchParams.get('slack');
 
-      // If we just returned from GitHub or Slack OAuth, immediately re-check status
-      if (githubConnected === 'connected' || slackConnected === 'connected') {
-        // Remove the query parameter to avoid re-checking on every render
+    // If we just returned from GitHub or Slack OAuth, immediately update UI
+    if (githubConnected === 'connected' || slackConnected === 'connected') {
+      // Optimistically update UI immediately - don't wait for workspace or API
+      if (githubConnected === 'connected') {
+        setIntegrations((prev) => ({ ...prev, github: true }));
+        setGithubStatus('connected');
+        toast.success('GitHub connected successfully!');
+      }
+
+      if (slackConnected === 'connected') {
+        setIntegrations((prev) => ({ ...prev, slack: true }));
+        toast.success('Slack connected successfully!');
+      }
+
+      // Remove the query parameter to avoid re-processing
+      if (typeof window !== 'undefined') {
         const newUrl = window.location.pathname;
         window.history.replaceState({}, '', newUrl);
+      }
 
-        // Force an immediate status check for all integrations
-        if (currentWorkspace?.id) {
-          const recheckStatuses = async () => {
-            try {
-              // Check GitHub status
-              if (githubConnected === 'connected') {
-                const result = await checkGitHubStatusWithService(currentWorkspace.id);
-                setGithubStatus(result.status);
-                if (result.data?.connected) {
-                  setIntegrations((prev) => ({ ...prev, github: true }));
-                  if (result.data.integration?.github_username) {
-                    setGithubUsername(result.data.integration.github_username);
-                  }
-                  toast.success('GitHub connected successfully!');
+      // Then verify with API call once workspace is available
+      if (currentWorkspace?.id) {
+        const recheckStatuses = async () => {
+          try {
+            // Verify GitHub status
+            if (githubConnected === 'connected') {
+              const result = await checkGitHubStatusWithService(currentWorkspace.id);
+              setGithubStatus(result.status);
+              if (result.data?.connected) {
+                setIntegrations((prev) => ({ ...prev, github: true }));
+                if (result.data.integration?.github_username) {
+                  setGithubUsername(result.data.integration.github_username);
                 }
+              } else {
+                // Revert if not actually connected
+                setIntegrations((prev) => ({ ...prev, github: false }));
+                setGithubStatus('not-connected');
               }
-
-              // Check Slack status
-              if (slackConnected === 'connected') {
-                const slackResponse = await apiService.getSlackStatus(currentWorkspace.id);
-                if (slackResponse.data?.connected) {
-                  setIntegrations((prev) => ({ ...prev, slack: true }));
-                  if (slackResponse.data.data?.team_name) {
-                    setSlackTeamName(slackResponse.data.data.team_name);
-                  }
-                  toast.success('Slack connected successfully!');
-                }
-              }
-            } catch (error) {
-              console.error('Failed to re-check integration status:', error);
             }
-          };
 
-          recheckStatuses();
-        }
+            // Verify Slack status
+            if (slackConnected === 'connected') {
+              const slackResponse = await apiService.getSlackStatus(currentWorkspace.id);
+              if (slackResponse.data?.connected) {
+                setIntegrations((prev) => ({ ...prev, slack: true }));
+                if (slackResponse.data.data?.team_name) {
+                  setSlackTeamName(slackResponse.data.data.team_name);
+                }
+              } else {
+                // Revert if not actually connected
+                setIntegrations((prev) => ({ ...prev, slack: false }));
+              }
+            }
+          } catch (error) {
+            console.error('Failed to re-check integration status:', error);
+          }
+        };
+
+        recheckStatuses();
       }
     }
-  }, [currentWorkspace?.id]);
+  }, [searchParams, currentWorkspace?.id]);
 
   const handleConnectGitHub = async () => {
     if (!currentWorkspace?.id) {

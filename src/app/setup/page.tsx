@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { LandingPage } from "@/components/setup/setup";
 import { OnboardingPage } from "@/components/setup/OnboardingPage";
 import { Toaster } from "sonner";
+import Loader from "@/components/ui/loader";
 
 type SetupState = "onboarding" | "landing";
 
@@ -27,11 +28,19 @@ export default function Page() {
   const renderCurrentState = () => {
     switch (currentState) {
       case "onboarding":
-        return <OnboardingPage onComplete={handleOnboardingComplete} userName={userName} />;
+        return (
+          <Suspense fallback={<Loader message="Loading..." />}>
+            <OnboardingPage onComplete={handleOnboardingComplete} userName={userName} />
+          </Suspense>
+        );
       case "landing":
         return <LandingPage onLaunchClick={handleLaunchClick} />;
       default:
-        return <OnboardingPage onComplete={handleOnboardingComplete} userName={userName} />;
+        return (
+          <Suspense fallback={<Loader message="Loading..." />}>
+            <OnboardingPage onComplete={handleOnboardingComplete} userName={userName} />
+          </Suspense>
+        );
     }
   };
 

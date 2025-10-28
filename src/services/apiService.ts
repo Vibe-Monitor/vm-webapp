@@ -242,13 +242,13 @@ export class ApiService {
   async handleGithubCallback(params: {
     installation_id: string;
     setup_action: string;
-    workspace_id: string;
+    // workspace_id: string;
     state?: string;
   }): Promise<ApiResponse<{ message: string }>> {
     const queryParams = new URLSearchParams({
       installation_id: params.installation_id,
       setup_action: params.setup_action,
-      workspace_id: params.workspace_id,
+      // workspace_id: params.workspace_id,
       ...(params.state && { state: params.state })
     });
     return this.get(`/api/v1/github/callback?${queryParams.toString()}`);
