@@ -31,10 +31,15 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
     github: false,
     grafana: false,
     slack: false,
+    aws: false,
   });
   const [githubStatus, setGithubStatus] = useState<'connected' | 'suspended' | 'not-connected' | 'error'>('not-connected');
   const [githubUsername, setGithubUsername] = useState<string>('');
   const [slackTeamName, setSlackTeamName] = useState<string>('');
+  const [awsRoleArn, setAwsRoleArn] = useState<string>('');
+  const [awsExternalId, setAwsExternalId] = useState<string>('');
+  const [awsRegion, setAwsRegion] = useState<string>('');
+  const [awsConnecting, setAwsConnecting] = useState(false);
 
   const dispatch = useAppDispatch();
   const { currentWorkspace } = useAppSelector((state) => state.workspace);
@@ -123,16 +128,46 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       }
     };
 
+    const checkAwsStatus = async () => {
+      if (currentWorkspace?.id) {
+        try {
+          const response = await apiService.getAwsStatus(currentWorkspace.id);
+          console.log('AWS status response:', response);
+
+          // Check if AWS is connected - handle both 200 with data or 404 for not connected
+          if (response.status === 200 && response.data) {
+            setIntegrations((prev) => ({ ...prev, aws: true }));
+            // Store AWS details if available
+            if (response.data.role_arn) {
+              setAwsRoleArn(response.data.role_arn);
+            }
+            if (response.data.region || response.data.aws_region) {
+              setAwsRegion(response.data.region || response.data.aws_region);
+            }
+          } else {
+            // 404 or no data means not connected
+            setIntegrations((prev) => ({ ...prev, aws: false }));
+          }
+        } catch (error) {
+          console.error('Failed to check AWS status:', error);
+          // On error, assume not connected
+          setIntegrations((prev) => ({ ...prev, aws: false }));
+        }
+      }
+    };
+
     // Check status immediately on mount
     checkGithubStatus();
     checkGrafanaStatus();
     checkSlackStatus();
+    checkAwsStatus();
 
     // Set up polling to check all integration statuses periodically
     const interval = setInterval(() => {
       checkGithubStatus();
       checkGrafanaStatus();
       checkSlackStatus();
+      checkAwsStatus();
     }, 30000); // Check every 30 seconds
 
     return () => clearInterval(interval);
@@ -375,6 +410,97 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
     } catch (error) {
       console.error('Slack disconnection failed:', error);
       toast.error('Failed to disconnect Slack. Please try again.');
+    }
+  };
+
+  const handleConnectAws = async () => {
+    if (!currentWorkspace?.id) {
+      toast.error("Please select a workspace first");
+      return;
+    }
+
+    // Validate inputs
+    if (!awsRoleArn.trim()) {
+      toast.error('Please enter your AWS Role ARN');
+      return;
+    }
+
+    if (!awsExternalId.trim()) {
+      toast.error('Please enter your External ID');
+      return;
+    }
+
+    // Validate Role ARN format - must start with arn:aws:iam::
+    if (!awsRoleArn.trim().startsWith('arn:aws:iam::')) {
+      toast.error('Please enter a valid AWS Role ARN (should start with arn:aws:iam::)');
+      return;
+    }
+
+    // Validate Role name starts with VibeMonitor- (case-insensitive)
+    const roleNameMatch = awsRoleArn.match(/role\/(.*?)$/);
+    if (!roleNameMatch || !roleNameMatch[1].toLowerCase().startsWith('vibemonitor-')) {
+      toast.error('Role name must start with "VibeMonitor-" or "Vibemonitor-"');
+      return;
+    }
+
+    setAwsConnecting(true);
+
+    try {
+      const response = await apiService.connectAws({
+        workspace_id: currentWorkspace.id,
+        role_arn: awsRoleArn.trim(),
+        external_id: awsExternalId.trim(),
+        region: awsRegion.trim() || 'us-east-1', // Default region
+      });
+
+      console.log('AWS connection response:', response);
+
+      // Check for successful response (200, 201, or any 2xx status)
+      if (response.status >= 200 && response.status < 300) {
+        setIntegrations((prev) => ({ ...prev, aws: true }));
+        toast.success('AWS CloudWatch connected successfully!');
+
+        // Verify connection by checking status
+        const statusCheck = await apiService.getAwsStatus(currentWorkspace.id);
+        if (statusCheck.data?.role_arn) {
+          setAwsRoleArn(statusCheck.data.role_arn);
+        }
+        if (statusCheck.data?.region) {
+          setAwsRegion(statusCheck.data.region);
+        }
+      } else {
+        console.error('AWS connection failed with status:', response.status);
+        throw new Error(response.error || 'Failed to connect AWS CloudWatch');
+      }
+    } catch (error) {
+      console.error('AWS CloudWatch connection failed:', error);
+      toast.error('Failed to connect AWS CloudWatch. Please check your credentials and try again.');
+    } finally {
+      setAwsConnecting(false);
+    }
+  };
+
+  const handleDisconnectAws = async () => {
+    if (!currentWorkspace?.id) {
+      toast.error("Please select a workspace first");
+      return;
+    }
+
+    try {
+      const response = await apiService.disconnectAws(currentWorkspace.id);
+
+      if (response.status === 200) {
+        setIntegrations((prev) => ({ ...prev, aws: false }));
+        setAwsRoleArn('');
+        setAwsExternalId('');
+        setAwsRegion('');
+        toast.success('AWS CloudWatch disconnected successfully');
+      } else {
+        throw new Error(response.error || 'Failed to disconnect AWS CloudWatch');
+      }
+    } catch (error) {
+      console.error('AWS CloudWatch disconnection failed:', error);
+      toast.error('Failed to disconnect AWS CloudWatch. Please try again.');
     }
   };
 
@@ -816,6 +942,242 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
                                       </h5>
                                       <p className="text-xs leading-4 text-[#9AA3B0]">
                                         Enter token Name → Click &quot;Generate token&quot; → Copy full token (starts with glsa_... → visible once only, save securely).
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </div>
+                  </AccordionItem>
+                </Accordion>
+
+                {/* AWS CloudWatch */}
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="aws" className="border-none">
+                    <div className="bg-[rgba(47,66,87,0.2)] border border-[rgba(47,66,87,0.5)] rounded-lg">
+                      <AccordionTrigger className="p-6 hover:no-underline [&[data-state=open]]:pb-0">
+                        <div className="flex flex-row justify-between items-center w-full">
+                          <div className="flex flex-row items-center gap-4">
+                            {integrations.aws ? (
+                              <CheckCircle2 className="w-5 h-5 text-[#FFD11B] flex-shrink-0" />
+                            ) : (
+                              <Circle className="w-5 h-5 text-[rgba(154,163,176,0.4)] flex-shrink-0" />
+                            )}
+                            <div className="flex flex-row items-center gap-3">
+                              <svg className="w-5 h-5 text-[#E5E7EB]" viewBox="0 0 256 256" fill="currentColor">
+                                <path d="M208 40H48a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm-72 152h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zm40 112h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zM96 192H80v-16h16zm0-32H80v-64h16zm0-80H80V64h16z"/>
+                              </svg>
+                              <span className="text-[16px] font-semibold leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                AWS CloudWatch
+                              </span>
+                            </div>
+                          </div>
+                          <span className="text-sm leading-5 tracking-[-0.150391px] text-[#FFD11B]">
+                            {'> 5 min'}
+                          </span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-[92px] pb-6 pt-2">
+                        <div className="flex flex-col items-start gap-[22px]">
+                          {/* Description */}
+                          <p className="text-sm leading-5 tracking-[-0.150391px] text-[#9AA3B0]">
+                            Monitor AWS infrastructure logs and metrics from CloudWatch with X-Ray traces for comprehensive visibility into your cloud applications.
+                          </p> 
+
+                          {/* Show connected status or input fields */}
+                          {integrations.aws ? (
+                            <>
+                              {/* Connected Status */}
+                              <div className="w-full p-3 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+                                <div className="flex flex-col gap-2">
+                                  <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                                    <span className="text-sm font-semibold text-emerald-400">AWS CloudWatch Connected</span>
+                                  </div>
+                                  {awsRoleArn && (
+                                    <div className="flex flex-col gap-1">
+                                      <span className="text-xs text-[#9AA3B0]">Role ARN:</span>
+                                      <span className="text-sm text-[#E5E7EB] font-mono break-all">{awsRoleArn}</span>
+                                    </div>
+                                  )}
+                                  {awsRegion && (
+                                    <div className="flex flex-col gap-1">
+                                      <span className="text-xs text-[#9AA3B0]">Region:</span>
+                                      <span className="text-sm text-[#E5E7EB]">{awsRegion}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Remove Integration Button */}
+                              <Button
+                                onClick={handleDisconnectAws}
+                                variant="outline"
+                                className="h-9 px-4 rounded-md text-sm font-medium leading-5 tracking-[-0.150391px] bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20 hover:border-red-500/50"
+                              >
+                                Remove Integration
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              {/* Role ARN Input */}
+                              <div className="flex flex-col items-start gap-2 w-full">
+                                <label className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                  IAM Role ARN
+                                </label>
+                                <Input
+                                  value={awsRoleArn}
+                                  onChange={(e) => setAwsRoleArn(e.target.value)}
+                                  placeholder="arn:aws:iam::123456789012:role/VibeMonitor-CloudWatchRole"
+                                  className="w-full h-9 px-3 py-1 text-sm bg-[rgba(27,41,61,0.3)] border-[#2F4257] rounded-md text-[#E5E7EB] placeholder:text-[#9AA3B0]"
+                                />
+                              </div>
+
+                              {/* External ID Input */}
+                              <div className="flex flex-col items-start gap-2 w-full">
+                                <label className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                  External ID
+                                </label>
+                                <Input
+                                  value={awsExternalId}
+                                  onChange={(e) => setAwsExternalId(e.target.value)}
+                                  placeholder="Enter your external ID"
+                                  className="w-full h-9 px-3 py-1 text-sm bg-[rgba(27,41,61,0.3)] border-[#2F4257] rounded-md text-[#E5E7EB] placeholder:text-[#9AA3B0]"
+                                />
+                              </div>
+
+                              {/* Region Input (Optional) */}
+                              <div className="flex flex-col items-start gap-2 w-full">
+                                <label className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                  AWS Region (Optional)
+                                </label>
+                                <Input
+                                  value={awsRegion}
+                                  onChange={(e) => setAwsRegion(e.target.value)}
+                                  placeholder="us-east-1 (default)"
+                                  className="w-full h-9 px-3 py-1 text-sm bg-[rgba(27,41,61,0.3)] border-[#2F4257] rounded-md text-[#E5E7EB] placeholder:text-[#9AA3B0]"
+                                />
+                              </div>
+
+                              <Button
+                                onClick={handleConnectAws}
+                                disabled={awsConnecting}
+                                className="h-10 px-5 rounded-md text-sm font-medium leading-5 tracking-[-0.150391px] transition-all duration-300 bg-[#3F5ECC] hover:bg-[#3F5ECC]/90 text-white border border-[#3F5ECC]/20 hover:border-[#3F5ECC]"
+                              >
+                                {awsConnecting ? (
+                                  <span className="flex items-center gap-2">
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    Connecting...
+                                  </span>
+                                ) : (
+                                  <span className="flex items-center gap-2">
+                                    <svg className="w-4 h-4" viewBox="0 0 256 256" fill="currentColor">
+                                      <path d="M208 40H48a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm-72 152h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zm40 112h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zM96 192H80v-16h16zm0-32H80v-64h16zm0-80H80V64h16z"/>
+                                    </svg>
+                                    Connect AWS CloudWatch
+                                  </span>
+                                )}
+                              </Button>
+                            </>
+                          )}
+
+                          {/* Instructions to integrate - only show when not connected */}
+                          {!integrations.aws && (
+                            <div className="flex flex-col items-start gap-3 w-full">
+                              <h4 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                Instructions to integrate
+                              </h4>
+
+                              <div className="flex flex-col items-start gap-3 w-full">
+                                {/* Step 1 */}
+                                <div className="flex flex-col items-start gap-1">
+                                  <div className="flex flex-row items-start gap-2">
+                                    <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+                                      1
+                                    </div>
+                                    <div className="flex flex-col items-start gap-1">
+                                      <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                        Create IAM Role
+                                      </h5>
+                                      <p className="text-xs leading-4 text-[#9AA3B0]">
+                                        Go to AWS IAM Console → Roles → Create Role → Select &quot;AWS account&quot; as trusted entity type → Choose &quot;Another AWS account&quot; → Enter VibeMonitor&apos;s AWS Account ID.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Step 2 */}
+                                <div className="flex flex-col items-start gap-1">
+                                  <div className="flex flex-row items-start gap-2">
+                                    <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+                                      2
+                                    </div>
+                                    <div className="flex flex-col items-start gap-1">
+                                      <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                        Configure Trust Policy
+                                      </h5>
+                                      <p className="text-xs leading-4 text-[#9AA3B0]">
+                                        Check &quot;Require external ID&quot; → Enter the external ID provided above → Add VibeMonitor&apos;s AWS Principal to trust policy:
+                                      </p>
+                                      <div className="w-full mt-2 p-2 rounded bg-[rgba(27,41,61,0.5)] border border-[#2F4257]">
+                                        <code className="text-xs text-[#FFD11B] font-mono break-all">
+                                          &quot;AWS&quot;: &quot;arn:aws:iam::961341549304:user/akshat__30&quot;
+                                        </code>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Step 3 */}
+                                <div className="flex flex-col items-start gap-1">
+                                  <div className="flex flex-row items-start gap-2">
+                                    <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+                                      3
+                                    </div>
+                                    <div className="flex flex-col items-start gap-1">
+                                      <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                        Attach Permissions
+                                      </h5>
+                                      <p className="text-xs leading-4 text-[#9AA3B0]">
+                                        Add these AWS managed policies: <strong>CloudWatchReadOnlyAccess</strong> and <strong>AWSXrayReadOnlyAccess</strong> → These provide read access to CloudWatch logs/metrics and X-Ray traces.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Step 4 */}
+                                <div className="flex flex-col items-start gap-1">
+                                  <div className="flex flex-row items-start gap-2">
+                                    <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+                                      4
+                                    </div>
+                                    <div className="flex flex-col items-start gap-1">
+                                      <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                        Name Your Role
+                                      </h5>
+                                      <p className="text-xs leading-4 text-[#9AA3B0]">
+                                        Role name <strong>must start with &quot;VibeMonitor-&quot;</strong> (e.g., VibeMonitor-CloudWatchRole) → Add optional description → Click &quot;Create role&quot; → Copy the Role ARN.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Step 5 */}
+                                <div className="flex flex-col items-start gap-1">
+                                  <div className="flex flex-row items-start gap-2">
+                                    <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+                                      5
+                                    </div>
+                                    <div className="flex flex-col items-start gap-1">
+                                      <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                                        Enter Credentials
+                                      </h5>
+                                      <p className="text-xs leading-4 text-[#9AA3B0]">
+                                        Paste the Role ARN and External ID into the fields above → Optionally specify your primary AWS region → Click &quot;Connect AWS CloudWatch&quot;.
                                       </p>
                                     </div>
                                   </div>

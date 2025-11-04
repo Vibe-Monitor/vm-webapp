@@ -330,6 +330,49 @@ export class ApiService {
     return this.delete(`/api/v1/slack/disconnect?workspace_id=${workspaceId}`);
   }
 
+  // AWS CloudWatch integration API methods
+  async connectAws(data: {
+    workspace_id: string;
+    role_arn: string;
+    external_id: string;
+    region?: string;
+  }): Promise<ApiResponse<{
+    id: string;
+    workspace_id: string;
+    role_arn: string;
+    external_id: string;
+    region: string;
+    connected: boolean;
+    created_at: string;
+    updated_at: string | null;
+  }>> {
+    return this.post(`/api/v1/aws/integration?workspace_id=${data.workspace_id}`, {
+      role_arn: data.role_arn,
+      external_id: data.external_id,
+      aws_region: data.region || 'us-east-1',
+    });
+  }
+
+  async getAwsStatus(workspaceId: string): Promise<ApiResponse<{
+    aws_region: string;
+    id: string;
+    workspace_id: string;
+    role_arn: string;
+    region: string;
+    connected: boolean;
+    created_at: string;
+    updated_at: string | null;
+  }>> {
+    return this.get(`/api/v1/aws/integration/status?workspace_id=${workspaceId}`);
+  }
+
+  async disconnectAws(workspaceId: string): Promise<ApiResponse<{
+    message: string;
+    workspace_id: string;
+  }>> {
+    return this.delete(`/api/v1/aws/integration?workspace_id=${workspaceId}`);
+  }
+
 }
 
 export const apiService = new ApiService();
