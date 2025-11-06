@@ -32,13 +32,20 @@ export default function GoogleCallbackPage() {
 
         setStatus('Exchanging code for tokens...')
 
+        // Use env variable for consistent redirect_uri
+        const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+
         // Make POST request to backend callback endpoint with params
         const callbackParams = new URLSearchParams({
           code: code,
-          redirect_uri: `${window.location.origin}/auth/google/callback`
+          redirect_uri: `${frontendUrl}/auth/google/callback`
         })
 
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL 
+        console.log('Callback - Frontend URL:', frontendUrl)
+        console.log('Callback - Backend URL:', backendUrl)
+        console.log('Callback - redirect_uri:', `${frontendUrl}/auth/google/callback`)
+
         const response = await fetch(`${backendUrl}/api/v1/auth/callback?${callbackParams.toString()}`, {
           method: 'POST',
           headers: {
