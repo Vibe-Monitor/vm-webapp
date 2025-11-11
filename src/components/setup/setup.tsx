@@ -1,19 +1,20 @@
 "use client";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { 
-  Play, 
-  Edit, 
-  Hourglass, 
-  Search, 
-  Copy, 
-  Check, 
+import {
+  Play,
+  Edit,
+  Hourglass,
+  Search,
+  Copy,
+  Check,
   HelpCircle,
   FileText,
   MessageSquare
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
+import { BackButton } from "../ui/BackButton";
 
 interface LandingPageProps {
   onLaunchClick: () => void;
@@ -60,7 +61,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
   return (
     <div className="min-h-screen w-full relative flex items-center justify-center px-6 py-16 overflow-hidden">
       {/* Background with radial gradient matching the design */}
-      <div 
+      <div
         className="absolute inset-0"
         style={{
           background: 'radial-gradient(59.35% 92.81% at 50% 50%, rgba(12, 24, 41, 0.95) 0%, #0C1829 100%), #0C1829'
@@ -74,13 +75,13 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
             {[...Array(40)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ 
-                  x: "50vw", 
-                  y: "50vh", 
+                initial={{
+                  x: "50vw",
+                  y: "50vh",
                   scale: 0,
-                  opacity: 1 
+                  opacity: 1
                 }}
-                animate={{ 
+                animate={{
                   x: `${Math.random() * 100}vw`,
                   y: `${Math.random() * 100}vh`,
                   scale: [0, 1, 0],
@@ -93,6 +94,9 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Back Button */}
+      <BackButton />
 
       {/* Main Card Container */}
       <motion.div
