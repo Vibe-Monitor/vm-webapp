@@ -37,7 +37,7 @@ export default function TermsAndConditions() {
         >
           <div style={{ color: '#E5E7EB', lineHeight: '1.8' }}>
             <p style={{ fontSize: '16px', color: '#98A3B1', marginBottom: '32px' }}>
-              These Terms & Conditions ("Terms") govern your access to and use of the Service offered by VibeMonitor.ai ("Company", "we", "us", "our"). By creating an account, accessing or using the Service, you agree to be bound by these Terms.
+              These Terms & Conditions (&quot;Terms&quot;) govern your access to and use of the Service offered by VibeMonitor.ai (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By creating an account, accessing or using the Service, you agree to be bound by these Terms.
             </p>
 
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#E5E7EB', marginTop: '48px', marginBottom: '16px' }}>
@@ -119,7 +119,7 @@ export default function TermsAndConditions() {
               <li style={{ marginBottom: '8px' }}>Infringe any third-party rights (intellectual property, privacy, etc.).</li>
               <li style={{ marginBottom: '8px' }}>Upload or transmit any malicious code, viruses or harmful software.</li>
               <li style={{ marginBottom: '8px' }}>Commit fraud, impersonation or misrepresentation.</li>
-              <li style={{ marginBottom: '8px' }}>Attempt to interfere with other users' access or degrade the Service's performance.</li>
+              <li style={{ marginBottom: '8px' }}>Attempt to interfere with other users&apos; access or degrade the Service&apos;s performance.</li>
             </ul>
 
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#E5E7EB', marginTop: '48px', marginBottom: '16px' }}>
@@ -148,7 +148,7 @@ export default function TermsAndConditions() {
               10. Disclaimer of Warranties
             </h2>
             <p style={{ fontSize: '15px', color: '#98A3B1', marginBottom: '16px' }}>
-              To the maximum extent permitted by applicable law, the Service is provided "AS IS" and "AS AVAILABLE", without warranties of any kind (express or implied). We disclaim all warranties including but not limited to merchantability, fitness for a particular purpose, non-infringement, accuracy or reliability of results.
+              To the maximum extent permitted by applicable law, the Service is provided &quot;AS IS&quot; and &quot;AS AVAILABLE&quot;, without warranties of any kind (express or implied). We disclaim all warranties including but not limited to merchantability, fitness for a particular purpose, non-infringement, accuracy or reliability of results.
             </p>
 
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#E5E7EB', marginTop: '48px', marginBottom: '16px' }}>
@@ -162,7 +162,7 @@ export default function TermsAndConditions() {
               12. Indemnification
             </h2>
             <p style={{ fontSize: '15px', color: '#98A3B1', marginBottom: '16px' }}>
-              You agree to defend, indemnify and hold harmless the Company, its affiliates, officers, directors, employees and agents from and against any claims, liabilities, losses, damages and expenses (including reasonable attorneys' fees) arising out of your use of the Service in violation of these Terms or applicable law.
+              You agree to defend, indemnify and hold harmless the Company, its affiliates, officers, directors, employees and agents from and against any claims, liabilities, losses, damages and expenses (including reasonable attorneys&apos; fees) arising out of your use of the Service in violation of these Terms or applicable law.
             </p>
 
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#E5E7EB', marginTop: '48px', marginBottom: '16px' }}>

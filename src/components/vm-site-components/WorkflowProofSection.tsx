@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { GitCommit, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
+import { GitCommit, Zap, CheckCircle2 } from 'lucide-react';
 
 export function WorkflowProofSection() {
   const cards = [

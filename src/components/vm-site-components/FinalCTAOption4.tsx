@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, Sparkles, Clock, CheckCircle2, TrendingUp } from 'lucide-react';
+import { ArrowRight, Sparkles, Clock, CheckCircle2 } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
 import posthog from 'posthog-js';
 import { trackInteraction } from '@/lib/posthog-utils';

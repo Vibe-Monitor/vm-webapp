@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { AlertCircle, CheckCircle } from 'lucide-react';
 
 export function ProblemSolutionSection() {
   return (

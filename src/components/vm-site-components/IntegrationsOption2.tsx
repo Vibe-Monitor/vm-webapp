@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useMotionValue, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import { BarChart3, GitCommit, MessageCircle, Sparkles, Zap, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 

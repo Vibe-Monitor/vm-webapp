@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
         >
           <div style={{ color: '#E5E7EB', lineHeight: '1.8' }}>
             <p style={{ fontSize: '16px', color: '#98A3B1', marginBottom: '32px' }}>
-              Welcome to VibeMonitor.ai ("we", "us", "our", "the Company"). We respect your privacy and are committed to protecting your Personal Data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services, located at https://vibemonitor.ai (the "Service"). By using or accessing the Service, you agree to this Privacy Policy.
+              Welcome to VibeMonitor.ai (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;, &quot;the Company&quot;). We respect your privacy and are committed to protecting your Personal Data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services, located at https://vibemonitor.ai (the &quot;Service&quot;). By using or accessing the Service, you agree to this Privacy Policy.
             </p>
 
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#E5E7EB', marginTop: '48px', marginBottom: '16px' }}>
@@ -115,7 +115,7 @@ export default function PrivacyPolicy() {
               <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E5E7EB' }}>Vendors and Service Providers:</strong> We engage third-party vendors (e.g., cloud hosting, payment processors, analytics) who help us operate the Service. They strictly follow our instructions and are subject to confidentiality.</li>
               <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E5E7EB' }}>Affiliates:</strong> If we merge, are acquired or reorganized, your information may be transferred as a business asset.</li>
               <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E5E7EB' }}>Legal and safety reasons:</strong> We may disclose information to comply with applicable laws, respond to legal process, protect our rights, property or safety of others.</li>
-              <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E5E7EB' }}>Aggregate or anonymized data:</strong> We may share aggregated, de-identified usage data that can't reasonably re-identify you.</li>
+              <li style={{ marginBottom: '8px' }}><strong style={{ color: '#E5E7EB' }}>Aggregate or anonymized data:</strong> We may share aggregated, de-identified usage data that can&apos;t reasonably re-identify you.</li>
             </ul>
             <p style={{ fontSize: '15px', color: '#98A3B1', marginBottom: '16px' }}>
               <strong style={{ color: '#E5E7EB' }}>We do not sell your Personal Data to third parties.</strong>
@@ -159,7 +159,7 @@ export default function PrivacyPolicy() {
             </p>
 
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#E5E7EB', marginTop: '48px', marginBottom: '16px' }}>
-              9. Children's Privacy
+              9. Children&apos;s Privacy
             </h2>
             <p style={{ fontSize: '15px', color: '#98A3B1', marginBottom: '16px' }}>
               Our Service is not directed to children under the age of 13 (or applicable age in your jurisdiction). We do not knowingly collect Personal Data from children. If you become aware a child under age has provided us Personal Data, please contact us and we will delete it.
@@ -169,7 +169,7 @@ export default function PrivacyPolicy() {
               10. Changes to this Policy
             </h2>
             <p style={{ fontSize: '15px', color: '#98A3B1', marginBottom: '16px' }}>
-              We may update this Privacy Policy from time to time. We will post the new date of "Last updated" at the top. Your continued use of the Service after changes becomes your acceptance of the revised policy.
+              We may update this Privacy Policy from time to time. We will post the new date of &quot;Last updated&quot; at the top. Your continued use of the Service after changes becomes your acceptance of the revised policy.
             </p>
 
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#E5E7EB', marginTop: '48px', marginBottom: '16px' }}>

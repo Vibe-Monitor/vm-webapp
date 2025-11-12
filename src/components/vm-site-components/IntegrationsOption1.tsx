@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { BarChart3, GitCommit, MessageCircle, ArrowRight, Zap, CheckCircle2 } from 'lucide-react';
+import { BarChart3, GitCommit, MessageCircle, Zap } from 'lucide-react';
 
 // OPTION 1: Icon-Driven Compact Grid
 // Large icons, minimal text, visual arrows showing enhancement flow
