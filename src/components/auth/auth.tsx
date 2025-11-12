@@ -9,9 +9,8 @@ export default function Auth() {
 
   return (
     <div
-      className="px-12 py-10"
+      className="w-full max-w-[520px] px-6 py-8 sm:px-12 sm:py-10 mx-4"
       style={{
-        width: '520px',
         backgroundColor: '#121A29',
         border: '1px solid var(--color-border-light)',
         borderRadius: 'var(--radius-12)',
@@ -19,12 +18,11 @@ export default function Auth() {
       }}
     >
       {/* Header Section */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-6 sm:mb-8">
         <h1
-          className="mb-3"
+          className="mb-2 sm:mb-3 text-2xl sm:text-3xl"
           style={{
             color: 'var(--color-text-primary)',
-            fontSize: 'var(--text-3xl)',
             fontFamily: 'var(--font-sans)',
             fontWeight: 'var(--font-leight)',
             lineHeight: 'var(--leading-tight)'
@@ -34,9 +32,9 @@ export default function Auth() {
         </h1>
 
         <p
+          className="text-sm sm:text-base px-2 sm:px-0"
           style={{
             color: 'var(--color-text-tertiary)',
-            fontSize: 'var(--text-base)',
             lineHeight: 'var(--leading-relaxed)'
           }}
         >
@@ -45,14 +43,14 @@ export default function Auth() {
       </div>
 
       {/* Sign In Section */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <GoogleSignInButton
           onError={handleGoogleError}
           text="Sign up with Google"
         />
 
         {/* Divider */}
-        <div className="relative mt-6">
+        <div className="relative mt-5 sm:mt-6">
           <div className="absolute inset-0 flex items-center">
             <span
               className="w-full border-t"
@@ -61,11 +59,10 @@ export default function Auth() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span
-              className="px-3"
+              className="px-2 sm:px-3 text-[10px] sm:text-xs"
               style={{
                 backgroundColor: '#121A29',
                 color: 'var(--color-text-tertiary)',
-                fontSize: 'var(--text-xs)',
                 fontWeight: 'var(--font-medium)',
                 letterSpacing: '0.05em'
               }}
@@ -77,14 +74,13 @@ export default function Auth() {
       </div>
 
       {/* Footer */}
-      <div className="text-center space-y-4">
-       
+      <div className="text-center space-y-3 sm:space-y-4">
+
 
         <p
-          className="px-4"
+          className="px-2 sm:px-4 text-[11px] sm:text-xs leading-relaxed"
           style={{
             color: 'var(--color-text-tertiary)',
-            fontSize: 'var(--text-xs)',
             lineHeight: '1.6'
           }}
         >
