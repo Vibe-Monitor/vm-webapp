@@ -22,18 +22,21 @@ export default function GoogleSignInButton({
     setIsLoading(true)
 
     try {
-      // Redirect directly to FastAPI backend OAuth endpoint
-      const redirectUri = `${window.location.origin}/auth/google/callback`
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+
+      // Use env variable if available, otherwise fallback to window.location.origin
+      const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
+      const redirectUri = `${frontendUrl}/auth/google/callback`
+
       const params = new URLSearchParams({
         redirect_uri: redirectUri,
         code_challenge_method: 'S256'
       })
 
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
       const backendAuthUrl = `${backendUrl}/api/v1/auth/login?${params.toString()}`
 
-      
- 
+      console.log('OAuth redirect_uri:', redirectUri) // Debug log
+
       // Redirect to backend, which will redirect to Google OAuth
       window.location.href = backendAuthUrl
 
