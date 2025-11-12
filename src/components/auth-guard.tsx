@@ -17,16 +17,20 @@ export function AuthGuard({ children }: AuthGuardProps) {
     const checkAuth = () => {
       const hasValidToken = tokenService.hasValidToken()
 
-      // List of auth pages that don't require authentication
-      const authPaths = ["/auth", "/auth/google/callback"]
-      const isAuthPage = authPaths.some(path => pathname.startsWith(path))
+      // List of public pages that don't require authentication
+      const publicPaths = ["/", "/auth", "/auth/google/callback", "/terms", "/privacy", "/policy"]
+      const isPublicPage = publicPaths.some(path =>
+        path === "/" ? pathname === "/" : pathname.startsWith(path)
+      )
 
-      if (!hasValidToken && !isAuthPage) {
-        // No valid token and not on auth page - redirect to auth
+      if (!hasValidToken && !isPublicPage) {
+        // No valid token and not on public page - redirect to auth
         router.push("/auth")
         return
       }
 
+      // Special handling: if user has valid token and is on auth page, redirect to setup
+      const isAuthPage = pathname.startsWith("/auth")
       if (hasValidToken && isAuthPage) {
         // Has valid token but on auth page - redirect to setup
         router.push("/setup")

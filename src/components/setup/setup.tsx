@@ -1,19 +1,20 @@
 "use client";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { 
-  Play, 
-  Edit, 
-  Hourglass, 
-  Search, 
-  Copy, 
-  Check, 
+import {
+  Play,
+  Edit,
+  Hourglass,
+  Search,
+  Copy,
+  Check,
   HelpCircle,
   FileText,
   MessageSquare
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
+import { BackButton } from "../ui/BackButton";
 
 interface LandingPageProps {
   onLaunchClick: () => void;
@@ -93,6 +94,9 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Back Button */}
+      <BackButton />
 
       {/* Main Card Container */}
       <motion.div

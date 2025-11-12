@@ -75,7 +75,172 @@ html, body {
   display: none;
 }
 
+/* VM-Site Landing Page Styles */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
+:root {
+  --font-size: 16px;
+  --background: #0f1828;
+  --card-bg: #1e293b40;
+  --foreground: #e5e7eb;
+  --secondary: #98a3b1;
+  --primary: #6266fa;
+  --primary-hover: #5558e3;
+  --highlight: #ffd11b;
+  --border: #2f4257;
+  --glass-blur: 10px;
+  --card-shadow: 0 4px 24px #0003;
+  --glow-primary: 0 0 20px #6266fa33;
+  --glow-highlight: 0 0 20px #ffd11b33;
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --radius: 12px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide Next.js development indicator */
+#__next-build-watcher {
+  display: none !important;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawLine {
+  from {
+    stroke-dashoffset: 1000px;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .8;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes radarPulse {
+  0%, 100% {
+    opacity: .05;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .15;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0)translateX(200px)rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg)translateX(200px)rotate(-360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.glass {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: #1e293b40;
+  border: 1px solid #2f4257;
+  border-radius: 12px;
+}
+
+.btn-primary {
+  color: #e5e7eb;
+  cursor: pointer;
+  background: #6266fa;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: all .1s;
+}
+
+.btn-primary:hover {
+  background: #5558e3;
+  transform: scale(1.02);
+}
+
+.btn-secondary {
+  color: #6266fa;
+  cursor: pointer;
+  background: none;
+  border: 2px solid #6266fa;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all .1s;
+}
+
+.btn-secondary:hover {
+  background: #6266fa1a;
+  transform: scale(1.02);
+}
 
 
 

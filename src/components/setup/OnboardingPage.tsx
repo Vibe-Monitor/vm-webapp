@@ -14,6 +14,7 @@ import { apiService } from "@/services/apiService";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { setCurrentWorkspace } from "@/lib/features/workspaceSlice";
 import { checkGitHubStatusWithService } from "@/services/githubStatusService";
+import { BackButton } from "../ui/BackButton";
 
 interface OnboardingPageProps {
   onComplete: () => void;
@@ -535,8 +536,11 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
   };
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6">
-      <Card className="w-full max-w-[794px] p-6 sm:p-10 lg:p-[50px] bg-[rgba(27,41,61,0.1)] border-[#2F4257] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-xl">
+    <main className="min-h-screen bg-background flex items-center justify-center p-4 relative">
+      {/* Back Button */}
+      <BackButton />
+
+      <Card className="w-[794px] p-[50px] bg-[rgba(27,41,61,0.1)] border-[#2F4257] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-xl">
         <CardContent className="p-0 flex flex-col items-center">
           {/* Header */}
           <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[448px] mb-5 sm:mb-7">
