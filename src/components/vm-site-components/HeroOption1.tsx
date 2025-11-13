@@ -172,7 +172,7 @@ export function HeroOption1() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
-              Ship fearlessly. Find root cause in minutes not hours.
+              Ship fearlessly. Find root causes in minutes, not hours.
             </span>
           </div>
         </motion.div>
@@ -191,7 +191,7 @@ export function HeroOption1() {
             letterSpacing: '-0.03em'
           }}
         >
-          <span style={{ color: '#E5E7EB' }}>Stop debugging.</span>
+          <span style={{ color: '#E5E7EB' }}>Stop debugging</span>
           <br />
           <span 
             style={{
@@ -201,7 +201,7 @@ export function HeroOption1() {
               backgroundClip: 'text',
             }}
           >
-            Start shipping.
+            Start shipping
           </span>
         </motion.h1>
 

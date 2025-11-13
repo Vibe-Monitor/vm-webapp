@@ -536,11 +536,11 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
   };
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center p-4 relative">
+    <main className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 lg:p-8 relative">
       {/* Back Button */}
       <BackButton />
 
-      <Card className="w-[794px] p-[50px] bg-[rgba(27,41,61,0.1)] border-[#2F4257] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-xl">
+      <Card className="w-full max-w-[794px] p-6 sm:p-10 lg:p-[50px] bg-[rgba(27,41,61,0.1)] border-[#2F4257] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-xl mt-16 sm:mt-0">
         <CardContent className="p-0 flex flex-col items-center">
           {/* Header */}
           <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[448px] mb-5 sm:mb-7">
@@ -963,32 +963,32 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="aws" className="border-none">
                     <div className="bg-[rgba(47,66,87,0.2)] border border-[rgba(47,66,87,0.5)] rounded-lg">
-                      <AccordionTrigger className="p-6 hover:no-underline [&[data-state=open]]:pb-0">
-                        <div className="flex flex-row justify-between items-center w-full">
-                          <div className="flex flex-row items-center gap-4">
+                      <AccordionTrigger className="p-4 sm:p-6 hover:no-underline [&[data-state=open]]:pb-0">
+                        <div className="flex flex-row justify-between items-center w-full gap-2">
+                          <div className="flex flex-row items-center gap-3 sm:gap-4 min-w-0">
                             {integrations.aws ? (
                               <CheckCircle2 className="w-5 h-5 text-[#FFD11B] flex-shrink-0" />
                             ) : (
                               <Circle className="w-5 h-5 text-[rgba(154,163,176,0.4)] flex-shrink-0" />
                             )}
-                            <div className="flex flex-row items-center gap-3">
-                              <svg className="w-5 h-5 text-[#E5E7EB]" viewBox="0 0 256 256" fill="currentColor">
+                            <div className="flex flex-row items-center gap-2 sm:gap-3 min-w-0">
+                              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E5E7EB] flex-shrink-0" viewBox="0 0 256 256" fill="currentColor">
                                 <path d="M208 40H48a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm-72 152h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zm40 112h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zM96 192H80v-16h16zm0-32H80v-64h16zm0-80H80V64h16z"/>
                               </svg>
-                              <span className="text-[16px] font-semibold leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                              <span className="text-sm sm:text-[16px] font-semibold leading-5 tracking-[-0.150391px] text-[#E5E7EB] truncate">
                                 AWS CloudWatch
                               </span>
                             </div>
                           </div>
-                          <span className="text-sm leading-5 tracking-[-0.150391px] text-[#FFD11B]">
+                          <span className="text-xs sm:text-sm leading-5 tracking-[-0.150391px] text-[#FFD11B] flex-shrink-0">
                             {'> 5 min'}
                           </span>
                         </div>
                       </AccordionTrigger>
-                      <AccordionContent className="px-[92px] pb-6 pt-2">
-                        <div className="flex flex-col items-start gap-[22px]">
+                      <AccordionContent className="px-4 sm:px-16 lg:px-[92px] pb-6 pt-2">
+                        <div className="flex flex-col items-start gap-4 sm:gap-[22px]">
                           {/* Description */}
-                          <p className="text-sm leading-5 tracking-[-0.150391px] text-[#9AA3B0]">
+                          <p className="text-xs sm:text-sm leading-5 tracking-[-0.150391px] text-[#9AA3B0]">
                             Monitor AWS infrastructure logs and metrics from CloudWatch with X-Ray traces for comprehensive visibility into your cloud applications.
                           </p> 
 
