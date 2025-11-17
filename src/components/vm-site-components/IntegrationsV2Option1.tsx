@@ -176,7 +176,7 @@ export function IntegrationsV2Option1() {
             margin: '0 auto',
             lineHeight: '1.6'
           }}>
-            No migration. No new dashboards. Works with the tools already in your workflow.
+            Built to fit the tools already in your workflow
           </p>
         </motion.div>
 
