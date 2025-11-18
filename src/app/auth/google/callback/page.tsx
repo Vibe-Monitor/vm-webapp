@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import posthog from 'posthog-js'
 import { tokenService } from '@/services/tokenService'
 import Loader from '@/components/ui/loader'
 
@@ -12,31 +13,46 @@ export default function GoogleCallbackPage() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // Get the URL parameters
         const urlParams = new URLSearchParams(window.location.search)
         const code = urlParams.get('code')
         const error = urlParams.get('error')
 
+        posthog.capture('google_oauth_callback_received', {
+          has_code: !!code,
+          has_error: !!error,
+          error_value: error
+        })
+
         if (error) {
           setStatus('Authentication failed')
           console.error('OAuth error:', error)
+
+          posthog.capture('google_oauth_failed', {
+            error: error,
+            stage: 'callback'
+          })
+
           router.replace('/auth?error=' + encodeURIComponent(error))
           return
         }
 
         if (!code) {
           setStatus('No authorization code received')
+
+          posthog.capture('google_oauth_failed', {
+            error: 'no_code',
+            stage: 'callback'
+          })
+
           router.replace('/auth?error=no_code')
           return
         }
 
         setStatus('Exchanging code for tokens...')
 
-        // Use env variable for consistent redirect_uri
         const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
 
-        // Make POST request to backend callback endpoint with params
         const callbackParams = new URLSearchParams({
           code: code,
           redirect_uri: `${frontendUrl}/auth/google/callback`
@@ -59,23 +75,60 @@ export default function GoogleCallbackPage() {
 
         const data = await response.json()
 
-        // Store tokens using tokenService
         if (data.access_token && data.refresh_token) {
           tokenService.setTokens({
             access_token: data.access_token,
             refresh_token: data.refresh_token,
-            expires_in: data.expires_in  // Default to 1 hour if not provided
+            expires_in: data.expires_in
+          })
+
+          const userResponse = await fetch(`${backendUrl}/api/v1/auth/me`, {
+            headers: {
+              'Authorization': `Bearer ${data.access_token}`
+            }
+          })
+
+          if (userResponse.ok) {
+            const userData = await userResponse.json()
+
+            posthog.identify(userData.id, {
+              email: userData.email,
+              name: userData.name,
+              created_at: userData.created_at
+            })
+
+            posthog.setPersonProperties({
+              email: userData.email,
+              name: userData.name,
+              auth_method: 'google',
+              user_type: 'authenticated'
+            })
+          }
+
+          posthog.capture('user_authenticated_successfully', {
+            auth_method: 'google_oauth',
+            has_refresh_token: true
+          })
+
+          posthog.capture('funnel_stage', {
+            stage: 'onboarding_started',
+            stage_number: 1,
+            description: 'User redirected to setup page after authentication'
           })
         }
 
         setStatus('Authentication successful! Redirecting...')
-
-        // Redirect to setup page
         router.replace('/setup')
 
       } catch (error) {
         console.error('Callback error:', error)
         setStatus('Authentication failed')
+
+        posthog.capture('google_oauth_callback_failed', {
+          error: error instanceof Error ? error.message : 'unknown_error',
+          stage: 'token_exchange'
+        })
+
         router.replace('/auth?error=callback_failed')
       }
     }

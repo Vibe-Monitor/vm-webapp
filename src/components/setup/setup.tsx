@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import posthog from "posthog-js";
 import { Button } from "../ui/button";
 import {
   Play,
@@ -27,11 +28,21 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
   const handleCopyCode = (code: string, index: string) => {
     navigator.clipboard.writeText(code);
     setCopiedCode(index);
+
+    posthog.capture('setup_complete_code_snippet_copied', {
+      snippet_type: index,
+      code_content: code
+    });
+
     toast.success("Copied to clipboard!");
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
   const handleLaunchClick = () => {
+    posthog.capture('launch_slack_button_clicked', {
+      source: 'setup_complete_page'
+    });
+
     setShowConfetti(true);
     setTimeout(() => {
       setShowConfetti(false);

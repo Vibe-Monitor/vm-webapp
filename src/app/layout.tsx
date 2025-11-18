@@ -1,6 +1,7 @@
 import "./globals.css";
 import StoreProvider from './StoreProvider';
 import { AuthGuard } from '@/components/auth-guard';
+import { PostHogProvider } from '@/components/vm-site-components/PostHog/PostHogProvider';
 
 export default function RootLayout({
   children,
@@ -16,11 +17,13 @@ export default function RootLayout({
         className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-text-primary)] transition-colors duration-500"
         suppressHydrationWarning={true}
       >
-        <StoreProvider>
-          <AuthGuard>
-            {children}
-          </AuthGuard>
-        </StoreProvider>
+        <PostHogProvider>
+          <StoreProvider>
+            <AuthGuard>
+              {children}
+            </AuthGuard>
+          </StoreProvider>
+        </PostHogProvider>
       </body>
     </html>
   );

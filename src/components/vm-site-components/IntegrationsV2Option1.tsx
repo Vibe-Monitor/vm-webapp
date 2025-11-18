@@ -17,13 +17,15 @@ export function IntegrationsV2Option1() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const handleIntegrationClick = (integrationName: string) => {
-    // Track interaction
-    trackInteraction('integration_click', {
-      integration_name: integrationName
+    trackInteraction(`integration_${integrationName.toLowerCase()}_card_clicked`, {
+      integration_name: integrationName,
+      section: 'integrations'
     });
 
-    posthog.capture('integration_card_click', {
-      integration_name: integrationName
+    posthog.capture(`integration_${integrationName.toLowerCase()}_card_clicked`, {
+      integration_name: integrationName,
+      page_section: 'integrations',
+      interaction_type: 'card_click'
     });
   };
 

@@ -1,10 +1,23 @@
 'use client'
 
+import { useEffect } from 'react'
+import posthog from 'posthog-js'
 import GoogleSignInButton from './GoogleSignInButton'
 
 export default function Auth() {
+  useEffect(() => {
+    posthog.capture('auth_page_viewed', {
+      page_type: 'signup_or_login'
+    })
+  }, [])
+
   const handleGoogleError = (error: string | Error) => {
     console.error('Google Sign-In error:', error)
+
+    posthog.capture('google_oauth_error', {
+      error_message: error instanceof Error ? error.message : String(error),
+      source: 'auth_page'
+    })
   }
 
   return (

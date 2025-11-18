@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import posthog from "posthog-js";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -248,6 +249,11 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
+    posthog.capture('integration_github_connect_clicked', {
+      workspace_id: currentWorkspace.id,
+      workspace_name: currentWorkspace.name
+    });
+
     setGithubInstalling(true);
 
     try {
@@ -257,10 +263,20 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
         throw new Error('Failed to get GitHub install URL');
       }
 
-      // Redirect to GitHub to install the app
+      posthog.capture('integration_github_oauth_redirect', {
+        workspace_id: currentWorkspace.id,
+        install_url_obtained: true
+      });
+
       window.location.href = response.data.install_url;
     } catch (error) {
       console.error('GitHub installation failed:', error);
+
+      posthog.capture('integration_github_connect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error("Failed to connect GitHub. Please try again.");
       setGithubInstalling(false);
     }
@@ -272,7 +288,6 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
-    // Validate inputs
     if (!grafanaUrl.trim()) {
       toast.error('Please enter your Grafana URL');
       return;
@@ -283,19 +298,23 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
-    // Add https:// if not present
     let formattedUrl = grafanaUrl.trim();
     if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
       formattedUrl = `https://${formattedUrl}`;
     }
 
-    // Validate URL format
     try {
       new URL(formattedUrl);
     } catch {
       toast.error('Please enter a valid URL');
       return;
     }
+
+    posthog.capture('integration_grafana_connect_clicked', {
+      workspace_id: currentWorkspace.id,
+      has_url: true,
+      has_token: true
+    });
 
     try {
       const response = await apiService.connectGrafana({
@@ -306,18 +325,28 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
 
       if (response.status === 200 && response.data) {
         setIntegrations((prev) => ({ ...prev, grafana: true }));
-        // Update the URL with the formatted version from the response
         if (response.data.grafana_url) {
           setGrafanaUrl(response.data.grafana_url);
         }
-        // Clear the token for security
         setGrafanaToken('');
+
+        posthog.capture('integration_grafana_connected_successfully', {
+          workspace_id: currentWorkspace.id,
+          grafana_url: response.data.grafana_url
+        });
+
         toast.success('Grafana connected successfully! 🚀');
       } else {
         throw new Error(response.error || 'Failed to connect Grafana');
       }
     } catch (error) {
       console.error('Grafana connection failed:', error);
+
+      posthog.capture('integration_grafana_connect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error('Failed to connect Grafana. Please check your credentials and try again.');
     }
   };
@@ -328,6 +357,10 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
+    posthog.capture('integration_grafana_disconnect_clicked', {
+      workspace_id: currentWorkspace.id
+    });
+
     try {
       const response = await apiService.disconnectGrafana(currentWorkspace.id);
 
@@ -335,12 +368,23 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
         setIntegrations((prev) => ({ ...prev, grafana: false }));
         setGrafanaUrl('');
         setGrafanaToken('');
+
+        posthog.capture('integration_grafana_disconnected_successfully', {
+          workspace_id: currentWorkspace.id
+        });
+
         toast.success('Grafana disconnected successfully');
       } else {
         throw new Error(response.error || 'Failed to disconnect Grafana');
       }
     } catch (error) {
       console.error('Grafana disconnection failed:', error);
+
+      posthog.capture('integration_grafana_disconnect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error('Failed to disconnect Grafana. Please try again.');
     }
   };
@@ -351,6 +395,10 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
+    posthog.capture('integration_github_disconnect_clicked', {
+      workspace_id: currentWorkspace.id
+    });
+
     try {
       const response = await apiService.disconnectGithub(currentWorkspace.id);
 
@@ -358,12 +406,23 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
         setIntegrations((prev) => ({ ...prev, github: false }));
         setGithubStatus('not-connected');
         setGithubUsername('');
+
+        posthog.capture('integration_github_disconnected_successfully', {
+          workspace_id: currentWorkspace.id
+        });
+
         toast.success('GitHub disconnected successfully');
       } else {
         throw new Error(response.error || 'Failed to disconnect GitHub');
       }
     } catch (error) {
       console.error('GitHub disconnection failed:', error);
+
+      posthog.capture('integration_github_disconnect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error('Failed to disconnect GitHub. Please try again.');
     }
   };
@@ -374,19 +433,34 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
+    posthog.capture('integration_slack_connect_clicked', {
+      workspace_id: currentWorkspace.id,
+      workspace_name: currentWorkspace.name
+    });
+
     setSlackInstalling(true);
 
     try {
       const response = await apiService.getSlackInstallUrl(currentWorkspace.id);
 
       if (response.status === 200 && response.data?.oauth_url) {
-        // Redirect to Slack OAuth URL
+        posthog.capture('integration_slack_oauth_redirect', {
+          workspace_id: currentWorkspace.id,
+          oauth_url_obtained: true
+        });
+
         window.location.href = response.data.oauth_url;
       } else {
         throw new Error(response.error || 'Failed to get Slack OAuth URL');
       }
     } catch (error) {
       console.error('Slack installation failed:', error);
+
+      posthog.capture('integration_slack_connect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error("Failed to connect Slack. Please try again.");
       setSlackInstalling(false);
     }
@@ -398,18 +472,33 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
+    posthog.capture('integration_slack_disconnect_clicked', {
+      workspace_id: currentWorkspace.id
+    });
+
     try {
       const response = await apiService.disconnectSlack(currentWorkspace.id);
 
       if (response.status === 200) {
         setIntegrations((prev) => ({ ...prev, slack: false }));
         setSlackTeamName('');
+
+        posthog.capture('integration_slack_disconnected_successfully', {
+          workspace_id: currentWorkspace.id
+        });
+
         toast.success('Slack disconnected successfully');
       } else {
         throw new Error(response.error || 'Failed to disconnect Slack');
       }
     } catch (error) {
       console.error('Slack disconnection failed:', error);
+
+      posthog.capture('integration_slack_disconnect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error('Failed to disconnect Slack. Please try again.');
     }
   };
@@ -420,7 +509,6 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
-    // Validate inputs
     if (!awsRoleArn.trim()) {
       toast.error('Please enter your AWS Role ARN');
       return;
@@ -431,18 +519,23 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
-    // Validate Role ARN format - must start with arn:aws:iam::
     if (!awsRoleArn.trim().startsWith('arn:aws:iam::')) {
       toast.error('Please enter a valid AWS Role ARN (should start with arn:aws:iam::)');
       return;
     }
 
-    // Validate Role name starts with VibeMonitor- (case-insensitive)
     const roleNameMatch = awsRoleArn.match(/role\/(.*?)$/);
     if (!roleNameMatch || !roleNameMatch[1].toLowerCase().startsWith('vibemonitor-')) {
       toast.error('Role name must start with "VibeMonitor-" or "Vibemonitor-"');
       return;
     }
+
+    posthog.capture('integration_aws_connect_clicked', {
+      workspace_id: currentWorkspace.id,
+      has_role_arn: true,
+      has_external_id: true,
+      region: awsRegion.trim() || 'us-east-1'
+    });
 
     setAwsConnecting(true);
 
@@ -451,17 +544,14 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
         workspace_id: currentWorkspace.id,
         role_arn: awsRoleArn.trim(),
         external_id: awsExternalId.trim(),
-        region: awsRegion.trim() || 'us-east-1', // Default region
+        region: awsRegion.trim() || 'us-east-1',
       });
 
       console.log('AWS connection response:', response);
 
-      // Check for successful response (200, 201, or any 2xx status)
       if (response.status >= 200 && response.status < 300) {
         setIntegrations((prev) => ({ ...prev, aws: true }));
-        toast.success('AWS CloudWatch connected successfully!');
 
-        // Verify connection by checking status
         const statusCheck = await apiService.getAwsStatus(currentWorkspace.id);
         if (statusCheck.data?.role_arn) {
           setAwsRoleArn(statusCheck.data.role_arn);
@@ -469,12 +559,25 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
         if (statusCheck.data?.region) {
           setAwsRegion(statusCheck.data.region);
         }
+
+        posthog.capture('integration_aws_connected_successfully', {
+          workspace_id: currentWorkspace.id,
+          region: statusCheck.data?.region || awsRegion.trim() || 'us-east-1'
+        });
+
+        toast.success('AWS CloudWatch connected successfully!');
       } else {
         console.error('AWS connection failed with status:', response.status);
         throw new Error(response.error || 'Failed to connect AWS CloudWatch');
       }
     } catch (error) {
       console.error('AWS CloudWatch connection failed:', error);
+
+      posthog.capture('integration_aws_connect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error('Failed to connect AWS CloudWatch. Please check your credentials and try again.');
     } finally {
       setAwsConnecting(false);
@@ -487,6 +590,10 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
+    posthog.capture('integration_aws_disconnect_clicked', {
+      workspace_id: currentWorkspace.id
+    });
+
     try {
       const response = await apiService.disconnectAws(currentWorkspace.id);
 
@@ -495,12 +602,23 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
         setAwsRoleArn('');
         setAwsExternalId('');
         setAwsRegion('');
+
+        posthog.capture('integration_aws_disconnected_successfully', {
+          workspace_id: currentWorkspace.id
+        });
+
         toast.success('AWS CloudWatch disconnected successfully');
       } else {
         throw new Error(response.error || 'Failed to disconnect AWS CloudWatch');
       }
     } catch (error) {
       console.error('AWS CloudWatch disconnection failed:', error);
+
+      posthog.capture('integration_aws_disconnect_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error('Failed to disconnect AWS CloudWatch. Please try again.');
     }
   };
@@ -516,14 +634,41 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       return;
     }
 
+    const connectedIntegrations = Object.entries(integrations)
+      .filter(([_, connected]) => connected)
+      .map(([type, _]) => type);
+
+    posthog.capture('onboarding_complete_button_clicked', {
+      workspace_id: currentWorkspace.id,
+      workspace_name: workspaceName,
+      integrations_connected: connectedIntegrations,
+      total_integrations: connectedIntegrations.length
+    });
+
     try {
       const response = await apiService.updateWorkspace(currentWorkspace.id, {
         name: workspaceName.trim()
       });
 
       if (response.status === 200 && response.data) {
-        // Update the workspace in Redux state with the new data
         dispatch(setCurrentWorkspace(response.data));
+
+        posthog.capture('onboarding_completed_successfully', {
+          workspace_id: currentWorkspace.id,
+          workspace_name: response.data.name,
+          github_connected: integrations.github,
+          grafana_connected: integrations.grafana,
+          slack_connected: integrations.slack,
+          aws_connected: integrations.aws,
+          total_integrations: connectedIntegrations.length
+        });
+
+        posthog.capture('funnel_stage', {
+          stage: 'onboarding_completed',
+          stage_number: 2,
+          description: 'User completed workspace setup'
+        });
+
         toast.success("Workspace setup complete! 🎉");
         onComplete();
       } else {
@@ -531,6 +676,12 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
       }
     } catch (error) {
       console.error('Failed to update workspace:', error);
+
+      posthog.capture('onboarding_completion_failed', {
+        workspace_id: currentWorkspace.id,
+        error: error instanceof Error ? error.message : 'unknown_error'
+      });
+
       toast.error('Failed to complete setup. Please try again.');
     }
   };

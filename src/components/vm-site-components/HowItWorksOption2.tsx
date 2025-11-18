@@ -14,18 +14,19 @@ export function HowItWorksOption2() {
 
   const handleStepToggle = (stepIndex: number, stepLabel: string) => {
     const isExpanding = expandedStep !== stepIndex;
+    const eventAction = isExpanding ? 'expanded' : 'collapsed';
 
-    // Track interaction
-    trackInteraction('step_toggle', {
+    trackInteraction(`how_it_works_step_${stepIndex + 1}_${eventAction}`, {
       step_number: stepIndex + 1,
-      action: isExpanding ? 'expand' : 'collapse'
+      step_name: stepLabel,
+      action: eventAction
     });
 
-    // Track the toggle action
-    posthog.capture('how_it_works_step_toggle', {
+    posthog.capture(`how_it_works_step_${stepIndex + 1}_${stepLabel.toLowerCase().replace(/\s+/g, '_')}_${eventAction}`, {
       step_number: stepIndex + 1,
-      step_label: stepLabel,
-      action: isExpanding ? 'expand' : 'collapse'
+      step_name: stepLabel,
+      action: eventAction,
+      page_section: 'how_it_works'
     });
 
     setExpandedStep(isExpanding ? stepIndex : null);
