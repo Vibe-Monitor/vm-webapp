@@ -86,7 +86,7 @@ export default function Auth() {
         >
           By continuing, you agree to our{' '}
           <a
-            href="#"
+            href="/terms"
             className="underline hover:opacity-80 transition-opacity"
             style={{
               color: 'var(--color-text-brand)',
@@ -97,7 +97,7 @@ export default function Auth() {
           </a>
           {' '}and{' '}
           <a
-            href="#"
+            href="/privacy"
             className="underline hover:opacity-80 transition-opacity"
             style={{
               color: 'var(--color-text-brand)',

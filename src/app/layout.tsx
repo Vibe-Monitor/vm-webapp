@@ -4,6 +4,7 @@ import { AuthGuard } from '@/components/auth-guard';
 
 export default function RootLayout({
   children,
+  
 }: Readonly<{
   children: React.ReactNode;
 }>) {
