@@ -18,24 +18,20 @@ export function InteractiveProofOption3() {
 
   const handleClick = () => {
     if (stage === 'channel-view') {
-      // Track interaction
-      trackInteraction('demo_interaction', {
-        demo_action: 'start',
-        demo_type: 'ai_investigation'
+      trackInteraction('ai_demo_send_button_clicked', {
+        demo_type: 'slack_ai_investigation',
+        action: 'start'
       });
 
-      // Track demo start
-      posthog.capture('interactive_demo_step', {
-        step_key: 'demo_started',
-        step_index: 0,
-        action: 'start_investigation'
+      posthog.capture('interactive_demo_started', {
+        demo_name: 'slack_ai_investigation',
+        page_section: 'interactive-ai-demo',
+        interaction_method: 'send_button_click'
       });
 
-      // Track AI usage
-      posthog.capture('ai_feature_interaction', {
-        feature_name: 'interactive_demo',
-        interaction_type: 'demo_started',
-        ai_capability: 'error_investigation'
+      posthog.capture('ai_investigation_demo_started', {
+        feature_type: 'error_investigation',
+        demo_interface: 'slack_thread'
       });
 
       setStage('thread-sent');
@@ -45,16 +41,13 @@ export function InteractiveProofOption3() {
         setInvestigationStep(0);
       }, 1500);
     } else if (stage === 'thread-complete') {
-      // Track interaction
-      trackInteraction('demo_interaction', {
-        demo_action: 'reset'
+      trackInteraction('ai_demo_reset_clicked', {
+        demo_type: 'slack_ai_investigation'
       });
 
-      // Track demo reset
-      posthog.capture('interactive_demo_step', {
-        step_key: 'demo_reset',
-        step_index: -1,
-        action: 'reset'
+      posthog.capture('interactive_demo_reset', {
+        demo_name: 'slack_ai_investigation',
+        page_section: 'interactive-ai-demo'
       });
 
       setStage('channel-view');
@@ -74,11 +67,10 @@ export function InteractiveProofOption3() {
           setInvestigationStep(currentStep);
         } else {
           clearInterval(interval);
-          // Track investigation completion
-          posthog.capture('interactive_demo_step', {
-            step_key: 'investigation_complete',
-            step_index: 8,
-            action: 'complete'
+          posthog.capture('ai_investigation_demo_completed', {
+            demo_name: 'slack_ai_investigation',
+            total_steps: 8,
+            page_section: 'interactive-ai-demo'
           });
           setTimeout(() => setStage('thread-complete'), 800);
         }

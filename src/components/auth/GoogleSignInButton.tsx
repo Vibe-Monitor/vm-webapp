@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
@@ -23,10 +24,14 @@ export default function GoogleSignInButton({
 
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
-
-      // Use env variable if available, otherwise fallback to window.location.origin
       const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
       const redirectUri = `${frontendUrl}/auth/google/callback`
+
+      posthog.capture('google_signin_button_clicked', {
+        button_text: text,
+        redirect_uri: redirectUri,
+        source: 'auth_page'
+      })
 
       const params = new URLSearchParams({
         redirect_uri: redirectUri,
@@ -35,9 +40,8 @@ export default function GoogleSignInButton({
 
       const backendAuthUrl = `${backendUrl}/api/v1/auth/login?${params.toString()}`
 
-      console.log('OAuth redirect_uri:', redirectUri) // Debug log
+      console.log('OAuth redirect_uri:', redirectUri)
 
-      // Redirect to backend, which will redirect to Google OAuth
       window.location.href = backendAuthUrl
 
     } catch (error) {
