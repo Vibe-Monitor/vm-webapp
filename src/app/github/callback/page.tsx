@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import posthog from 'posthog-js'
 import { apiService } from '@/services/apiService'
 import Loader from '@/components/ui/loader'
 
@@ -12,41 +13,46 @@ export default function GithubCallbackPage() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // Get the URL parameters
         const urlParams = new URLSearchParams(window.location.search)
         const installation_id = urlParams.get('installation_id')
         const setup_action = urlParams.get('setup_action')
         const state = urlParams.get('state')
 
-        // Validate required parameters
+        posthog.capture('github_callback_received', {
+          installation_id: installation_id,
+          setup_action: setup_action,
+          has_state: !!state
+        })
+
         if (!installation_id) {
           setStatus('Missing installation ID')
+
+          posthog.capture('github_callback_failed', {
+            error: 'missing_installation_id',
+            stage: 'validation'
+          })
+
           router.replace('/setup?error=missing_installation_id')
           return
         }
 
         if (!setup_action) {
           setStatus('Missing setup action')
+
+          posthog.capture('github_callback_failed', {
+            error: 'missing_setup_action',
+            stage: 'validation'
+          })
+
           router.replace('/setup?error=missing_setup_action')
           return
         }
 
-        // Get workspace_id from sessionStorage (stored before redirect)
-        // const workspace_id = sessionStorage.getItem('github_workspace_id')
-
-        // if (!workspace_id) {
-        //   setStatus('Missing workspace ID')
-        //   router.replace('/setup?error=missing_workspace_id')
-        //   return
-        // }
-
-        // Process GitHub callback
         setStatus('Finalizing GitHub integration...')
 
         const response = await apiService.handleGithubCallback({
           installation_id,
           setup_action,
-          // workspace_id,
           ...(state && { state })
         })
 
@@ -54,14 +60,23 @@ export default function GithubCallbackPage() {
           throw new Error(response.error || 'GitHub integration failed')
         }
 
-        setStatus('GitHub connected successfully! Redirecting...')
+        posthog.capture('integration_github_callback_successful', {
+          installation_id: installation_id,
+          setup_action: setup_action
+        })
 
-        // Redirect to setup page immediately with success message
+        setStatus('GitHub connected successfully! Redirecting...')
         router.replace(`/setup?github=connected`)
 
       } catch (error) {
         console.error('GitHub callback error:', error)
         setStatus('GitHub integration failed')
+
+        posthog.capture('github_callback_failed', {
+          error: error instanceof Error ? error.message : 'unknown_error',
+          stage: 'api_call'
+        })
+
         router.replace('/setup?error=github_connection_failed')
       }
     }

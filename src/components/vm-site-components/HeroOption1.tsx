@@ -12,33 +12,28 @@ export function HeroOption1() {
   const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    // Track interaction
-    trackInteraction('cta_click', {
-      cta_location: 'hero',
-      cta_label: 'Try for free'
+    trackInteraction('hero_cta_clicked', {
+      button_text: 'Try for free',
+      destination: '/auth'
     });
 
-    // Track CTA click
-    posthog.capture('cta_click', {
-      cta_location: 'hero',
-      cta_label: 'Try for free',
-      page_section: 'hero'
+    posthog.capture('hero_try_free_button_clicked', {
+      button_text: 'Try for free',
+      page_section: 'hero',
+      destination: '/auth'
     });
 
-    // Track waitlist form start
-    posthog.capture('waitlist_form_start', {
-      cta_location: 'hero',
-      page_section: 'hero'
+    posthog.capture('auth_signup_started', {
+      entry_point: 'hero_cta',
+      button_text: 'Try for free'
     });
 
-    // Track funnel conversion stage
     posthog.capture('funnel_stage', {
       stage: 'conversion',
       stage_number: 4,
-      description: 'User clicked primary CTA'
+      description: 'User clicked hero try free button'
     });
 
-    // Navigate to auth page after a short delay to ensure events are captured
     setTimeout(() => {
       router.push('/auth');
     }, 150);
@@ -172,7 +167,7 @@ export function HeroOption1() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
-              Ship fearlessly. Find root cause in minutes not hours.
+              Ship fearlessly. Find root causes in minutes, not hours.
             </span>
           </div>
         </motion.div>
@@ -191,7 +186,7 @@ export function HeroOption1() {
             letterSpacing: '-0.03em'
           }}
         >
-          <span style={{ color: '#E5E7EB' }}>Stop debugging.</span>
+          <span style={{ color: '#E5E7EB' }}>Stop debugging</span>
           <br />
           <span 
             style={{
@@ -201,7 +196,7 @@ export function HeroOption1() {
               backgroundClip: 'text',
             }}
           >
-            Start shipping.
+            Start shipping
           </span>
         </motion.h1>
 

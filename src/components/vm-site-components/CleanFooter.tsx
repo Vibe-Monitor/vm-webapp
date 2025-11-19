@@ -15,13 +15,15 @@ export function CleanFooter() {
   ];
 
   const handleFooterLinkClick = (linkLabel: string) => {
-    // Track interaction
-    trackInteraction('footer_link', {
-      link_label: linkLabel
+    trackInteraction(`footer_${linkLabel.toLowerCase()}_link_clicked`, {
+      link_label: linkLabel,
+      section: 'footer'
     });
 
-    posthog.capture('footer_link_click', {
-      link_label: linkLabel
+    posthog.capture(`footer_${linkLabel.toLowerCase()}_link_clicked`, {
+      link_label: linkLabel,
+      page_section: 'footer',
+      interaction_type: 'navigation'
     });
   };
 

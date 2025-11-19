@@ -43,33 +43,28 @@ export function FinalCTAOption4() {
   const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    // Track interaction
-    trackInteraction('cta_click', {
-      cta_location: 'final',
-      cta_label: 'Claim your free account'
+    trackInteraction('final_cta_clicked', {
+      button_text: 'Claim your free account',
+      destination: '/auth'
     });
 
-    // Track CTA click
-    posthog.capture('cta_click', {
-      cta_location: 'final',
-      cta_label: 'Claim your free account',
-      page_section: 'final_cta'
+    posthog.capture('final_claim_free_account_button_clicked', {
+      button_text: 'Claim your free account',
+      page_section: 'final_cta',
+      destination: '/auth'
     });
 
-    // Track waitlist form start
-    posthog.capture('waitlist_form_start', {
-      cta_location: 'final',
-      page_section: 'final_cta'
+    posthog.capture('auth_signup_started', {
+      entry_point: 'final_cta',
+      button_text: 'Claim your free account'
     });
 
-    // Track funnel conversion stage
     posthog.capture('funnel_stage', {
       stage: 'conversion',
       stage_number: 4,
-      description: 'User clicked final CTA'
+      description: 'User clicked final claim free account button'
     });
 
-    // Navigate to auth page after a short delay to ensure events are captured
     setTimeout(() => {
       router.push('/auth');
     }, 150);

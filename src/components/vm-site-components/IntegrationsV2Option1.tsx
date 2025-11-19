@@ -17,13 +17,15 @@ export function IntegrationsV2Option1() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const handleIntegrationClick = (integrationName: string) => {
-    // Track interaction
-    trackInteraction('integration_click', {
-      integration_name: integrationName
+    trackInteraction(`integration_${integrationName.toLowerCase()}_card_clicked`, {
+      integration_name: integrationName,
+      section: 'integrations'
     });
 
-    posthog.capture('integration_card_click', {
-      integration_name: integrationName
+    posthog.capture(`integration_${integrationName.toLowerCase()}_card_clicked`, {
+      integration_name: integrationName,
+      page_section: 'integrations',
+      interaction_type: 'card_click'
     });
   };
 
@@ -126,15 +128,19 @@ export function IntegrationsV2Option1() {
             <div
               className="px-5 py-2 rounded-full"
               style={{
-                background: 'rgba(98, 102, 250, 0.1)',
-                border: '1px solid rgba(98, 102, 250, 0.3)',
-                backdropFilter: 'blur(10px)'
+                background: 'linear-gradient(135deg, rgba(98, 102, 250, 0.2) 0%, rgba(157, 126, 255, 0.2) 100%)',
+                border: '1px solid rgba(98, 102, 250, 0.5)',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 0 20px rgba(98, 102, 250, 0.3)'
               }}
             >
-              <span style={{ 
-                fontSize: '14px', 
-                fontWeight: 600, 
-                color: '#6266FA',
+              <span style={{
+                fontSize: '14px',
+                fontWeight: 700,
+                background: 'linear-gradient(135deg, #6266FA 0%, #9D7EFF 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
                 letterSpacing: '0.5px'
               }}>
                 🔌 INTEGRATIONS

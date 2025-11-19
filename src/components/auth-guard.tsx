@@ -18,13 +18,15 @@ export function AuthGuard({ children }: AuthGuardProps) {
       const hasValidToken = tokenService.hasValidToken()
 
       // List of public pages that don't require authentication
-      const publicPaths = ["/", "/auth", "/auth/google/callback", "/terms", "/privacy", "/policy"]
-      const isPublicPage = publicPaths.some(path =>
-        path === "/" ? pathname === "/" : pathname.startsWith(path)
-      )
+    
 
-      if (!hasValidToken && !isPublicPage) {
-        // No valid token and not on public page - redirect to auth
+      // List of protected routes that require authentication
+      const protectedPaths = ["/setup", "/github/callback"]
+      const isProtectedPage = protectedPaths.some(path => pathname.startsWith(path))
+
+      // Only redirect to auth if trying to access a known protected route without authentication
+      if (!hasValidToken && isProtectedPage) {
+        // No valid token and trying to access protected page - redirect to auth
         router.push("/auth")
         return
       }
@@ -37,7 +39,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
         return
       }
 
-      // All checks passed
+      // All checks passed - let Next.js handle unknown routes (404)
       setIsChecking(false)
     }
 
