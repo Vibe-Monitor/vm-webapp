@@ -15,6 +15,7 @@ import { trackInteraction } from '@/lib/posthog-utils';
 export function InteractiveProofOption3() {
   const [stage, setStage] = useState<'channel-view' | 'thread-sent' | 'thread-ack' | 'thread-investigating' | 'thread-complete'>('channel-view');
   const [investigationStep, setInvestigationStep] = useState(0);
+  const [completeSection, setCompleteSection] = useState(0);
 
   const handleClick = () => {
     if (stage === 'channel-view') {
@@ -52,6 +53,7 @@ export function InteractiveProofOption3() {
 
       setStage('channel-view');
       setInvestigationStep(0);
+      setCompleteSection(0);
     }
   };
 
@@ -72,9 +74,29 @@ export function InteractiveProofOption3() {
             total_steps: 8,
             page_section: 'interactive-ai-demo'
           });
-          setTimeout(() => setStage('thread-complete'), 800);
+          setTimeout(() => setStage('thread-complete'), 400);
         }
-      }, 600);
+      }, 450);
+
+      return () => clearInterval(interval);
+    }
+  }, [stage]);
+
+  // Progressive reveal of complete response sections
+  useEffect(() => {
+    if (stage === 'thread-complete') {
+      setCompleteSection(1); // Start at 1 to immediately show the header
+      const sections = [1, 2, 3, 4, 5, 6]; // header, checklist, what's going on, root cause, next steps, prevention
+      let currentSection = 1;
+
+      const interval = setInterval(() => {
+        currentSection++;
+        if (currentSection <= 6) {
+          setCompleteSection(currentSection);
+        } else {
+          clearInterval(interval);
+        }
+      }, 400);
 
       return () => clearInterval(interval);
     }
@@ -155,15 +177,19 @@ export function InteractiveProofOption3() {
             <div
               className="px-5 py-2 rounded-full"
               style={{
-                background: 'rgba(255, 207, 0, 0.1)',
-                border: '1px solid rgba(255, 207, 0, 0.3)',
-                backdropFilter: 'blur(10px)'
+                background: 'linear-gradient(135deg, rgba(255, 207, 0, 0.2) 0%, rgba(255, 149, 0, 0.2) 100%)',
+                border: '1px solid rgba(255, 207, 0, 0.5)',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 0 20px rgba(255, 207, 0, 0.3)'
               }}
             >
-              <span style={{ 
-                fontSize: '14px', 
-                fontWeight: 600, 
-                color: '#FFD11B',
+              <span style={{
+                fontSize: '14px',
+                fontWeight: 700,
+                background: 'linear-gradient(135deg, #FFCF00 0%, #FF9500 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
                 letterSpacing: '0.5px'
               }}>
                 Live in Slack
@@ -171,10 +197,10 @@ export function InteractiveProofOption3() {
             </div>
           </motion.div>
           
-          <h2 
+          <h2
             className="mb-6"
-            style={{ 
-              fontWeight: 700, 
+            style={{
+              fontWeight: 700,
               fontSize: 'clamp(36px, 6vw, 64px)',
               lineHeight: '1.1',
               letterSpacing: '-0.02em',
@@ -183,7 +209,7 @@ export function InteractiveProofOption3() {
           >
             Minutes to root cause.
             <br />
-            <span 
+            <span
               style={{
                 background: 'linear-gradient(135deg, #FFCF00 0%, #FF9500 100%)',
                 WebkitBackgroundClip: 'text',
@@ -250,11 +276,11 @@ export function InteractiveProofOption3() {
               position: 'relative'
             }}>
               {/* Messages Area */}
-              <div style={{ 
-                flex: 1, 
+              <div style={{
+                flex: 1,
                 padding: '24px 32px',
                 overflowY: 'auto',
-                paddingBottom: stage === 'channel-view' ? '100px' : '24px'
+                paddingBottom: stage === 'channel-view' ? '100px' : '120px'
               }}>
                 {/* CHANNEL VIEW: Show initial error alert */}
                 {stage === 'channel-view' && (
@@ -628,13 +654,8 @@ export function InteractiveProofOption3() {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="flex gap-3 relative"
+                        className="flex gap-3"
                       >
-                        {/* Timestamp on left */}
-                        <div style={{ position: 'absolute', left: '-50px', top: '0', fontSize: '12px', color: '#ABABAD', fontWeight: 400 }}>
-                          3:40
-                        </div>
-                        
                         <div className="w-9 h-9 rounded flex items-center justify-center flex-shrink-0" style={{ background: '#1A1D21', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                           <VibemonitorLogo size={24} />
                         </div>
@@ -660,15 +681,29 @@ export function InteractiveProofOption3() {
                           </div>
 
                           {/* Message content */}
-                          <div style={{ fontSize: '15px', color: '#D1D2D3', lineHeight: '1.46668', marginBottom: '8px' }}>
-                            🔍 Got it! I'm analyzing: <strong>"why my users can't create tickets?"</strong>
-                          </div>
-                          <div style={{ fontSize: '15px', color: '#ABABAD', lineHeight: '1.46668', marginBottom: '12px' }}>
-                            This may take a moment while I investigate code, logs and metrics. I'll reply here once I have the analysis ready.
-                          </div>
+                          {(completeSection >= 1) ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <div style={{ fontSize: '15px', color: '#D1D2D3', lineHeight: '1.46668', marginBottom: '8px' }}>
+                                🔍 Got it! I'm analyzing: <strong>"Why can't my users create tickets?"</strong>
+                              </div>
+                              <div style={{ fontSize: '15px', color: '#ABABAD', lineHeight: '1.46668', marginBottom: '12px' }}>
+                                This may take a moment while I investigate code, logs and metrics. I'll reply here once I have the analysis ready.
+                              </div>
+                            </motion.div>
+                          ) : null}
 
                           {/* Investigation checklist */}
-                          <div className="space-y-1 mb-4">
+                          {(completeSection >= 2) ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="space-y-1 mb-4"
+                            >
                             <div className="flex items-start gap-2">
                               <CheckCircle2 className="w-4 h-4 text-[#2BAC76] flex-shrink-0 mt-0.5" />
                               <span style={{ fontSize: '15px', color: '#D1D2D3', lineHeight: '1.46668' }}>
@@ -734,10 +769,17 @@ export function InteractiveProofOption3() {
                                 Investigation complete
                               </span>
                             </div>
-                          </div>
+                            </motion.div>
+                          ) : null}
 
                           {/* What's going on */}
-                          <div style={{ marginBottom: '16px' }}>
+                          {(completeSection >= 3) ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                              style={{ marginBottom: '16px' }}
+                            >
                             <p style={{ fontSize: '15px', fontWeight: 700, color: '#D1D2D3', marginBottom: '4px' }}>
                               What's going on
                             </p>
@@ -751,10 +793,17 @@ export function InteractiveProofOption3() {
                               , confirmed across multiple pods since 01:58 AM{' '}
                               <a href="#" style={{ color: '#1D9BD1', textDecoration: 'none' }}>[1]</a>.
                             </p>
-                          </div>
+                            </motion.div>
+                          ) : null}
 
                           {/* Root cause */}
-                          <div style={{ marginBottom: '16px' }}>
+                          {(completeSection >= 4) ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                              style={{ marginBottom: '16px' }}
+                            >
                             <p style={{ fontSize: '15px', fontWeight: 700, color: '#D1D2D3', marginBottom: '4px' }}>
                               Root cause
                             </p>
@@ -785,10 +834,17 @@ export function InteractiveProofOption3() {
                               {' '}
                               <a href="#" style={{ color: '#1D9BD1', textDecoration: 'none' }}>[3]</a>.
                             </p>
-                          </div>
+                            </motion.div>
+                          ) : null}
 
                           {/* Next steps */}
-                          <div style={{ marginBottom: '16px' }}>
+                          {(completeSection >= 5) ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                              style={{ marginBottom: '16px' }}
+                            >
                             <p style={{ fontSize: '15px', fontWeight: 700, color: '#D1D2D3', marginBottom: '4px' }}>
                               Next steps
                             </p>
@@ -808,10 +864,17 @@ export function InteractiveProofOption3() {
                                 {' '}rate and Desk ticket success SLO for 30 minutes post-deployment.
                               </li>
                             </ul>
-                          </div>
+                            </motion.div>
+                          ) : null}
 
                           {/* Prevention */}
-                          <div>
+                          {(completeSection >= 6) ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                              style={{ marginBottom: '16px' }}
+                            >
                             <p style={{ fontSize: '15px', fontWeight: 700, color: '#D1D2D3', marginBottom: '4px' }}>
                               Prevention
                             </p>
@@ -829,7 +892,62 @@ export function InteractiveProofOption3() {
                                 {' '}between Marketplace ⚡ Auth.
                               </li>
                             </ul>
-                          </div>
+                            </motion.div>
+                          ) : null}
+
+                          {/* CTA Button */}
+                          {(completeSection >= 6) ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: 0.2 }}
+                              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-3 mt-3"
+                              style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
+                            >
+                              <motion.a
+                                href="#"
+                                className="inline-flex items-center justify-center gap-1 sm:gap-1.5 rounded-md sm:rounded-lg flex-1 sm:flex-initial"
+                                style={{
+                                  background: 'linear-gradient(135deg, #FFCF00 0%, #FF9500 100%)',
+                                  color: '#1D1C1D',
+                                  fontWeight: 700,
+                                  fontSize: 'clamp(11px, 2vw, 13px)',
+                                  textDecoration: 'none',
+                                  boxShadow: '0 2px 8px rgba(255, 207, 0, 0.3)',
+                                  padding: 'clamp(6px, 1.5vw, 8px) clamp(12px, 3vw, 16px)'
+                                }}
+                                whileHover={{
+                                  scale: 1.05,
+                                  boxShadow: '0 4px 16px rgba(255, 207, 0, 0.5)'
+                                }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
+                                <span>Try Now</span>
+                              </motion.a>
+                              <motion.button
+                                onClick={handleClick}
+                                className="inline-flex items-center justify-center rounded-md sm:rounded-lg"
+                                style={{
+                                  background: 'transparent',
+                                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                                  color: '#9CA3AF',
+                                  fontWeight: 600,
+                                  fontSize: 'clamp(10px, 2vw, 12px)',
+                                  cursor: 'pointer',
+                                  padding: 'clamp(6px, 1.5vw, 8px) clamp(10px, 2.5vw, 14px)'
+                                }}
+                                whileHover={{
+                                  background: 'rgba(255, 255, 255, 0.05)',
+                                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                                  color: '#D1D2D3'
+                                }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                Reset Demo
+                              </motion.button>
+                            </motion.div>
+                          ) : null}
                         </div>
                       </motion.div>
                     )}
