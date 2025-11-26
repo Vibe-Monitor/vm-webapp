@@ -1140,7 +1140,7 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
                         <div className="flex flex-col items-start gap-4 sm:gap-[22px]">
                           {/* Description */}
                           <p className="text-xs sm:text-sm leading-5 tracking-[-0.150391px] text-[#9AA3B0]">
-                            Monitor AWS infrastructure logs and metrics from CloudWatch with X-Ray traces for comprehensive visibility into your cloud applications.
+                            Monitor AWS infrastructure logs and metrics from CloudWatch for comprehensive visibility into your cloud applications.
                           </p> 
 
                           {/* Show connected status or input fields */}
@@ -1280,7 +1280,7 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
                                       </p>
                                       <div className="w-full mt-2 p-2 rounded bg-[rgba(27,41,61,0.5)] border border-[#2F4257]">
                                         <code className="text-xs text-[#FFD11B] font-mono break-all">
-                                          &quot;AWS&quot;: &quot;arn:aws:iam::961341549304:user/akshat__30&quot;
+                                          &quot;AWS&quot;: &quot;arn:aws:iam::337502598894:role/ecsAppTaskRole&quot;
                                         </code>
                                       </div>
                                     </div>
@@ -1298,7 +1298,7 @@ export function OnboardingPage({ onComplete, userName = "Komal Bains" }: Onboard
                                         Attach Permissions
                                       </h5>
                                       <p className="text-xs leading-4 text-[#9AA3B0]">
-                                        Add these AWS managed policies: <strong>CloudWatchReadOnlyAccess</strong> and <strong>AWSXrayReadOnlyAccess</strong> → These provide read access to CloudWatch logs/metrics and X-Ray traces.
+                                        Add this AWS managed policy: <strong>CloudWatchReadOnlyAccess</strong> → This provides read access to CloudWatch logs and metrics.
                                       </p>
                                     </div>
                                   </div>
