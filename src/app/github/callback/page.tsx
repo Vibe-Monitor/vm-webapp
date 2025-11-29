@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import posthog from 'posthog-js'
-import { apiService } from '@/services/apiService'
+import { api } from '@/services/api/apiFactory'
 import Loader from '@/components/ui/loader'
 
 export default function GithubCallbackPage() {
@@ -50,7 +50,7 @@ export default function GithubCallbackPage() {
 
         setStatus('Finalizing GitHub integration...')
 
-        const response = await apiService.handleGithubCallback({
+        const response = await api.github.handleCallback({
           installation_id,
           setup_action,
           ...(state && { state })
