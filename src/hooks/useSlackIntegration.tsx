@@ -17,7 +17,7 @@ export function useSlackIntegration(workspaceId: string | undefined) {
       if (data?.connected) {
         setConnected(true);
         if (data.data?.team_name) {
-          setTeamName(data.data.team_name);
+                    setTeamName(data.data.team_name);
         }
       } else {
         setConnected(false);

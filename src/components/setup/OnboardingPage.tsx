@@ -6,7 +6,7 @@ import posthog from "posthog-js";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
+import { Badge } from "../ui/badge"; 
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 import { api } from "@/services/api/apiFactory";
@@ -26,7 +26,7 @@ interface OnboardingPageProps {
   userName?: string;
 }
 
-export function OnboardingPage({ onComplete, userName = "Komal Bains" }: OnboardingPageProps) {
+export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProps) {
   const searchParams = useSearchParams();
   const [workspaceName, setWorkspaceName] = useState("");
   const dispatch = useAppDispatch();
