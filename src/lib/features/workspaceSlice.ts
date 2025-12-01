@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { apiService } from '@/services/apiService'
+import { api } from '@/services/api/apiFactory'
 import { errorHandler } from '@/lib/errorHandler'
 
 export interface Workspace {
@@ -33,7 +33,7 @@ export const fetchWorkspaces = createAsyncThunk(
   'workspace/fetchWorkspaces',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await apiService.getWorkspaces()
+      const response = await api.workspace.getAll()
       if (response.status === 200 && response.data) {
         return response.data
       } else if (response.status === 401) {
@@ -63,7 +63,7 @@ export const createWorkspace = createAsyncThunk(
   'workspace/createWorkspace',
   async (workspaceData: { name: string }, { rejectWithValue }) => {
     try {
-      const response = await apiService.createWorkspace(workspaceData)
+      const response = await api.workspace.create(workspaceData)
       console.log('Workspace creation response:', { status: response.status, data: response.data, error: response.error })
 
       if ((response.status === 200 || response.status === 201) && response.data) {
@@ -93,7 +93,7 @@ export const fetchWorkspaceById = createAsyncThunk(
   'workspace/fetchWorkspaceById',
   async (workspaceId: string, { rejectWithValue }) => {
     try {
-      const response = await apiService.getWorkspaceById(workspaceId)
+      const response = await api.workspace.getById(workspaceId)
       if (response.status === 200 && response.data) {
         return response.data
       } else if (response.status === 401) {

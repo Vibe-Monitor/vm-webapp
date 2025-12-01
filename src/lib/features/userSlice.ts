@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { apiService } from '@/services/apiService'
+import { api } from '@/services/api/apiFactory'
 import { errorHandler } from '@/lib/errorHandler'
 
 // Define the user interface based on your API response
@@ -27,7 +27,7 @@ export const fetchUserProfile = createAsyncThunk(
   'user/fetchProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await apiService.get<User>('/api/v1/auth/me')
+      const response = await api.user.getProfile()
       if (response.status === 200 && response.data) {
         return response.data
       } else if (response.status === 401) {

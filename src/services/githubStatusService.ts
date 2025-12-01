@@ -1,4 +1,4 @@
-import { apiService } from '@/services/apiService'
+import { api } from '@/services/api/apiFactory'
 
 export interface GitHubIntegrationStatus {
   connected: boolean
@@ -75,7 +75,7 @@ export const checkGitHubStatusWithService = async (workspaceId: string): Promise
   error?: string
 }> => {
   try {
-    const response = await apiService.getGithubStatus(workspaceId)
+    const response = await api.github.getStatus(workspaceId)
     
     if (response.status !== 200 || !response.data) {
       throw new Error(response.error || 'Failed to get GitHub status')
