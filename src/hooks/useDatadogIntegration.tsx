@@ -161,7 +161,7 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
                 Create API Key
               </h5>
               <p className="text-xs leading-4 text-[#9AA3B0]">
-                Go to Organization Settings → API Keys → Create New Key (example name: RCA_BOT_API_KEY)
+                Go to Organization Settings → API Keys → Create New Key (example name: Vibe_API_KEY)
               </p>
             </div>
           </div>
@@ -178,7 +178,7 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
                 Create Application Key
               </h5>
               <p className="text-xs leading-4 text-[#9AA3B0]">
-                Go to Organization Settings → Application Keys → Create New Application Key (example name: RCA_BOT_APP_KEY)
+                Go to Organization Settings → Application Keys → Create New Application Key (example name: Vibe_APP_KEY)
               </p>
               <p className="text-xs leading-4 text-yellow-400 mt-1">
                 ⚠️ Do NOT create under Personal Settings - it won&apos;t work!
@@ -198,7 +198,7 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
                 Assign Permissions
               </h5>
               <p className="text-xs leading-4 text-[#9AA3B0]">
-                Grant READ-ONLY permissions: <strong>logs_read_data, logs_read_index_data, logs_live_tail, metrics_read, timeseries_query, apm_read, events_read</strong>
+                Grant READ-ONLY permissions: <strong>logs_read_data, logs_read_index_data, logs_live_tail, metrics_read, timeseries_query, events_read</strong>
               </p>
             </div>
           </div>
@@ -225,7 +225,7 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
   );
 
   const config: Omit<IntegrationConfig, 'title' | 'icon'> = {
-    description: "Monitor logs, metrics, and APM data from Datadog for comprehensive observability into your applications.",
+    description: "Monitor logs and metrics from Datadog for comprehensive observability into your applications.",
     connected,
     loading,
     fields: connected ? [] : [

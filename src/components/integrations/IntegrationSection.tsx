@@ -67,6 +67,11 @@ export function IntegrationSection({
                       <label className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
                         {field.label}
                       </label>
+                      {field.description && (
+                        <p className="text-xs leading-4 text-[#9AA3B0] -mt-1">
+                          {field.description}
+                        </p>
+                      )}
                       <Input
                         type={field.type || "text"}
                         value={field.value}
