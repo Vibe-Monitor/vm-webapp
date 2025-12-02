@@ -146,7 +146,7 @@ export function useAwsIntegration(workspaceId: string | undefined) {
       "Action": "sts:AssumeRole",
       "Condition": {
         "StringEquals": {
-          "sts:ExternalId": "vibemonitor"
+          "sts:ExternalId": "${externalId}"
         }
       }
     }
@@ -213,7 +213,7 @@ export function useAwsIntegration(workspaceId: string | undefined) {
       "Action": "sts:AssumeRole",
       "Condition": {
         "StringEquals": {
-          "sts:ExternalId": "vibemonitor"
+          "sts:ExternalId": "${externalId}"
         }
       }
     }
@@ -233,8 +233,8 @@ export function useAwsIntegration(workspaceId: string | undefined) {
                   )}
                 </button>
               </div>
-              <p className="text-xs leading-4 text-yellow-400 mt-2">
-                ⚠️ You can change the &quot;sts:ExternalId&quot; value to your own custom external ID if needed.
+              <p className="text-xs leading-4 text-blue-400 mt-2">
+                💡 The External ID shown above updates automatically as you type in the &quot;External ID&quot; field below.
               </p>
             </div>
           </div>
@@ -328,7 +328,8 @@ export function useAwsIntegration(workspaceId: string | undefined) {
         value: externalId,
         onChange: setExternalId,
         placeholder: "vibemonitor (or your custom external ID)",
-        type: "text"
+        type: "text",
+        description: "A unique identifier for additional security. You can change this to your preference - it updates the trust policy below in real-time."
       },
       {
         label: "AWS Region (Optional)",

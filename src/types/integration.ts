@@ -6,6 +6,7 @@ export interface IntegrationField {
   onChange: (value: string) => void;
   placeholder: string;
   type?: "text" | "password";
+  description?: string;
 }
 
 export interface IntegrationConfig {
