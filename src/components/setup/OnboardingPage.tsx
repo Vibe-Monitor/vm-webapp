@@ -43,7 +43,7 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
   // Set up status polling for all integrations
   useIntegrationStatusPoller({
     workspaceId: currentWorkspace?.id,
-    integrations: { slack, github, grafana, aws }
+    integrations: { slack, github, grafana, aws, datadog, newrelic }
   });
 
   // Fetch workspace name on mount

@@ -11,6 +11,8 @@ interface UseIntegrationStatusPollerProps {
     github?: IntegrationPoller;
     grafana?: IntegrationPoller;
     aws?: IntegrationPoller;
+    datadog?: IntegrationPoller;
+    newrelic?: IntegrationPoller;
   };
   pollingInterval?: number;
 }
