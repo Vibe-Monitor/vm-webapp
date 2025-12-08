@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { api } from '@/services/api/apiFactory'
 import { errorHandler } from '@/lib/errorHandler'
+import { tokenService } from '@/services/tokenService'
+import { CookieUtils } from '@/utils/cookieUtils'
 
 // Define the user interface based on your API response
 export interface User {
@@ -51,6 +53,30 @@ export const fetchUserProfile = createAsyncThunk(
         customMessage: 'Network error while loading profile. Please check your connection.'
       })
       return rejectWithValue(errorMessage)
+    }
+  }
+)
+
+// Async thunk to logout user
+export const logoutUser = createAsyncThunk(
+  'user/logout',
+  async (_, { dispatch }) => {
+    try {
+      // Call the logout API endpoint
+      await api.user.logout()
+    } catch (error) {
+      // Even if API call fails, we still clear local state
+      console.error('Logout API call failed:', error)
+    } finally {
+      // Clear all authentication data
+      tokenService.clearTokens()
+      CookieUtils.clearRefreshToken()
+
+      // Clear user state
+      dispatch(clearUser())
+
+      // Note: We'll also need to clear workspace state from the component
+      // that calls this action
     }
   }
 )

@@ -16,6 +16,7 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
 import { BackButton } from "../ui/BackButton";
+import { LogoutButton } from "../ui/LogoutButton";
 
 interface LandingPageProps {
   onLaunchClick: () => void;
@@ -108,6 +109,9 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
 
       {/* Back Button */}
       <BackButton />
+
+      {/* Logout Button */}
+      <LogoutButton />
 
       {/* Main Card Container */}
       <motion.div
