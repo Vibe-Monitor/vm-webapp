@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, Sparkles } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export function InteractivePlaygroundSection() {
   const [input, setInput] = useState('');

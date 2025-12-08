@@ -30,7 +30,7 @@ export const newrelicService = {
     try {
       const response = await api.newrelic.getStatus(workspaceId);
       return response.data || { is_connected: false };
-    } catch (error) {
+    } catch {
       return { is_connected: false };
     }
   },

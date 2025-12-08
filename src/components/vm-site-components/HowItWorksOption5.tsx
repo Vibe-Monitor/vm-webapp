@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Plug, Activity, Brain, Bell, Search, Sparkles, ArrowRight } from 'lucide-react';
+import { Plug, Activity, Brain, Bell, Search, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
 // Option 5: Animated Journey Path

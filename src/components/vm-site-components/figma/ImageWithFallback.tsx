@@ -20,12 +20,12 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
     >
       <div className="flex items-center justify-center w-full h-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={src} />
+        <img src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={typeof src === 'string' ? src : ''} />
       </div>
     </div>
   ) : (
     <Image
-      src={src || ''}
+      src={(typeof src === 'string' ? src : '') || ''}
       alt={alt || ''}
       className={className}
       style={style}
@@ -33,7 +33,7 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
       height={typeof height === 'number' ? height : 0}
       onError={handleError}
       unoptimized
-      {...rest as any}
+      {...(rest as Record<string, unknown>)}
     />
   )
 }

@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 export function HowItWorksOption1() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
-  const [progress, setProgress] = useState(0);
 
   const steps = [
     {
@@ -125,7 +124,6 @@ export function HowItWorksOption1() {
               whileInView={{ width: '100%' }}
               viewport={{ once: true }}
               transition={{ duration: 2, ease: 'easeInOut' }}
-              onUpdate={(latest: any) => setProgress(latest.width)}
             />
           </div>
 

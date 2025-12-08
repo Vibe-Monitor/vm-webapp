@@ -86,7 +86,6 @@ export function InteractiveProofOption3() {
   useEffect(() => {
     if (stage === 'thread-complete') {
       setCompleteSection(1); // Start at 1 to immediately show the header
-      const sections = [1, 2, 3, 4, 5, 6]; // header, checklist, what's going on, root cause, next steps, prevention
       let currentSection = 1;
 
       const interval = setInterval(() => {

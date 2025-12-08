@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Plug, Activity, Brain, Bell, Search, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Plug, Activity, Brain, Bell, Search, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 
 export function HowItWorksMinimalSection() {
