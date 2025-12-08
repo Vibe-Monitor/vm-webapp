@@ -1,15 +1,11 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import { GitCommit, Zap, CheckCircle2 } from 'lucide-react';
 import { useRef } from 'react';
 
 export function FluidWorkflowSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
 
   const cards = [
     {
@@ -102,9 +98,6 @@ export function FluidWorkflowSection() {
       ),
     },
   ];
-
-  // Particle trail effect
-  const particleY = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
     <section ref={containerRef} className="py-32 px-8 relative">

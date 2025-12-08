@@ -24,7 +24,7 @@ export const awsService = {
         return { connected: true, data: response.data };
       }
       return { connected: false };
-    } catch (error) {
+    } catch {
       return { connected: false };
     }
   },

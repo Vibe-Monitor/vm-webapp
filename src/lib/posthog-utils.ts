@@ -4,7 +4,7 @@ import posthog from 'posthog-js';
  * Increment session interaction counter
  * Call this whenever a user interacts with the page
  */
-export function trackInteraction(interactionType: string, properties?: Record<string, any>) {
+export function trackInteraction(interactionType: string, properties?: Record<string, string | number | boolean>) {
   if (typeof window === 'undefined') return;
 
   // Increment interaction counter

@@ -11,4 +11,8 @@ export class UserClient {
   }>> {
     return this.baseClient.get('/api/v1/auth/me');
   }
+  async logout(): Promise<ApiResponse<null>>{
+    return this.baseClient.post('/api/v1/auth/logout', {});
+  }
 }
+  

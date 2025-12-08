@@ -122,7 +122,7 @@ function PostHogPageView(): null {
       sessionStorage.setItem('session_start_time', Date.now().toString())
       sessionStorage.setItem('session_interactions', '0')
     }
-  }, []) // Only run once on mount
+  }, [searchParams]) // Dependency added
 
   // Enhanced pageview tracking
   useEffect(() => {
@@ -139,7 +139,7 @@ function PostHogPageView(): null {
       const personaHint = searchParams.get('persona') || searchParams.get('role')
 
       // Build enriched pageview properties
-      const pageviewProps: Record<string, any> = {
+      const pageviewProps: Record<string, string | number | boolean> = {
         $current_url: url,
         device_type: getDeviceType()
       }
@@ -289,16 +289,12 @@ function PostHogPageView(): null {
 
   // Track page visibility changes (tab switching)
   useEffect(() => {
-    let hiddenTime = 0
     let lastHiddenTimestamp = 0
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
         lastHiddenTimestamp = Date.now()
       } else {
-        if (lastHiddenTimestamp > 0) {
-          hiddenTime += Date.now() - lastHiddenTimestamp
-        }
         posthog.capture('tab_focus_returned', {
           time_away_seconds: Math.floor((Date.now() - lastHiddenTimestamp) / 1000)
         })

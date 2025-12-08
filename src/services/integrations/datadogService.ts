@@ -31,7 +31,7 @@ export const datadogService = {
     try {
       const response = await api.datadog.getStatus(workspaceId);
       return response.data || { is_connected: false };
-    } catch (error) {
+    } catch {
       return { is_connected: false };
     }
   },

@@ -13,7 +13,9 @@ import { api } from "@/services/api/apiFactory";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { setCurrentWorkspace } from "@/lib/features/workspaceSlice";
 import { BackButton } from "../ui/BackButton";
+import { LogoutButton } from "../ui/LogoutButton";
 import { IntegrationSection } from "../integrations/IntegrationSection";
+import Loader from "../ui/loader";
 import { useSlackIntegration } from "@/hooks/useSlackIntegration";
 import { useGithubIntegration } from "@/hooks/useGithubIntegration";
 import { useGrafanaIntegration } from "@/hooks/useGrafanaIntegration";
@@ -41,9 +43,9 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
   const newrelic = useNewRelicIntegration(currentWorkspace?.id);
 
   // Set up status polling for all integrations
-  useIntegrationStatusPoller({
+  const { isLoading: isLoadingStatuses } = useIntegrationStatusPoller({
     workspaceId: currentWorkspace?.id,
-    integrations: { slack, github, grafana, aws }
+    integrations: { slack, github, grafana, aws, datadog, newrelic }
   });
 
   // Fetch workspace name on mount
@@ -178,9 +180,16 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
     }
   };
 
+  // Show loader while fetching workspace or integration statuses
+  // Wait for workspace to load first, then wait for statuses
+  if (!currentWorkspace || isLoadingStatuses) {
+    return <Loader message="Loading workspace and integration statuses..." />;
+  }
+
   return (
     <main className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 lg:p-8 relative">
       <BackButton />
+      <LogoutButton />
 
       <Card className="w-full max-w-[794px] p-6 sm:p-10 lg:p-[50px] bg-[rgba(27,41,61,0.1)] border-[#2F4257] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-xl mt-16 sm:mt-0">
         <CardContent className="p-0 flex flex-col items-center">

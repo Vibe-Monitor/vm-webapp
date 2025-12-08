@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, Sparkles, Clock, CheckCircle2 } from 'lucide-react';
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import posthog from 'posthog-js';
 import { trackInteraction } from '@/lib/posthog-utils';
 import { useRouter } from 'next/navigation';
@@ -25,7 +25,6 @@ const STARS = generateStars();
 
 export function FinalCTAOption4() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
   const { scrollYProgress } = useScroll({
@@ -35,10 +34,6 @@ export function FinalCTAOption4() {
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

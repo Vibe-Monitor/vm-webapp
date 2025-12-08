@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Copy, Check, ChevronDown, Lightbulb, ExternalLink, Tag, Star, Search, Brain, Clock, Gift, Hand } from "lucide-react";
 import { toast } from "sonner";
