@@ -3,6 +3,7 @@
 import posthog from 'posthog-js'
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { api } from "@/services/api/apiFactory"
 
 interface GoogleSignInButtonProps {
   onError?: (error: string | Error) => void
@@ -23,7 +24,6 @@ export default function GoogleSignInButton({
     setIsLoading(true)
 
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
       const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
       const redirectUri = `${frontendUrl}/auth/google/callback`
 
@@ -33,12 +33,7 @@ export default function GoogleSignInButton({
         source: 'auth_page'
       })
 
-      const params = new URLSearchParams({
-        redirect_uri: redirectUri,
-        code_challenge_method: 'S256'
-      })
-
-      const backendAuthUrl = `${backendUrl}/api/v1/auth/login?${params.toString()}`
+      const backendAuthUrl = api.googleAuth.getLoginUrl(redirectUri)
 
       console.log('OAuth redirect_uri:', redirectUri)
 
@@ -55,23 +50,21 @@ export default function GoogleSignInButton({
     <Button
       type="button"
       variant="ghost"
-      className={`w-full hover:brightness-110 transition-colors ${className}`}
+      className={`w-full hover:brightness-110 transition-colors h-9 text-sm ${className}`}
       onClick={handleGoogleSignIn}
       disabled={disabled || isLoading}
       style={{
         backgroundColor: '#6366F1',
         color: 'var(--color-text-primary)',
-        height: '44px',
-        fontSize: 'var(--text-base)',
         fontWeight: 'var(--font-medium)',
         border: 'none'
       }}
     >
-      
+
       {isLoading ? (
-        <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+        <div className="mr-2 h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
       ) : (
-        <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+        <svg className="mr-2 h-3.5 w-3.5" viewBox="0 0 24 24">
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
             fill="#4285F4"
