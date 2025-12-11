@@ -2,10 +2,23 @@ import "./globals.css";
 import StoreProvider from './StoreProvider';
 import { AuthGuard } from '@/components/auth-guard';
 import { PostHogProvider } from '@/components/vm-site-components/PostHog/PostHogProvider';
+import type { Metadata, Viewport } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Vibe Monitor',
+  description: 'Monitor and debug your applications',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
 
 export default function RootLayout({
   children,
-  
+
 }: Readonly<{
   children: React.ReactNode;
 }>) {
