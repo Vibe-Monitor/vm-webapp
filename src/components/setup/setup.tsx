@@ -215,9 +215,9 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
                         color: 'var(--color-text-primary)'
                       }}
                     >
-                      Tag @Vibe Monitor in Slack:
+                      Tag @VibeMonitor in Slack:
                     </span>
-                    <CodeBlock code="@Vibe Monitor debug runtime error in v2.1" index="start-1" />
+                    <CodeBlock code="@VibeMonitor debug runtime error in v2.1" index="start-1" />
                     <span
                       className="text-sm sm:text-base"
                       style={{
@@ -247,7 +247,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
                     >
                       Add details:
                     </span>
-                    <CodeBlock code="@Vibe Monitor check logs after 10/16 deploy" index="context-1" />
+                    <CodeBlock code="@Vibemonitor check logs after 10/16 deploy" index="context-1" />
                     <span
                       className="text-sm sm:text-base"
                       style={{
@@ -318,7 +318,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
                       >
                         Ask
                       </span>
-                      <CodeBlock code="@Vibe Monitor explain API rate limits" index="bonus-1" />
+                      <CodeBlock code="@Vibemonitor explain API rate limits" index="bonus-1" />
                     </div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
@@ -332,7 +332,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
                       >
                         or
                       </span>
-                      <CodeBlock code="@Vibe Monitor optimise this SQL query" index="bonus-2" />
+                      <CodeBlock code="@Vibemonitor optimise this SQL query" index="bonus-2" />
                     </div>
                   </div>
                 </div>

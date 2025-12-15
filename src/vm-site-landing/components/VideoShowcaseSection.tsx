@@ -420,7 +420,7 @@ export function VideoShowcaseSection() {
                           <span style={{ color: '#616061', fontSize: '12px', fontWeight: 400 }}>3:42 PM</span>
                         </p>
                         <p style={{ fontSize: '15px', color: '#1D1C1D', lineHeight: '1.5' }}>
-                          Hey <span style={{ color: '#1264A3', fontWeight: 600 }}>@vibemonitor-bot</span>, why are my customers facing issues creating/viewing tickets?
+                          Hey <span style={{ color: '#1264A3', fontWeight: 600 }}>@Vibemonitor</span>, why are my customers facing issues creating/viewing tickets?
                         </p>
                       </div>
                     </motion.div>
@@ -918,7 +918,7 @@ export function VideoShowcaseSection() {
                         </div>
                         <div className="flex-1">
                           <p style={{ fontSize: '13px', color: '#1D1C1D', lineHeight: '1.5' }}>
-                            Hey <span style={{ color: '#1264A3', fontWeight: 600 }}>@vibemonitor-bot</span>, why are my customers facing issues creating/viewing tickets?
+                            Hey <span style={{ color: '#1264A3', fontWeight: 600 }}>@Vibemonitor</span>, why are my customers facing issues creating/viewing tickets?
                           </p>
                         </div>
                       </div>
