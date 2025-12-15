@@ -1,34 +1,11 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { ArrowRight, Play, Zap, Shield, Clock } from 'lucide-react';
+import { Play, Zap } from 'lucide-react';
 import { useState } from 'react';
-import posthog from 'posthog-js';
-import { trackInteraction } from '@/lib/posthog-utils';
-import { useRouter } from 'next/navigation';
 
 export function FinalCTAWithVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const router = useRouter();
-
-  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
-    trackInteraction('final_cta_clicked', {
-      button_text: 'Get Started Free',
-      destination: '/auth'
-    });
-
-    posthog.capture('final_cta_button_clicked', {
-      button_text: 'Get Started Free',
-      page_section: 'final_cta_video',
-      destination: '/auth'
-    });
-
-    setTimeout(() => {
-      router.push('/auth');
-    }, 150);
-  };
 
   return (
     <div

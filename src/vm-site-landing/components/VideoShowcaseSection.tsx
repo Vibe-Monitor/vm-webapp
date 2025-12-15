@@ -472,8 +472,8 @@ export function VideoShowcaseSection() {
                             {/* Acknowledgment */}
                             <div className="mb-3">
                               <p style={{ fontSize: '15px', color: '#1D1C1D', lineHeight: '1.5', marginBottom: '6px' }}>
-                                🔍 <strong>Got it! I'm analyzing:</strong>{' '}
-                                <span style={{ fontStyle: 'italic', color: '#616061' }}>"why are customers unable to create/view tickets"</span>
+                                🔍 <strong>Got it! I&apos;m analyzing:</strong>{' '}
+                                <span style={{ fontStyle: 'italic', color: '#616061' }}>&quot;why are customers unable to create/view tickets&quot;</span>
                               </p>
                               <p style={{ fontSize: '13px', color: '#616061', lineHeight: '1.5' }}>
                                 This may take a moment while I investigate code, logs, and metrics.
@@ -619,10 +619,10 @@ export function VideoShowcaseSection() {
                               transition={{ duration: 0.3 }}
                             >
                               <div style={{ fontSize: '15px', color: '#1D1C1D', lineHeight: '1.46668', marginBottom: '8px' }}>
-                                🔍 Got it! I'm analyzing: <strong>"Why can't my users create tickets?"</strong>
+                                🔍 Got it! I&apos;m analyzing: <strong>&quot;Why can&apos;t my users create tickets?&quot;</strong>
                               </div>
                               <div style={{ fontSize: '15px', color: '#616061', lineHeight: '1.46668', marginBottom: '12px' }}>
-                                This may take a moment while I investigate code, logs and metrics. I'll reply here once I have the analysis ready.
+                                This may take a moment while I investigate code, logs and metrics. I&apos;ll reply here once I have the analysis ready.
                               </div>
                             </motion.div>
                           ) : null}
@@ -712,7 +712,7 @@ export function VideoShowcaseSection() {
                               style={{ marginBottom: '16px' }}
                             >
                             <p style={{ fontSize: '15px', fontWeight: 700, color: '#1D1C1D', marginBottom: '4px' }}>
-                              What's going on
+                              What&apos;s going on
                             </p>
                             <p style={{ fontSize: '15px', color: '#1D1C1D', lineHeight: '1.46668' }}>
                               Users are unable to create/view tickets in Desk. Requests from{' '}
@@ -992,7 +992,7 @@ export function VideoShowcaseSection() {
                             }}
                           >
                             <p style={{ fontSize: '13px', color: '#616061', lineHeight: '1.5', fontStyle: 'italic' }}>
-                              "Can you show me the exact code change that caused this?"
+                              &quot;Can you show me the exact code change that caused this?&quot;
                             </p>
                           </div>
                         </div>

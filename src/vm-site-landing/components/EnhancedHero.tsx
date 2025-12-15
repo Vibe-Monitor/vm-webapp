@@ -1,15 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { heroDetails } from '@/vm-site-landing/data/hero';
 import '@/vm-site-landing/types/global';
 
 const EnhancedHero: React.FC = () => {
-    const [isClient, setIsClient] = useState(false);
-
     useEffect(() => {
-        setIsClient(true);
         
         // Function to load Tally forms
         const loadTallyForms = () => {

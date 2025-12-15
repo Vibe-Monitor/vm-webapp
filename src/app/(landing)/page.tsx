@@ -1,9 +1,6 @@
 'use client';
 
 import EnhancedHero from "@/vm-site-landing/components/EnhancedHero";
-import OutcomeSection from "@/vm-site-landing/components/OutcomeSection";
-import BenefitSection from "@/vm-site-landing/components/Benefits/BenefitSection";
-import FounderNote from "@/vm-site-landing/components/FounderNote";
 import FullScreenScroll from "@/vm-site-landing/components/FullScreenScroll";
 import { benefits } from "@/vm-site-landing/data/benefits";
 import { FinalCTAWithVideo } from "@/vm-site-landing/components/FinalCTAWithVideo";
