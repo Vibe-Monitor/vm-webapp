@@ -159,20 +159,20 @@ export function useAwsIntegration(workspaceId: string | undefined) {
   };
 
   const statusComponent = connected && roleArn ? (
-    <div className="w-full p-3 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+    <div className="w-full p-3 rounded-md border border-emerald-600/40 bg-emerald-500/10">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-          <span className="text-sm font-semibold text-emerald-400">AWS CloudWatch Connected</span>
+          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+          <span className="text-sm font-semibold text-emerald-600">AWS CloudWatch Connected</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-[#9AA3B0]">Role ARN:</span>
-          <span className="text-sm text-[#E5E7EB] font-mono break-all">{roleArn}</span>
+          <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Role ARN:</span>
+          <span className="text-sm break-all" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{roleArn}</span>
         </div>
         {region && (
           <div className="flex flex-col gap-1">
-            <span className="text-xs text-[#9AA3B0]">Region:</span>
-            <span className="text-sm text-[#E5E7EB]">{region}</span>
+            <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Region:</span>
+            <span className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{region}</span>
           </div>
         )}
       </div>

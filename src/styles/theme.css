@@ -1,42 +1,45 @@
 :root {
-  /* Colors - Brand */
-  --color-brand: #3b82f6;
-  --color-brand-light: #60a5fa;
-  --color-brand-dark: #2563eb;
-  --color-accent: #fbbf24;
-  --color-accent-light: #fcd34d;
-  --color-accent-dark: #f59e0b;
+  /* Colors - Brand (Landing Page Theme) */
+  --color-brand: #FED835;
+  --color-brand-light: #FEE168;
+  --color-brand-dark: #E5C230;
+  --color-accent: #FED835;
+  --color-accent-light: #FEE168;
+  --color-accent-dark: #E5C230;
 
-  --color-blue-line: #3F5ECC;
-  /* Colors - Purple Theme */
-  --color-purple-primary: #3F5ECC;
-  --color-purple-light: #a78bfa;
-  --color-purple-dark: #7c3aed;
-  --color-purple-muted: #6d28d9;
-  --color-purple-surface: #1e1b2e;
-  --color-purple-surface-light: #2d2438;
-  --color-purple-border: #4c1d95;
+  --color-blue-line: #3B82F6;
+  /* Colors - Contextual */
+  --color-analytical: #3B82F6;
+  --color-integration: #10B981;
+  --color-tools: #F59E0B;
+  --color-linkedin: #0077B5;
+  --color-cta: #171717;
 
-  /* Colors - Neutral - Dark Theme */
-  --color-background: #111827;
-  --color-background-secondary: #1e293b;
-  --color-background-tertiary: #334155;
+  /* Colors - Neutral - Dark Theme (Dashboard only - NOT used in .theme-light pages) */
+  /* Variables below are COMMENTED OUT to avoid conflicts with .theme-light */
+  /* Use .theme-light colors for Auth, Landing, Setup pages */
+
+  /* --color-background: #111827; */
+  /* --color-background-secondary: #1e293b; */
+  /* --color-background-tertiary: #334155; */
   --color-background-subtle: rgba(255, 255, 255, 0.02);
   --color-background-dropdown: #0d0c0c;
   --color-background-hover: #1a1a1a;
-  --color-surface: #1e293b;
-  --color-surface-secondary: #334155;
-  --color-border: #475569;
-  --color-border-light: #334155;
+  /* --color-surface: #1e293b; */
+  /* --color-surface-secondary: #334155; */
+  /* --color-border: #475569; */
+  /* --color-border-light: #334155; */
   --color-border-dark: #64748b;
   --color-border-subtle: rgba(156, 163, 175, 0.2);
 
-  /* Colors - Text - Dark Theme */
-  --color-text-primary: #E5E7EB;
-  --color-text-secondary: #cbd5e1;
-  --color-text-tertiary: #9CA3AF;
+  /* Colors - Text - Dark Theme (Dashboard only - NOT used in .theme-light pages) */
+  /* Variables below are COMMENTED OUT to avoid conflicts with .theme-light */
+
+  /* --color-text-primary: #E5E7EB; */
+  /* --color-text-secondary: #cbd5e1; */
+  /* --color-text-tertiary: #9CA3AF; */
   --color-text-inverse: #0f172a;
-  --color-text-brand: #1769ed;  
+  /* --color-text-brand: #1769ed; */
   --color-text-dark-brand: #054cbf;  
 
   /* Colors - Status */
@@ -131,43 +134,75 @@
   --container-2xl: 1536px;
 }
 
-/* Base styles for dark theme */
+/* Base styles - Default (Dashboard/App uses dark theme values from .theme-light override) */
 html {
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
-}
-
-body {
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
   font-family: var(--font-sans);
   line-height: var(--leading-normal);
 }
 
-/* Custom scrollbar styles for dark theme */
+body {
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal);
+}
+
+/* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-surface);
+  background: transparent;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border-dark);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-border) var(--color-surface);
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
+/* Light Theme for Auth & Landing Pages */
+.theme-light {
+  /* Background Colors */
+  --color-background: #ffffff;
+  --color-background-secondary: #F3F3F5;
+  --color-background-tertiary: #E5E7EB;
+  --color-surface: #ffffff;
+  --color-surface-secondary: #F9FAFB;
+
+  /* Border Colors */
+  --color-border: #E5E7EB;
+  --color-border-light: #D1D5DB;
+
+  /* Text Colors */
+  --color-text-primary: #171717;
+  --color-text-secondary: #454545;
+  --color-text-tertiary: #6B7280;
+  --color-text-brand: #171717;
+
+  /* Brand/Accent Colors */
+  --color-primary: #FED835;
+  --color-primary-hover: #E5C230;
+  --color-button-dark: #171717;
+  --color-button-dark-hover: #333333;
+  --color-button-blue: #3B82F6;
+  --color-button-blue-hover: #2563EB;
+  --color-logo-blue: #0A2540;
+  --color-logo-gray: #4A5568;
+
+  /* Shadows */
+  --shadow-card: 0 20px 60px -15px rgba(0, 0, 0, 0.1);
+  --shadow-button: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-button-hover: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
 

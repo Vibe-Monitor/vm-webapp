@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import Image from 'next/image'
 import posthog from 'posthog-js'
 import GoogleSignInButton from './GoogleSignInButton'
 
@@ -22,105 +23,70 @@ export default function Auth() {
 
   return (
     <div
-      className="w-full max-w-[520px] px-6 py-8 sm:px-12 sm:py-10 mx-4"
+      className="w-full max-w-[420px] px-8 py-10 mx-4"
       style={{
-        backgroundColor: '#121A29',
-        border: '1px solid var(--color-border-light)',
-        borderRadius: 'var(--radius-12)',
-        boxShadow: '0 0 50px -12px rgba(0, 0, 0, 0.25)'
+        backgroundColor: 'var(--color-surface)',
+        borderRadius: '20px',
+        boxShadow: '0 4px 40px rgba(0, 0, 0, 0.08)'
       }}
     >
-      {/* Header Section */}
-      <div className="text-center mb-6 sm:mb-8">
-        <h1
-          className="mb-2 sm:mb-3 text-2xl sm:text-3xl"
-          style={{
-            color: 'var(--color-text-primary)',
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 'var(--font-leight)',
-            lineHeight: 'var(--leading-tight)'
-          }}
-        >
-          Join Vibemonitor.ai
-        </h1>
+      {/* Logo */}
+      <div className="flex justify-center">
+        <Image
+          src="/images/VibeMonitor1.png"
+          alt="VibeMonitor"
+          width={80}
+          height={80}
+          className="object-contain"
+        />
+      </div>
 
-        <p
-          className="text-sm sm:text-base px-2 sm:px-0"
-          style={{
-            color: 'var(--color-text-tertiary)',
-            lineHeight: 'var(--leading-relaxed)'
-          }}
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h1
+          className="text-2xl font-semibold mb-2"
+          style={{ color: 'var(--color-text-primary)' }}
         >
-          Monitor your application vibes with elegance
+          Welcome to VibeMonitor
+        </h1>
+        <p
+          className="text-sm"
+          style={{ color: 'var(--color-text-tertiary)' }}
+        >
+          Sign in to continue to VibeMonitor
         </p>
       </div>
 
-      {/* Sign In Section */}
-      <div className="mb-6 sm:mb-8">
+      {/* Sign In Button */}
+      <div className="mb-8">
         <GoogleSignInButton
           onError={handleGoogleError}
-          text="Sign up with Google"
+          text="Continue with Google"
         />
-
-        {/* Divider */}
-        <div className="relative mt-5 sm:mt-6">
-          <div className="absolute inset-0 flex items-center">
-            <span
-              className="w-full border-t"
-              style={{ borderColor: 'var(--color-border-light)' }}
-            />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span
-              className="px-2 sm:px-3 text-[10px] sm:text-xs"
-              style={{
-                backgroundColor: '#121A29',
-                color: 'var(--color-text-tertiary)',
-                fontWeight: 'var(--font-medium)',
-                letterSpacing: '0.05em'
-              }}
-            >
-              Secure Authentication
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* Footer */}
-      <div className="text-center space-y-3 sm:space-y-4">
-
-
-        <p
-          className="px-2 sm:px-4 text-[11px] sm:text-xs leading-relaxed"
-          style={{
-            color: 'var(--color-text-tertiary)',
-            lineHeight: '1.6'
-          }}
+      <p
+        className="text-center text-xs"
+        style={{ color: 'var(--color-text-tertiary)' }}
+      >
+        By continuing, you agree to our{' '}
+        <a
+          href="/terms"
+          className="underline"
+          style={{ color: 'var(--color-text-secondary)' }}
         >
-          By continuing, you agree to our{' '}
-          <a
-            href="/terms"
-            className="underline hover:opacity-80 transition-opacity"
-            style={{
-              color: 'var(--color-text-brand)',
-              transition: 'var(--transition-fast)'
-            }}
-          >
-            Terms of Service
-          </a>
-          {' '}and{' '}
-          <a
-            href="/privacy"
-            className="underline hover:opacity-80 transition-opacity"
-            style={{
-              color: 'var(--color-text-brand)',
-              transition: 'var(--transition-fast)'
-            }}
-          >
-            Privacy Policy
-          </a>
-        </p>
-      </div>
+          Terms
+        </a>
+        {' '}and{' '}
+        <a
+          href="/privacy"
+          className="underline"
+          style={{ color: 'var(--color-text-secondary)' }}
+        >
+          Privacy Policy
+        </a>
+      </p>
     </div>
   )
 }

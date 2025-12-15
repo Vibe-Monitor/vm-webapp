@@ -242,5 +242,86 @@ html {
   transform: scale(1.02);
 }
 
+/* VM-Site Landing Page (main_backup) Styles */
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+/* Landing page specific variables */
+.landing-page {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #FED835;
+  --secondary: #304fff;
+  --primary-accent: #e5c230;
+  --foreground-accent: #454545;
+  --hero-background: #F3F3F5;
+  --color-analytical: #3B82F6;
+  --color-integration: #10B981;
+  --color-tools: #F59E0B;
+  --color-linkedin: #0077B5;
+  --color-cta: #EA580C;
+}
+
+/* Native scroll-snap for full-screen sections */
+.scroll-snap-container {
+  scroll-snap-type: y mandatory;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start;
+}
+
+.manrope {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+#logos svg {
+  width: fit-content;
+  height: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  #logos svg {
+    height: 3rem;
+  }
+}
+
+.benefit-section:last-of-type > div {
+  margin-bottom: 2.5rem;
+}
+
+/* Ensure icon colors are properly applied */
+.text-analytical svg {
+  color: #3B82F6 !important;
+}
+
+.text-integration svg {
+  color: #10B981 !important;
+}
+
+.text-tools svg {
+  color: #F59E0B !important;
+}
+
+.text-linkedin svg {
+  color: #0077B5 !important;
+}
+
+/* Hero Grid Background */
+.hero-grid-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F3F3F5;
+  background-image:
+    linear-gradient(to right, rgba(128, 128, 128, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 128, 128, 0.12) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 60%, transparent 100%);
+}
+
 
 

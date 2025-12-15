@@ -105,22 +105,22 @@ export function useGithubIntegration(workspaceId: string | undefined) {
     <>
       {/* Suspended Warning */}
       {status === 'suspended' && (
-        <div className="w-full p-3 rounded-md border border-yellow-500/30 bg-yellow-500/10">
+        <div className="w-full p-3 rounded-md border border-yellow-600/40 bg-yellow-500/10">
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                <span className="text-sm font-semibold text-yellow-400">GitHub Integration Suspended</span>
+                <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                <span className="text-sm font-semibold text-yellow-600">GitHub Integration Suspended</span>
               </div>
             </div>
-            <p className="text-xs leading-5 text-[#9AA3B0]">
+            <p className="text-xs leading-5" style={{ color: 'var(--color-text-tertiary)' }}>
               Your GitHub integration (@{username}) is currently suspended. To restore functionality, please visit GitHub to unsuspend the installation manually.
             </p>
             <Button
               size="sm"
               variant="outline"
               onClick={() => window.open('https://github.com/settings/installations', '_blank')}
-              className="w-fit h-8 px-3 text-xs bg-yellow-500/10 border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/20 hover:border-yellow-500/50"
+              className="w-fit h-8 px-3 text-xs bg-yellow-500/10 border-yellow-600/40 text-yellow-600 hover:bg-yellow-500/20 hover:border-yellow-600/50"
             >
               <GitHubLogoIcon className="h-3 w-3 mr-1.5" />
               Unsuspend on GitHub
@@ -131,11 +131,11 @@ export function useGithubIntegration(workspaceId: string | undefined) {
 
       {/* Connected Status */}
       {status === 'connected' && username && (
-        <div className="w-full p-3 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+        <div className="w-full p-3 rounded-md border border-emerald-600/40 bg-emerald-500/10">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-            <span className="text-sm text-emerald-400">
-              Connected as <strong>@{username}</strong>
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            <span className="text-sm text-emerald-600">
+              Connected as <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>@{username}</span>
             </span>
           </div>
         </div>

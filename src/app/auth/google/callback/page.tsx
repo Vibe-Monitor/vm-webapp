@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import posthog from 'posthog-js'
 import { tokenService } from '@/services/tokenService'
@@ -9,10 +9,24 @@ import Loader from '@/components/ui/loader'
 export default function GoogleCallbackPage() {
   const router = useRouter()
   const [status, setStatus] = useState('Processing Google authentication...')
+  const hasProcessed = useRef(false)
 
   useEffect(() => {
     const handleCallback = async () => {
+      // Prevent double execution (React Strict Mode runs useEffect twice)
+      if (hasProcessed.current) {
+        return
+      }
+      hasProcessed.current = true
+
       try {
+        // If already authenticated, redirect to setup
+        if (tokenService.hasValidToken()) {
+          setStatus('Already authenticated! Redirecting...')
+          router.replace('/setup')
+          return
+        }
+
         const urlParams = new URLSearchParams(window.location.search)
         const code = urlParams.get('code')
         const error = urlParams.get('error')
@@ -44,7 +58,8 @@ export default function GoogleCallbackPage() {
             stage: 'callback'
           })
 
-          router.replace('/auth?error=no_code')
+          // If no code and not authenticated, go to auth page
+          router.replace('/auth')
           return
         }
 
@@ -70,7 +85,17 @@ export default function GoogleCallbackPage() {
         })
 
         if (!response.ok) {
+          const contentType = response.headers.get('content-type')
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await response.json()
+            throw new Error(errorData.detail || `HTTP error! status: ${response.status}`)
+          }
           throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const contentType = response.headers.get('content-type')
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Invalid response format from server')
         }
 
         const data = await response.json()

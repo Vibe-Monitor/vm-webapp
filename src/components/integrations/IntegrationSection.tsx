@@ -29,30 +29,36 @@ export function IntegrationSection({
   return (
     <Accordion type="single" collapsible defaultValue={defaultValue} className="w-full">
       <AccordionItem value={value} className="border-none">
-        <div className="bg-[rgba(47,66,87,0.2)] border border-[rgba(47,66,87,0.5)] rounded-lg">
+        <div
+          className="rounded-lg border"
+          style={{
+            backgroundColor: 'var(--color-surface-secondary)',
+            borderColor: 'var(--color-border)'
+          }}
+        >
           <AccordionTrigger className="p-4 sm:p-6 hover:no-underline [&[data-state=open]]:pb-0">
             <div className="flex flex-row justify-between items-center w-full gap-2">
               <div className="flex flex-row items-center gap-3 sm:gap-4 min-w-0">
                 {connected ? (
-                  <CheckCircle2 className="w-5 h-5 text-[#FFD11B] flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 flex-shrink-0" style={{ color: 'var(--color-logo-gray)' }} />
                 ) : (
-                  <Circle className="w-5 h-5 text-[rgba(154,163,176,0.4)] flex-shrink-0" />
+                  <Circle className="w-5 h-5 flex-shrink-0" style={{ color: 'var(--color-text-tertiary)', opacity: 0.4 }} />
                 )}
                 <div className="flex flex-row items-center gap-2 sm:gap-3 min-w-0">
                   {icon}
-                  <span className="text-sm sm:text-[16px] font-semibold leading-5 tracking-[-0.150391px] text-[#E5E7EB] truncate">
+                  <span className="text-sm sm:text-[16px] font-semibold leading-5 tracking-[-0.150391px] truncate" style={{ color: 'var(--color-text-primary)' }}>
                     {title}
                   </span>
                 </div>
               </div>
-              <span className="text-xs sm:text-sm leading-5 tracking-[-0.150391px] text-[#FFD11B] flex-shrink-0">
+              <span className="text-xs sm:text-sm leading-5 tracking-[-0.150391px] flex-shrink-0" style={{ color: 'var(--color-logo-gray)' }}>
                 {timeEstimate}
               </span>
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-4 sm:px-16 lg:px-[92px] pb-6 pt-2">
             <div className="flex flex-col items-start gap-4 sm:gap-[22px]">
-              <p className="text-xs sm:text-sm leading-5 tracking-[-0.150391px] text-[#9AA3B0]">
+              <p className="text-xs sm:text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-secondary)' }}>
                 {description}
               </p>
 
@@ -64,11 +70,11 @@ export function IntegrationSection({
                 <>
                   {fields.map((field, index) => (
                     <div key={index} className="flex flex-col items-start gap-2 w-full">
-                      <label className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                      <label className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                         {field.label}
                       </label>
                       {field.description && (
-                        <p className="text-xs leading-4 text-[#9AA3B0] -mt-1">
+                        <p className="text-xs leading-4 -mt-1" style={{ color: 'var(--color-text-tertiary)' }}>
                           {field.description}
                         </p>
                       )}
@@ -77,7 +83,12 @@ export function IntegrationSection({
                         value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
                         placeholder={field.placeholder}
-                        className="w-full h-9 px-3 py-1 text-sm bg-[rgba(27,41,61,0.3)] border-[#2F4257] rounded-md text-[#E5E7EB] placeholder:text-[#9AA3B0]"
+                        className="w-full h-9 px-3 py-1 text-sm rounded-md"
+                        style={{
+                          backgroundColor: 'var(--color-background)',
+                          borderColor: 'var(--color-border)',
+                          color: 'var(--color-text-primary)'
+                        }}
                       />
                     </div>
                   ))}
@@ -97,7 +108,14 @@ export function IntegrationSection({
                 <Button
                   onClick={onConnect}
                   disabled={loading}
-                  className="h-10 px-5 rounded-md text-sm font-medium leading-5 tracking-[-0.150391px] transition-all duration-300 bg-[#3F5ECC] hover:bg-[#3F5ECC]/90 text-white border border-[#3F5ECC]/20 hover:border-[#3F5ECC]"
+                  className="h-10 px-5 rounded-md text-sm font-medium leading-5 tracking-[-0.150391px] transition-all duration-300 border"
+                  style={{
+                    backgroundColor: 'var(--color-button-blue)',
+                    color: 'var(--color-background)',
+                    borderColor: 'var(--color-button-blue)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--color-button-blue-hover)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--color-button-blue)'}
                 >
                   {loading ? (
                     <span className="flex items-center gap-2">

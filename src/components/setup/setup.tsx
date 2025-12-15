@@ -53,17 +53,23 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
 
   const CodeBlock = ({ code, index }: { code: string; index: string }) => (
     <span className="relative group inline-block">
-      <code className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-[#27435C] rounded-md transition-all duration-150 hover:scale-105">
-        <span className="text-[#E5E7EB] text-xs sm:text-sm break-all">{code}</span>
+      <code
+        className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md transition-all duration-150 hover:scale-105"
+        style={{ background: '#EFF6FF', border: '1px solid rgba(59, 130, 246, 0.2)' }}
+      >
+        <span className="text-xs sm:text-sm break-all" style={{ color: '#1E40AF' }}>{code}</span>
         <button
           onClick={() => handleCopyCode(code, index)}
-          className="p-0.5 sm:p-1 hover:bg-[#3D526A] rounded transition-colors flex-shrink-0"
+          className="p-0.5 sm:p-1 rounded transition-colors flex-shrink-0"
+          style={{ background: 'transparent' }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-background-secondary)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           aria-label="Copy code"
         >
           {copiedCode === index ? (
-            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#FFCF00]" />
+            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" style={{ color: '#10B981' }} />
           ) : (
-            <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#FFCF00] opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#3B82F6' }} />
           )}
         </button>
       </code>
@@ -71,38 +77,47 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
   );
 
   return (
-    <div className="min-h-screen w-full relative flex items-center justify-center px-4 sm:px-6 py-8 sm:py-16 overflow-hidden">
-      {/* Background with radial gradient matching the design */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(59.35% 92.81% at 50% 50%, rgba(12, 24, 41, 0.95) 0%, #0C1829 100%), #0C1829'
-        }}
-      />
+    <div
+      className="theme-light min-h-screen w-full relative flex items-center justify-center px-4 sm:px-6 py-8 sm:py-16 overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F0FDF4 100%)',
+        backgroundImage: `
+          linear-gradient(to right, rgba(10, 37, 64, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(10, 37, 64, 0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px'
+      }}
+    >
+      {/* Background */}
+      <div className="absolute inset-0" />
 
       {/* Confetti Effect */}
       <AnimatePresence>
         {showConfetti && (
           <div className="fixed inset-0 pointer-events-none z-50">
-            {[...Array(40)].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{
-                  x: "50vw",
-                  y: "50vh",
-                  scale: 0,
-                  opacity: 1
-                }}
-                animate={{
-                  x: `${Math.random() * 100}vw`,
-                  y: `${Math.random() * 100}vh`,
-                  scale: [0, 1, 0],
-                  opacity: [1, 1, 0]
-                }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="absolute w-2 h-2 bg-[#FFCF00] rounded-full"
-              />
-            ))}
+            {[...Array(40)].map((_, i) => {
+              const colors = ['#10B981', '#3B82F6', '#F59E0B', '#8B5CF6', '#14B8A6', '#EC4899'];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{
+                    x: "50vw",
+                    y: "50vh",
+                    scale: 0,
+                    opacity: 1
+                  }}
+                  animate={{
+                    x: `${Math.random() * 100}vw`,
+                    y: `${Math.random() * 100}vh`,
+                    scale: [0, 1, 0],
+                    opacity: [1, 1, 0]
+                  }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="absolute w-2 h-2 rounded-full"
+                  style={{ background: colors[i % colors.length] }}
+                />
+              );
+            })}
           </div>
         )}
       </AnimatePresence>
@@ -121,11 +136,12 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
         className="relative w-full max-w-[723.5px] mx-auto z-10"
       >
         <div
-          className="relative border rounded-xl p-4 sm:p-6 space-y-4 sm:space-y-5"
+          className="relative p-4 sm:p-6 space-y-4 sm:space-y-5"
           style={{
-            background: 'rgba(23, 41, 63, 0.1)',
-            borderColor: '#294359',
-            boxShadow: '0px 10px 20px -6px rgba(0, 0, 0, 0.1)',
+            backgroundColor: '#FFFFFF',
+            borderRadius: '20px',
+            boxShadow: '0 4px 24px rgba(10, 37, 64, 0.08), 0 1px 2px rgba(10, 37, 64, 0.04)',
+            border: '1px solid rgba(10, 37, 64, 0.08)',
           }}
         >
           {/* Header Section */}
@@ -136,22 +152,24 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
             className="text-center space-y-3 sm:space-y-5"
           >
             <h1
-              className="text-2xl sm:text-[28px] text-[#E5E7EB]"
+              className="text-2xl sm:text-[28px]"
               style={{
                 lineHeight: '1.5',
                 letterSpacing: '0.382812px',
-                fontWeight: 400
+                fontWeight: 400,
+                color: 'var(--color-text-primary)'
               }}
             >
               You are all set-up
             </h1>
 
             <p
-              className="text-sm text-[#95A3B2] px-2"
+              className="text-sm px-2"
               style={{
                 lineHeight: '21px',
                 letterSpacing: '-0.150391px',
-                fontWeight: 400
+                fontWeight: 400,
+                color: 'var(--color-text-secondary)'
               }}
             >
               Fix bugs and get insights instantly. Join now for free.
@@ -167,16 +185,17 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
               transition={{ delay: 0.15, duration: 0.2 }}
               className="rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6"
               style={{
-                background: 'rgba(41, 67, 89, 0.3)',
-                border: '1px solid rgba(41, 67, 89, 0.5)',
+                background: 'linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%)',
+                border: '1px solid rgba(16, 185, 129, 0.2)',
               }}
             >
               <h2
-                className="text-lg sm:text-[20px] text-[#FFCF00]"
+                className="text-lg sm:text-[20px]"
                 style={{
                   lineHeight: '1.5',
                   letterSpacing: '-0.449219px',
-                  fontWeight: 400
+                  fontWeight: 400,
+                  color: 'var(--color-text-primary)'
                 }}
               >
                 How It Works
@@ -185,25 +204,27 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
               <div className="space-y-4 sm:space-y-[18px]">
                 {/* Start */}
                 <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                  <Play className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFCF00] flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <Play className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 sm:mt-0" style={{ color: '#10B981' }} />
                   <div className="flex-1 flex items-center gap-2 flex-wrap">
                     <span
-                      className="text-[#E5E7EB] text-sm sm:text-base"
+                      className="text-sm sm:text-base"
                       style={{
                         lineHeight: '1.5',
                         letterSpacing: '-0.3125px',
-                        fontWeight: 400
+                        fontWeight: 400,
+                        color: 'var(--color-text-primary)'
                       }}
                     >
-                      Tag @vm-bot in Slack:
+                      Tag @Vibe Monitor in Slack:
                     </span>
-                    <CodeBlock code="@vm-bot debug runtime error in v2.1" index="start-1" />
+                    <CodeBlock code="@Vibe Monitor debug runtime error in v2.1" index="start-1" />
                     <span
-                      className="text-[#E5E7EB] text-sm sm:text-base"
+                      className="text-sm sm:text-base"
                       style={{
                         lineHeight: '1.5',
                         letterSpacing: '-0.3125px',
-                        fontWeight: 400
+                        fontWeight: 400,
+                        color: 'var(--color-text-primary)'
                       }}
                     >
                       to analyze issues.
@@ -213,25 +234,27 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
 
                 {/* Context */}
                 <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                  <Edit className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFCF00] flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <Edit className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 sm:mt-0" style={{ color: '#3B82F6' }} />
                   <div className="flex-1 flex items-center gap-2 flex-wrap">
                     <span
-                      className="text-[#E5E7EB] text-sm sm:text-base"
+                      className="text-sm sm:text-base"
                       style={{
                         lineHeight: '1.5',
                         letterSpacing: '-0.3125px',
-                        fontWeight: 400
+                        fontWeight: 400,
+                        color: 'var(--color-text-primary)'
                       }}
                     >
                       Add details:
                     </span>
-                    <CodeBlock code="@vm-bot check logs after 10/16 deploy" index="context-1" />
+                    <CodeBlock code="@Vibe Monitor check logs after 10/16 deploy" index="context-1" />
                     <span
-                      className="text-[#E5E7EB] text-sm sm:text-base"
+                      className="text-sm sm:text-base"
                       style={{
                         lineHeight: '1.5',
                         letterSpacing: '-0.3125px',
-                        fontWeight: 400
+                        fontWeight: 400,
+                        color: 'var(--color-text-primary)'
                       }}
                     >
                       vague queries limit accuracy.
@@ -241,13 +264,14 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
 
                 {/* Time */}
                 <div className="flex items-start gap-2 sm:gap-3">
-                  <Hourglass className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFCF00] flex-shrink-0 mt-0.5" />
+                  <Hourglass className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" style={{ color: '#F59E0B' }} />
                   <p
-                    className="text-[#E5E7EB] flex-1 text-sm sm:text-base"
+                    className="flex-1 text-sm sm:text-base"
                     style={{
                       lineHeight: '1.5',
                       letterSpacing: '-0.3125px',
-                      fontWeight: 400
+                      fontWeight: 400,
+                      color: 'var(--color-text-primary)'
                     }}
                   >
                     Takes 10-30s to pull GitHub/Grafana data for thorough insights.
@@ -263,19 +287,20 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
               transition={{ delay: 0.3, duration: 0.15 }}
               className="rounded-lg p-4 sm:p-6"
               style={{
-                background: 'rgba(96, 102, 255, 0.1)',
-                border: '1px solid #6066FF',
+                background: 'linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)',
+                border: '1px solid rgba(139, 92, 246, 0.2)',
               }}
             >
               <div className="flex items-start gap-2 sm:gap-3">
-                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFCF00] flex-shrink-0 mt-0.5" />
+                <Search className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" style={{ color: '#8B5CF6' }} />
                 <div className="flex-1 space-y-2 sm:space-y-3">
                   <h2
-                    className="text-lg sm:text-[20px] text-[#E5E7EB]"
+                    className="text-lg sm:text-[20px]"
                     style={{
                       lineHeight: '1.5',
                       letterSpacing: '-0.449219px',
-                      fontWeight: 400
+                      fontWeight: 400,
+                      color: 'var(--color-text-primary)'
                     }}
                   >
                     Beyond Basics
@@ -283,29 +308,31 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
                   <div className="space-y-2 sm:space-y-[10px]">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
-                        className="text-sm text-[#95A3B2]"
+                        className="text-sm"
                         style={{
                           lineHeight: '21px',
                           letterSpacing: '-0.150391px',
-                          fontWeight: 400
+                          fontWeight: 400,
+                          color: 'var(--color-text-secondary)'
                         }}
                       >
                         Ask
                       </span>
-                      <CodeBlock code="@vm-bot explain API rate limits" index="bonus-1" />
+                      <CodeBlock code="@Vibe Monitor explain API rate limits" index="bonus-1" />
                     </div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
-                        className="text-sm text-[#95A3B2]"
+                        className="text-sm"
                         style={{
                           lineHeight: '21px',
                           letterSpacing: '-0.150391px',
-                          fontWeight: 400
+                          fontWeight: 400,
+                          color: 'var(--color-text-secondary)'
                         }}
                       >
                         or
                       </span>
-                      <CodeBlock code="@vm-bot optimise this SQL query" index="bonus-2" />
+                      <CodeBlock code="@Vibe Monitor optimise this SQL query" index="bonus-2" />
                     </div>
                   </div>
                 </div>
@@ -321,15 +348,19 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
           >
             <Button
               onClick={handleLaunchClick}
-              className="w-full h-9 rounded-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
-              style={{ 
-                background: '#6166FF',
-                opacity: 0.95,
-                color: '#E5E7EB',
-                fontSize: '14px',
-                lineHeight: '21px',
-                letterSpacing: '-0.150391px',
-                fontWeight: 500
+              className="w-full h-11 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg"
+              style={{
+                background: 'linear-gradient(135deg, #0A2540 0%, #1E3A5F 100%)',
+                color: '#FFFFFF',
+                boxShadow: '0 4px 14px rgba(10, 37, 64, 0.25)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, #0D3050 0%, #264A6E 100%)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, #0A2540 0%, #1E3A5F 100%)';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               Launch Slack to start debugging
@@ -343,18 +374,19 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
             transition={{ delay: 0.6, duration: 0.15 }}
             className="pt-4 sm:pt-5 space-y-2"
             style={{
-              borderTop: '1px solid rgba(41, 67, 89, 0.5)'
+              borderTop: '1px solid rgba(10, 37, 64, 0.1)'
             }}
           >
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <HelpCircle className="w-4 h-4 text-[#FFCF00]" />
+                <HelpCircle className="w-4 h-4" style={{ color: '#14B8A6' }} />
                 <h4
-                  className="text-sm text-[#FFCF00]"
+                  className="text-sm"
                   style={{
                     lineHeight: '21px',
                     letterSpacing: '-0.150391px',
-                    fontWeight: 400
+                    fontWeight: 400,
+                    color: 'var(--color-text-primary)'
                   }}
                 >
                   Need Help?
@@ -363,38 +395,45 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
                 <motion.button
                   onClick={() => toast.info("Documentation coming soon!")}
-                  className="text-[#95A3B2] hover:text-[#FFCF00] transition-colors duration-150 flex items-center gap-2"
+                  className="transition-colors duration-150 flex items-center gap-2"
                   whileHover={{ scale: 1.05 }}
                   style={{
                     fontSize: '14px',
                     lineHeight: '1.5',
                     letterSpacing: '-0.3125px',
-                    fontWeight: 500
+                    fontWeight: 500,
+                    color: '#64748B'
                   }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#3B82F6'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
                 >
                   <FileText className="w-4 h-4" />
                   Documentation
                 </motion.button>
                 <span
-                  className="text-sm text-[#294359] hidden sm:inline"
+                  className="text-sm hidden sm:inline"
                   style={{
                     lineHeight: '20px',
                     letterSpacing: '-0.150391px',
-                    fontWeight: 400
+                    fontWeight: 400,
+                    color: 'var(--color-text-tertiary)'
                   }}
                 >
                   or
                 </span>
                 <motion.button
                   onClick={() => toast.info("Support team ready to help!")}
-                  className="text-[#95A3B2] hover:text-[#FFCF00] transition-colors duration-150 flex items-center gap-2"
+                  className="transition-colors duration-150 flex items-center gap-2"
                   whileHover={{ scale: 1.05 }}
                   style={{
                     fontSize: '14px',
                     lineHeight: '1.5',
                     letterSpacing: '-0.3125px',
-                    fontWeight: 500
+                    fontWeight: 500,
+                    color: '#64748B'
                   }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#10B981'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
                 >
                   <MessageSquare className="w-4 h-4" />
                   Support

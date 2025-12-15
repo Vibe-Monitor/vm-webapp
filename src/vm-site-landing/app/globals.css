@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #FED835;
+  --secondary: #304fff;
+
+  --primary-accent: #e5c230;
+  --foreground-accent: #454545;
+  --hero-background: #F3F3F5;
+  
+  /* Contextual colors for icons */
+  --color-analytical: #3B82F6;
+  --color-integration: #10B981;
+  --color-tools: #F59E0B;
+  --color-linkedin: #0077B5;
+  --color-cta: #EA580C;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+/* Native scroll-snap for full-screen sections */
+body {
+  scroll-snap-type: y mandatory;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start;
+}
+
+body {
+  @apply text-lg;
+  
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.manrope {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+#logos svg {
+  @apply w-fit h-10 sm:h-12;
+}
+
+.benefit-section:last-of-type > div {
+  @apply mb-10;
+}
+
+/* Ensure icon colors are properly applied */
+.text-analytical svg {
+  color: var(--color-analytical);
+}
+
+.text-integration svg {
+  color: var(--color-integration);
+}
+
+.text-tools svg {
+  color: var(--color-tools);
+}
+
+.text-linkedin svg {
+  color: var(--color-linkedin);
+}

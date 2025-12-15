@@ -39,7 +39,7 @@ export function CleanFooter() {
           {/* Logo */}
           <div className="flex items-center">
             <Image
-              src="/vibemonitor-logo.svg"
+              src="/images/VibeMonitor1.png"
               alt="Vibemonitor.ai"
               width={160}
               height={32}
