@@ -186,7 +186,7 @@ export function HeroOption1() {
             letterSpacing: '-0.03em'
           }}
         >
-          <span style={{ color: '#E5E7EB' }}>Debug Faster,</span>
+          <span style={{ color: '#E5E7EB' }}>Debug Faster</span>
           <br />
           <span 
             style={{
