@@ -3,8 +3,25 @@
 import { motion } from 'motion/react';
 import { CheckCircle2, Send, Sparkles, MessageSquare, Clock } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { GithubLogo } from '@/components/vm-site-components/GithubLogo';
 import posthog from 'posthog-js';
+
+// New Relic Logo Component
+function NewRelicLogo({ size = 20 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" fill="#008C99" />
+      <path d="M12 2L3 7l9 5 9-5-9-5z" fill="#00AC69" />
+      <path d="M12 12v10l9-5V7l-9 5z" fill="#1CE783" />
+      <path d="M12 12L3 7v10l9 5V12z" fill="#008C99" />
+    </svg>
+  );
+}
 import { trackInteraction } from '@/lib/posthog-utils';
 import Image from 'next/image';
 
@@ -264,17 +281,17 @@ export function VideoShowcaseSection() {
                       </div>
                     </motion.div>
 
-                    {/* Initial Error Alert from GitHub */}
+                    {/* Initial Error Alert from New Relic */}
                     <div className="flex gap-3">
                       <div
                         className="w-9 h-9 rounded flex items-center justify-center flex-shrink-0"
-                        style={{ background: '#24292F' }}
+                        style={{ background: '#008C99' }}
                       >
-                        <GithubLogo size={20} className="text-white" />
+                        <NewRelicLogo size={20} />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span style={{ fontSize: '15px', fontWeight: 900, color: '#1D1C1D' }}>GitHub</span>
+                          <span style={{ fontSize: '15px', fontWeight: 900, color: '#1D1C1D' }}>New Relic</span>
                           <span style={{
                             fontSize: '11px',
                             fontWeight: 600,
@@ -349,17 +366,17 @@ export function VideoShowcaseSection() {
                       <span style={{ fontSize: '18px', fontWeight: 900, color: '#1D1C1D' }}>Thread</span>
                     </div>
 
-                    {/* Original Error Alert (in thread) - GitHub */}
+                    {/* Original Error Alert (in thread) - New Relic */}
                     <div className="flex gap-3 opacity-90">
                       <div
                         className="w-9 h-9 rounded flex items-center justify-center flex-shrink-0"
-                        style={{ background: '#24292F' }}
+                        style={{ background: '#008C99' }}
                       >
-                        <GithubLogo size={20} className="text-white" />
+                        <NewRelicLogo size={20} />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span style={{ fontSize: '15px', fontWeight: 900, color: '#1D1C1D' }}>GitHub</span>
+                          <span style={{ fontSize: '15px', fontWeight: 900, color: '#1D1C1D' }}>New Relic</span>
                           <span style={{
                             fontSize: '11px',
                             fontWeight: 600,
@@ -495,7 +512,7 @@ export function VideoShowcaseSection() {
                                     >
                                       <CheckCircle2 className="w-4 h-4 text-[#10B981] flex-shrink-0" />
                                       <span style={{ fontSize: '13px', color: '#1D1C1D' }}>
-                                        Mapping GitHub repos with linked Grafana services
+                                        Mapping repos with linked New Relic services
                                       </span>
                                     </motion.div>
                                   )}
@@ -638,7 +655,7 @@ export function VideoShowcaseSection() {
                             <div className="flex items-start gap-2">
                               <CheckCircle2 className="w-4 h-4 text-[#10B981] flex-shrink-0 mt-0.5" />
                               <span style={{ fontSize: '15px', color: '#1D1C1D', lineHeight: '1.46668' }}>
-                                Mapping GitHub repos with linked Grafana services{' '}
+                                Mapping repos with linked New Relic services{' '}
                                 <span style={{ color: '#616061', fontSize: '13px' }}>(edited)</span>
                               </span>
                             </div>
@@ -722,7 +739,7 @@ export function VideoShowcaseSection() {
                               {' '}are failing with{' '}
                               <code style={{ background: '#F3F4F6', padding: '2px 4px', borderRadius: '3px', fontFamily: 'Monaco, monospace', fontSize: '12px', color: '#DC2626' }}>405 Method Not Allowed</code>
                               , confirmed across multiple pods since 01:58 AM{' '}
-                              <a href="#" style={{ color: '#1264A3', textDecoration: 'none' }}>[1]</a>.
+                              <span style={{ color: '#1264A3' }}>[1]</span>.
                             </p>
                             </motion.div>
                           ) : null}
@@ -753,7 +770,7 @@ export function VideoShowcaseSection() {
                               . A recent change in{' '}
                               <code style={{ background: '#F3F4F6', padding: '2px 4px', borderRadius: '3px', fontFamily: 'Monaco, monospace', fontSize: '12px', color: '#DC2626' }}>marketplace-service</code>
                               {' '}(commit{' '}
-                              <a href="https://github.com/Vibe-Monitor/marketplace/commit/da3c6383" target="_blank" rel="noopener noreferrer" style={{ color: '#1264A3', textDecoration: 'none' }}>da3c6383</a>
+                              <span style={{ color: '#1264A3' }}>da3c6383</span>
                               ) switched the method{' '}
                               <code style={{ background: '#F3F4F6', padding: '2px 4px', borderRadius: '3px', fontFamily: 'Monaco, monospace', fontSize: '12px', color: '#DC2626' }}>POST</code>
                               {' → '}
@@ -761,9 +778,9 @@ export function VideoShowcaseSection() {
                               , producing{' '}
                               <code style={{ background: '#F3F4F6', padding: '2px 4px', borderRadius: '3px', fontFamily: 'Monaco, monospace', fontSize: '12px', color: '#DC2626' }}>405 s</code>
                               {' '}during token verification{' '}
-                              <a href="#" style={{ color: '#1264A3', textDecoration: 'none' }}>[2]</a>
+                              <span style={{ color: '#1264A3' }}>[2]</span>
                               {' '}
-                              <a href="#" style={{ color: '#1264A3', textDecoration: 'none' }}>[3]</a>.
+                              <span style={{ color: '#1264A3' }}>[3]</span>.
                             </p>
                             </motion.div>
                           ) : null}

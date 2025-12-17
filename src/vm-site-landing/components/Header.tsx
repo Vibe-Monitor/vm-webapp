@@ -16,13 +16,20 @@ const Header: React.FC = () => {
 
     return (
         <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 shadow-sm">
-            <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+            <div className="flex items-center justify-between px-10 py-3">
                 <Link href="/" className="flex items-center" aria-label="VibeMonitor Home">
-                    <Image src="/images/VM_full.png" alt="VibeMonitor" width={200} height={50} className="h-12 w-auto" style={{ objectFit: 'contain' }} />
+                    <Image src="/images/VM_full.svg" alt="VibeMonitor" width={100} height={50} className="h-3 w-auto" style={{ objectFit: 'contain' }} />
                 </Link>
 
                 {/* Navigation Links */}
                 <nav className="hidden md:flex items-center gap-8">
+                     <Link
+                        href="#video-showcase"
+                        className="text-sm font-medium transition-colors hover:text-gray-900"
+                        style={{ color: '#454545' }}
+                    >
+                        Benefits
+                    </Link>
                     <Link
                         href="#integrations"
                         className="text-sm font-medium transition-colors hover:text-gray-900"
@@ -30,13 +37,7 @@ const Header: React.FC = () => {
                     >
                         Features
                     </Link>
-                    <Link
-                        href="#video-showcase"
-                        className="text-sm font-medium transition-colors hover:text-gray-900"
-                        style={{ color: '#454545' }}
-                    >
-                        Benefits
-                    </Link>
+                   
                     <Link
                         href="#final-cta-video"
                         className="text-sm font-medium transition-colors hover:text-gray-900"

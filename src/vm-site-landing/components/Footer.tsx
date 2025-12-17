@@ -27,22 +27,21 @@ const Footer: React.FC = () => {
     };
 
     return (
-        <footer className="py-8 px-8" style={{ background: '#F8FAFC', borderTop: '1px solid rgba(10, 37, 64, 0.1)' }}>
+        <footer className="py-8 px-10" style={{ background: '#F8FAFC', borderTop: '1px solid rgba(10, 37, 64, 0.1)' }}>
             <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="max-w-7xl mx-auto"
             >
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
                     {/* Logo */}
                     <div className="flex items-center">
                         <Image
-                            src="/images/VM_full.png"
+                            src="/images/VM_full.svg"
                             alt="Vibemonitor.ai"
                             width={200}
                             height={50}
-                            className="h-12 w-auto"
+                            className="h-3 w-auto"
                             style={{ objectFit: 'contain' }}
                         />
                     </div>

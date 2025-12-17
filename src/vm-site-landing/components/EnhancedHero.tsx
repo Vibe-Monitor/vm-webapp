@@ -64,11 +64,12 @@ const EnhancedHero: React.FC = () => {
                 transition={{ duration: 0.6 }}
             >
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-6xl md:leading-tight font-bold max-w-lg md:max-w-3xl mx-auto" style={{ color: '#171717' }}>
-                        Root Cause Analysis, Powered by AI
+                    <h1 className="text-5xl md:text-7xl md:leading-tight font-bold max-w-lg md:max-w-3xl mx-auto">
+                        <span style={{ color: '#00305f' }}>Debug Faster</span><br />
+                        <span style={{ color: '#36454f' }}>Sleep Better</span>
                     </h1>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto" style={{ color: '#454545' }}>
-                        Correlates logs, metrics, traces, code and deployments to pinpoint root cause.
+                    <p className="mt-4 text-lg max-w-2xl mx-auto" style={{ color: '#36454f' }}>
+                        An AI Agent that investigates your code, logs, and metrics<br />and explains the root cause with clear fixes — <span style={{ color: '#00305f', fontWeight: 600 }}>right in Slack.</span>
                     </p>
                 </div>
             </motion.div>

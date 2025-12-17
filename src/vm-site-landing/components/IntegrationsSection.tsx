@@ -4,9 +4,26 @@ import { motion } from 'motion/react';
 import { Plus, Plug } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
-import { GrafanaLogo } from '@/components/vm-site-components/GrafanaLogo';
 import { GithubLogo } from '@/components/vm-site-components/GithubLogo';
 import { SlackLogo } from '@/components/vm-site-components/SlackLogo';
+
+// New Relic Logo Component
+function NewRelicLogo({ size = 32 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" fill="#008C99" />
+      <path d="M12 2L3 7l9 5 9-5-9-5z" fill="#00AC69" />
+      <path d="M12 12v10l9-5V7l-9 5z" fill="#1CE783" />
+      <path d="M12 12L3 7v10l9 5V12z" fill="#008C99" />
+    </svg>
+  );
+}
 import posthog from 'posthog-js';
 import { trackInteraction } from '@/lib/posthog-utils';
 
@@ -28,10 +45,10 @@ export function IntegrationsSection() {
 
   const integrations = [
     {
-      logo: GrafanaLogo,
-      name: 'Grafana',
+      logo: NewRelicLogo,
+      name: 'New Relic',
       description: 'Analyzes logs and metrics. Get insights—not just thread dumps',
-      color: '#F59E0B',
+      color: '#008C99',
       stat: 'Symptom → Insight in 2.3s',
     },
     {
