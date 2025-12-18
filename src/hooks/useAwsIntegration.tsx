@@ -181,7 +181,7 @@ export function useAwsIntegration(workspaceId: string | undefined) {
 
   const instructions = (
     <div className="flex flex-col items-start gap-3 w-full">
-      <h4 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+      <h4 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
         Instructions to integrate
       </h4>
 
@@ -189,19 +189,19 @@ export function useAwsIntegration(workspaceId: string | undefined) {
         {/* Step 1 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               1
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Create IAM Role with Custom Trust Policy
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Go to AWS IAM Console → Roles → Create Role → Select &quot;Custom trust policy&quot; → Paste the trust policy below:
               </p>
               <div className="w-full mt-2 relative group">
-                <div className="p-3 rounded bg-[rgba(27,41,61,0.5)] border border-[#2F4257] overflow-x-auto">
-                  <pre className="text-xs text-[#FFD11B] font-mono whitespace-pre">
+                <div className="p-3 rounded overflow-x-auto" style={{ backgroundColor: 'rgba(10, 37, 64, 0.06)', border: '1.5px solid rgba(10, 37, 64, 0.15)' }}>
+                  <pre className="text-xs font-mono whitespace-pre" style={{ color: '#0A2540' }}>
 {`{
   "Version": "2012-10-17",
   "Statement": [
@@ -223,17 +223,18 @@ export function useAwsIntegration(workspaceId: string | undefined) {
                 </div>
                 <button
                   onClick={handleCopyTrustPolicy}
-                  className="absolute top-2 right-2 p-1.5 hover:bg-[#3D526A] rounded transition-colors"
+                  className="absolute top-2 right-2 p-1.5 rounded transition-colors hover:bg-opacity-80"
+                  style={{ backgroundColor: 'rgba(254, 216, 53, 0.15)', border: '1px solid rgba(254, 216, 53, 0.3)' }}
                   aria-label="Copy trust policy"
                 >
                   {copiedTrustPolicy ? (
-                    <Check className="w-4 h-4 text-emerald-400" />
+                    <Check className="w-4 h-4" style={{ color: '#10B981' }} />
                   ) : (
-                    <Copy className="w-4 h-4 text-[#9AA3B0] hover:text-[#E5E7EB] transition-colors" />
+                    <Copy className="w-4 h-4 transition-colors" style={{ color: '#0A2540' }} />
                   )}
                 </button>
               </div>
-              <p className="text-xs leading-4 text-blue-400 mt-2">
+              <p className="text-xs leading-4 mt-2" style={{ color: '#F59E0B' }}>
                 💡 The External ID shown above updates automatically as you type in the &quot;External ID&quot; field below.
               </p>
             </div>
@@ -243,14 +244,14 @@ export function useAwsIntegration(workspaceId: string | undefined) {
         {/* Step 2 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               2
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Review Trust Policy
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Click &quot;Next&quot; after pasting the trust policy. AWS will validate the JSON format automatically.
               </p>
             </div>
@@ -260,14 +261,14 @@ export function useAwsIntegration(workspaceId: string | undefined) {
         {/* Step 3 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               3
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Attach Permissions
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Add this AWS managed policy: <strong>CloudWatchReadOnlyAccess</strong> → This provides read access to CloudWatch logs and metrics.
               </p>
             </div>
@@ -277,14 +278,14 @@ export function useAwsIntegration(workspaceId: string | undefined) {
         {/* Step 4 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               4
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Name Your Role
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Enter a role name (e.g., VibeMonitor-CloudWatchRole) → Add optional description → Click &quot;Create role&quot; → Copy the Role ARN.
               </p>
             </div>
@@ -294,14 +295,14 @@ export function useAwsIntegration(workspaceId: string | undefined) {
         {/* Step 5 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               5
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Enter Credentials
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Paste the Role ARN and External ID (must match the &quot;sts:ExternalId&quot; from your trust policy) into the fields above → Optionally specify your primary AWS region → Click &quot;Connect AWS CloudWatch&quot;.
               </p>
             </div>
