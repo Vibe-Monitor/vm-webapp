@@ -29,23 +29,23 @@ const Hero: React.FC = () => {
             <div className="text-center">
                 <h1 className="text-4xl md:text-6xl md:leading-tight font-bold text-foreground max-w-lg md:max-w-3xl mx-auto">{heroDetails.heading}</h1>
                 <p className="mt-4 text-lg text-foreground max-w-2xl mx-auto">{heroDetails.subheading}</p>
-                
+
                 {/* Inline Email Form */}
                 <div className="mt-8 max-w-md mx-auto">
-                    <iframe 
-                        data-tally-src="https://tally.so/embed/3lkzbp?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
-                        loading="lazy" 
-                        width="100%" 
-                        height="150" 
-                        frameBorder="0" 
-                        marginHeight={0} 
-                        marginWidth={0} 
+                    <iframe
+                        data-tally-src="https://tally.so/embed/3lkzbp?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+                        loading="lazy"
+                        width="100%"
+                        height="150"
+                        frameBorder="0"
+                        marginHeight={0}
+                        marginWidth={0}
                         title="Request Demo - VibeMonitor"
                         aria-label="Demo request form for VibeMonitor"
                         className="rounded-lg"
                     ></iframe>
                 </div>
-                
+
             </div>
         </motion.div>
     );

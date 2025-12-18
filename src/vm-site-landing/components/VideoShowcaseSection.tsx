@@ -44,11 +44,11 @@ export function VideoShowcaseSection() {
       });
 
       setStage('thread-sent');
-      setTimeout(() => setStage('thread-ack'), 500);
+      setTimeout(() => setStage('thread-ack'), 1200);
       setTimeout(() => {
         setStage('thread-investigating');
         setInvestigationStep(0);
-      }, 1500);
+      }, 3000);
     } else if (stage === 'thread-complete') {
       trackInteraction('ai_demo_reset_clicked', {
         demo_type: 'slack_ai_investigation'
@@ -72,9 +72,9 @@ export function VideoShowcaseSection() {
           setInvestigationStep(currentStep);
         } else {
           clearInterval(interval);
-          setTimeout(() => setStage('thread-complete'), 400);
+          setTimeout(() => setStage('thread-complete'), 800);
         }
-      }, 450);
+      }, 900);
 
       return () => clearInterval(interval);
     }
@@ -93,7 +93,7 @@ export function VideoShowcaseSection() {
         } else {
           clearInterval(interval);
         }
-      }, 400);
+      }, 800);
 
       return () => clearInterval(interval);
     }
@@ -101,9 +101,9 @@ export function VideoShowcaseSection() {
 
   return (
     <div
-      id="video-showcase"
-      data-section-name="video-showcase"
-      className="relative w-full min-h-screen py-24 px-6 overflow-hidden flex items-center justify-center"
+      id="benefits"
+      data-section-name="benefits"
+      className="relative w-full min-h-screen py-12 sm:py-16 md:py-24 px-4 sm:px-6 overflow-hidden flex items-center justify-center"
       style={{
         background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)',
       }}
@@ -143,7 +143,7 @@ export function VideoShowcaseSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
           {/* Badge */}
           <motion.div
@@ -245,13 +245,14 @@ export function VideoShowcaseSection() {
               background: '#FFFFFF',
               display: 'flex',
               flexDirection: 'column',
-              minHeight: '500px',
+              minHeight: '400px',
               position: 'relative'
-            }}>
+            }}
+            className="sm:min-h-[500px]">
               {/* Messages Area */}
               <div style={{
                 flex: 1,
-                padding: '24px 32px',
+                padding: '16px',
                 overflowY: 'auto',
                 paddingBottom: stage === 'channel-view' ? '100px' : '120px'
               }}>
@@ -314,15 +315,15 @@ export function VideoShowcaseSection() {
                           <div className="flex items-start gap-2 mb-2">
                             <div className="w-1 h-1 rounded-full bg-[#DC2626] mt-1.5" />
                             <span style={{ fontSize: '13px', fontWeight: 700, color: '#DC2626' }}>
-                              Deployment Failed
+                              Critical: Ticket Creation Failures
                             </span>
                           </div>
                           <div className="space-y-1">
                             <p style={{ fontSize: '13px', color: '#1D1C1D', lineHeight: '1.5' }}>
-                              <strong>Production deployment failing</strong> - Ticket service degraded
+                              <strong>Ticket service experiencing critical errors</strong> - 100% failure rate
                             </p>
                             <p style={{ fontSize: '13px', color: '#616061', lineHeight: '1.5' }}>
-                              marketplace-service build passing, but production showing: <code style={{
+                              All ticket creation/viewing requests failing with: <code style={{
                                 background: 'rgba(0, 0, 0, 0.08)',
                                 padding: '2px 4px',
                                 borderRadius: '3px',
@@ -332,7 +333,7 @@ export function VideoShowcaseSection() {
                               }}>405 Method Not Allowed</code>
                             </p>
                             <p style={{ fontSize: '12px', color: '#616061' }}>
-                              Users unable to create/view tickets since 01:58 AM
+                              Affecting all users since 01:58 AM • Error rate: 2.4k/min
                             </p>
                           </div>
                         </div>
@@ -397,15 +398,15 @@ export function VideoShowcaseSection() {
                           <div className="flex items-start gap-2 mb-2">
                             <div className="w-1 h-1 rounded-full bg-[#DC2626] mt-1.5" />
                             <span style={{ fontSize: '13px', fontWeight: 700, color: '#DC2626' }}>
-                              Deployment Failed
+                              Critical: Ticket Creation Failures
                             </span>
                           </div>
                           <div className="space-y-1">
                             <p style={{ fontSize: '13px', color: '#1D1C1D', lineHeight: '1.5' }}>
-                              <strong>Production deployment failing</strong> - Ticket service degraded
+                              <strong>Ticket service experiencing critical errors</strong> - 100% failure rate
                             </p>
                             <p style={{ fontSize: '13px', color: '#616061', lineHeight: '1.5' }}>
-                              marketplace-service build passing, but production showing: <code style={{
+                              All ticket creation/viewing requests failing with: <code style={{
                                 background: 'rgba(0, 0, 0, 0.08)',
                                 padding: '2px 4px',
                                 borderRadius: '3px',
@@ -415,7 +416,7 @@ export function VideoShowcaseSection() {
                               }}>405 Method Not Allowed</code>
                             </p>
                             <p style={{ fontSize: '12px', color: '#616061' }}>
-                              Users unable to create/view tickets since 01:58 AM
+                              Affecting all users since 01:58 AM • Error rate: 2.4k/min
                             </p>
                           </div>
                         </div>

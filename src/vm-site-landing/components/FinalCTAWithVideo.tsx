@@ -9,8 +9,8 @@ export function FinalCTAWithVideo() {
 
   return (
     <div
-      id="final-cta-video"
-      data-section-name="final-cta-video"
+      id="how-it-works"
+      data-section-name="how-it-works"
       className="relative w-full min-h-screen py-24 px-6 overflow-hidden flex items-center justify-center"
       style={{
         background: 'linear-gradient(180deg, #F8FAFC 0%, #EEF2F7 100%)',

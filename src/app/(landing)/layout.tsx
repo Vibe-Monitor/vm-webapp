@@ -2,8 +2,7 @@
 
 import { useEffect } from 'react';
 import Script from 'next/script';
-import Header from "@/vm-site-landing/components/Header";
-import Footer from "@/vm-site-landing/components/Footer";
+
 
 export default function LandingLayout({
   children,
@@ -23,11 +22,11 @@ export default function LandingLayout({
 
   return (
     <div className="min-h-screen" style={{ background: '#ffffff', color: '#171717' }}>
-      <Header />
+    
       <main>
         {children}
       </main>
-      <Footer />
+      
       <Script
         src="https://tally.so/widgets/embed.js"
         strategy="afterInteractive"

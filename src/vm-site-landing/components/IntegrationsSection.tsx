@@ -69,8 +69,8 @@ export function IntegrationsSection() {
 
   return (
     <section
-      id="integrations"
-      data-section-name="integrations"
+      id="features"
+      data-section-name="features"
       className="relative w-full min-h-screen py-32 px-8 overflow-hidden flex items-center justify-center"
       style={{ background: '#FFFFFF' }}
     >
