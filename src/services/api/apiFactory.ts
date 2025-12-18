@@ -7,6 +7,7 @@ import { DatadogClient } from './integrations/DatadogClient';
 import { NewRelicClient } from './integrations/NewRelicClient';
 import { WorkspaceClient } from './clients/WorkspaceClient';
 import { UserClient } from './clients/UserClient';
+import { MailgunClient } from './clients/MailgunClient';
 
 /**
  * API Factory with Lazy Loading
@@ -30,6 +31,7 @@ class ApiFactory {
   private _newrelic?: NewRelicClient;
   private _workspace?: WorkspaceClient;
   private _user?: UserClient;
+  private _mailgun?: MailgunClient;
 
   constructor() {
     this.baseClient = new BaseClient();
@@ -121,6 +123,17 @@ class ApiFactory {
       this._newrelic = new NewRelicClient(this.baseClient);
     }
     return this._newrelic;
+  }
+
+  /**
+   * Mailgun API Client
+   * Lazy-loaded on first access
+   */
+  get mailgun(): MailgunClient {
+    if (!this._mailgun) {
+      this._mailgun = new MailgunClient(this.baseClient);
+    }
+    return this._mailgun;
   }
 }
 

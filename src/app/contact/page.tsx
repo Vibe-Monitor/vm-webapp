@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 import { CheckCircle2, Send, Sparkles } from 'lucide-react';
 import { useState } from 'react';
+import { api } from '@/services/api/apiFactory';
 
 
 export default function ContactPage() {
@@ -14,16 +15,31 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      const response = await api.mailgun.submitContactForm({
+        name: formData.name,
+        work_email: formData.email,
+        interested_topics: formData.interest,
+      });
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+      if (response.status === 200 && response.data?.success) {
+        setIsSubmitted(true);
+      } else {
+        setError(response.error || 'Failed to submit contact form. Please try again.');
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again later.');
+      console.error('Contact form submission error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -266,6 +282,21 @@ export default function ContactPage() {
                       <option value="other">Other</option>
                     </select>
                   </div>
+
+                  {/* Error Message */}
+                  {error && (
+                    <div
+                      className="p-4 rounded-lg"
+                      style={{
+                        background: 'rgba(220, 38, 38, 0.1)',
+                        border: '1px solid rgba(220, 38, 38, 0.2)',
+                      }}
+                    >
+                      <p style={{ fontSize: '14px', color: '#DC2626', margin: 0 }}>
+                        {error}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Submit Button */}
                   <button
