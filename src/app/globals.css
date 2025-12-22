@@ -9,6 +9,30 @@ html, body {
   line-height: var(--leading-normal);
 }
 
+/* Override browser autocomplete styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--color-background) inset !important;
+  -webkit-text-fill-color: var(--color-text-primary) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* For Firefox */
+input:-moz-autofill,
+input:-moz-autofill-preview {
+  filter: none;
+}
+
+/* Prevent input background from changing */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background-color: var(--color-background) !important;
+  color: var(--color-text-primary) !important;
+}
+
 /* Auto-hide scrollbar styles */
 .auto-hide-scrollbar {
   scrollbar-width: thin;

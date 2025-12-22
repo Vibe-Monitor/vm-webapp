@@ -8,6 +8,8 @@ import { NewRelicClient } from './integrations/NewRelicClient';
 import { WorkspaceClient } from './clients/WorkspaceClient';
 import { UserClient } from './clients/UserClient';
 import { MailgunClient } from './clients/MailgunClient';
+import { GoogleAuthClient } from './auth/GoogleAuthClient';
+import { CredentialAuthClient } from './auth/CredentialAuthClient';
 
 /**
  * API Factory with Lazy Loading
@@ -32,6 +34,8 @@ class ApiFactory {
   private _workspace?: WorkspaceClient;
   private _user?: UserClient;
   private _mailgun?: MailgunClient;
+  private _googleAuth?: GoogleAuthClient;
+  private _credentialAuth?: CredentialAuthClient;
 
   constructor() {
     this.baseClient = new BaseClient();
@@ -134,6 +138,28 @@ class ApiFactory {
       this._mailgun = new MailgunClient(this.baseClient);
     }
     return this._mailgun;
+  }
+
+  /**
+   * Google Auth Client
+   * Lazy-loaded on first access
+   */
+  get googleAuth(): GoogleAuthClient {
+    if (!this._googleAuth) {
+      this._googleAuth = new GoogleAuthClient();
+    }
+    return this._googleAuth;
+  }
+
+  /**
+   * Credential Auth Client (Email/Password Authentication)
+   * Lazy-loaded on first access
+   */
+  get credentialAuth(): CredentialAuthClient {
+    if (!this._credentialAuth) {
+      this._credentialAuth = new CredentialAuthClient();
+    }
+    return this._credentialAuth;
   }
 }
 
