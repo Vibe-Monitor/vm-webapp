@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton"
+import GitHubSignInButton from "@/components/auth/GitHubSignInButton"
 
 export default function SignupPage() {
   return (
@@ -88,7 +89,10 @@ export default function SignupPage() {
           </div>
         </div>
 
-        <GoogleSignInButton />
+        <div className="space-y-3">
+          <GoogleSignInButton />
+          <GitHubSignInButton />
+        </div>
 
         <p 
           className="text-center text-xs"
