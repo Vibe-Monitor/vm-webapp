@@ -3,6 +3,7 @@
 import posthog from 'posthog-js'
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { githubAuthClient } from '@/services/api/auth/GitHubAuthClient'
 
 interface GitHubSignInButtonProps {
   onError?: (error: string | Error) => void
@@ -23,28 +24,23 @@ export default function GitHubSignInButton({
     setIsLoading(true)
 
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
       const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
       const redirectUri = `${frontendUrl}/auth/github/callback`
 
       posthog.capture('github_signin_button_clicked', {
         button_text: text,
         redirect_uri: redirectUri,
-        source: 'auth_page'
+        source: 'auth_page',
+        uses_pkce: true
       })
-
-      const params = new URLSearchParams({
-        redirect_uri: redirectUri
-      })
-
-      // Backend will redirect to GitHub, then GitHub redirects directly to frontend with code
-      // (Same pattern as Google OAuth)
-      const backendAuthUrl = `${backendUrl}/api/v1/auth/github/login?${params.toString()}`
 
       console.log('GitHub OAuth redirect_uri:', redirectUri)
-      console.log('Backend auth URL:', backendAuthUrl)
+      console.log('Initiating GitHub OAuth with PKCE...')
 
-      window.location.href = backendAuthUrl
+      // Initiate OAuth flow with PKCE
+      // This generates code_verifier and code_challenge, stores code_verifier in session storage,
+      // and redirects to backend OAuth endpoint with code_challenge
+      await githubAuthClient.initiateOAuthFlow(redirectUri)
 
     } catch (error) {
       setIsLoading(false)
