@@ -3,6 +3,8 @@
  * Implements RFC 7636 standard for secure OAuth flows
  */
 
+import { encryptString, decryptString } from './encryption';
+
 /**
  * Generate a cryptographically random code verifier
  * @returns Base64URL-encoded random string (43-128 characters)
@@ -56,26 +58,27 @@ function base64URLEncode(buffer: Uint8Array): string {
 }
 
 /**
- * Store PKCE code verifier in session storage
+ * Store PKCE code verifier in session storage (encrypted)
  * @param codeVerifier - The code verifier to store
  */
-export function storePKCEVerifier(codeVerifier: string): void {
+export async function storePKCEVerifier(codeVerifier: string): Promise<void> {
   if (typeof window !== 'undefined') {
-    sessionStorage.setItem('pkce_code_verifier', codeVerifier);
+    const encrypted = await encryptString(codeVerifier);
+    sessionStorage.setItem('pkce_code_verifier', encrypted);
   }
 }
 
 /**
- * Retrieve and remove PKCE code verifier from session storage
+ * Retrieve and remove PKCE code verifier from session storage (decrypted)
  * @returns The stored code verifier, or null if not found
  */
-export function retrievePKCEVerifier(): string | null {
+export async function retrievePKCEVerifier(): Promise<string | null> {
   if (typeof window !== 'undefined') {
-    const verifier = sessionStorage.getItem('pkce_code_verifier');
-    if (verifier) {
+    const encrypted = sessionStorage.getItem('pkce_code_verifier');
+    if (encrypted) {
       sessionStorage.removeItem('pkce_code_verifier');
+      return await decryptString(encrypted);
     }
-    return verifier;
   }
   return null;
 }
@@ -91,26 +94,27 @@ export function generateOAuthState(): string {
 }
 
 /**
- * Store OAuth state in session storage
+ * Store OAuth state in session storage (encrypted)
  * @param state - The state parameter to store
  */
-export function storeOAuthState(state: string): void {
+export async function storeOAuthState(state: string): Promise<void> {
   if (typeof window !== 'undefined') {
-    sessionStorage.setItem('oauth_state', state);
+    const encrypted = await encryptString(state);
+    sessionStorage.setItem('oauth_state', encrypted);
   }
 }
 
 /**
- * Retrieve and remove OAuth state from session storage
+ * Retrieve and remove OAuth state from session storage (decrypted)
  * @returns The stored state, or null if not found
  */
-export function retrieveOAuthState(): string | null {
+export async function retrieveOAuthState(): Promise<string | null> {
   if (typeof window !== 'undefined') {
-    const state = sessionStorage.getItem('oauth_state');
-    if (state) {
+    const encrypted = sessionStorage.getItem('oauth_state');
+    if (encrypted) {
       sessionStorage.removeItem('oauth_state');
+      return await decryptString(encrypted);
     }
-    return state;
   }
   return null;
 }

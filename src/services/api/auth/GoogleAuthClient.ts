@@ -35,8 +35,8 @@ export class GoogleAuthClient {
     const state = generateOAuthState();
 
     // Store code_verifier and state in session storage for callback
-    storePKCEVerifier(code_verifier);
-    storeOAuthState(state);
+    await storePKCEVerifier(code_verifier);
+    await storeOAuthState(state);
 
     // Build backend auth URL with PKCE parameters
     const params = new URLSearchParams({
@@ -74,8 +74,8 @@ export class GoogleAuthClient {
     state: string | null
   ): Promise<GoogleAuthTokenResponse> {
     // Retrieve stored values (may not exist if manually testing)
-    const storedVerifier = retrievePKCEVerifier();
-    const storedState = retrieveOAuthState();
+    const storedVerifier = await retrievePKCEVerifier();
+    const storedState = await retrieveOAuthState();
 
     // Verify state parameter (CSRF protection) - only if we have a stored state
     if (storedState && state !== storedState) {
