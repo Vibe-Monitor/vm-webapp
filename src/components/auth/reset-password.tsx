@@ -221,30 +221,7 @@ export default function ResetPasswordPage() {
           </div>
         )}
 
-        <div className="text-center mt-4">
-          <Link
-            href="/auth"
-            className="text-sm flex items-center justify-center hover:opacity-80 transition-opacity"
-            style={{
-              color: 'var(--color-text-secondary)'
-            }}
-          >
-            <svg
-              className="mr-2 h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            Back to Sign In
-          </Link>
-        </div>
+   
       </div>
     </div>
   )

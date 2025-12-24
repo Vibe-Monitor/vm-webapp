@@ -11,8 +11,12 @@ interface ConditionalLayoutProps {
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
   const pathname = usePathname();
 
-  // Show header and footer only on homepage
-  const showHeaderFooter = pathname === '/';
+  // Show header and footer on homepage, contact, terms, and policy pages
+  const showHeaderFooter = pathname === '/' ||
+                          pathname === '/contact' ||
+                          pathname === '/terms' ||
+                          pathname === '/privacy' ||
+                          pathname === '/policy';
 
   return (
     <>

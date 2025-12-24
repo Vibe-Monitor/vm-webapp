@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import posthog from 'posthog-js'
 import { tokenService } from '@/services/tokenService'
 import Loader from '@/components/ui/loader'
+import { googleAuthClient } from '@/services/api/auth/GoogleAuthClient'
 
 export default function GoogleCallbackPage() {
   const router = useRouter()
@@ -29,12 +30,15 @@ export default function GoogleCallbackPage() {
 
         const urlParams = new URLSearchParams(window.location.search)
         const code = urlParams.get('code')
+        const state = urlParams.get('state')
         const error = urlParams.get('error')
 
         posthog.capture('google_oauth_callback_received', {
           has_code: !!code,
+          has_state: !!state,
           has_error: !!error,
-          error_value: error
+          error_value: error,
+          uses_pkce: true
         })
 
         if (error) {
@@ -63,42 +67,18 @@ export default function GoogleCallbackPage() {
           return
         }
 
-        setStatus('Exchanging code for tokens...')
+        setStatus('Exchanging code for tokens with PKCE...')
 
         const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
-
-        const callbackParams = new URLSearchParams({
-          code: code,
-          redirect_uri: `${frontendUrl}/auth/google/callback`
-        })
+        const redirectUri = `${frontendUrl}/auth/google/callback`
 
         console.log('Callback - Frontend URL:', frontendUrl)
-        console.log('Callback - Backend URL:', backendUrl)
-        console.log('Callback - redirect_uri:', `${frontendUrl}/auth/google/callback`)
+        console.log('Callback - redirect_uri:', redirectUri)
+        console.log('Callback - Using PKCE flow')
 
-        const response = await fetch(`${backendUrl}/api/v1/auth/callback?${callbackParams.toString()}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-
-        if (!response.ok) {
-          const contentType = response.headers.get('content-type')
-          if (contentType && contentType.includes('application/json')) {
-            const errorData = await response.json()
-            throw new Error(errorData.detail || `HTTP error! status: ${response.status}`)
-          }
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        const contentType = response.headers.get('content-type')
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Invalid response format from server')
-        }
-
-        const data = await response.json()
+        // Exchange code for tokens using PKCE
+        // This retrieves code_verifier from session storage and sends it to backend
+        const data = await googleAuthClient.exchangeCodeForTokens(code, redirectUri, state)
 
         if (data.access_token && data.refresh_token) {
           tokenService.setTokens({
@@ -107,32 +87,26 @@ export default function GoogleCallbackPage() {
             expires_in: data.expires_in
           })
 
-          const userResponse = await fetch(`${backendUrl}/api/v1/auth/me`, {
-            headers: {
-              'Authorization': `Bearer ${data.access_token}`
-            }
+          // Get user information
+          const userData = await googleAuthClient.getCurrentUser(data.access_token)
+
+          posthog.identify(userData.id, {
+            email: userData.email,
+            name: userData.name,
+            created_at: userData.created_at
           })
 
-          if (userResponse.ok) {
-            const userData = await userResponse.json()
-
-            posthog.identify(userData.id, {
-              email: userData.email,
-              name: userData.name,
-              created_at: userData.created_at
-            })
-
-            posthog.setPersonProperties({
-              email: userData.email,
-              name: userData.name,
-              auth_method: 'google',
-              user_type: 'authenticated'
-            })
-          }
+          posthog.setPersonProperties({
+            email: userData.email,
+            name: userData.name,
+            auth_method: 'google',
+            user_type: 'authenticated'
+          })
 
           posthog.capture('user_authenticated_successfully', {
             auth_method: 'google_oauth',
-            has_refresh_token: true
+            has_refresh_token: true,
+            uses_pkce: true
           })
 
           posthog.capture('funnel_stage', {
