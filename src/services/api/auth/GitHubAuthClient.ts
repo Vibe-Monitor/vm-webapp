@@ -88,6 +88,12 @@ export class GitHubAuthClient {
       redirect_uri: redirectUri,
     });
 
+    // Add state for backend validation (backend will validate it too)
+    if (state) {
+      params.append('state', state);
+      console.log('Sending state to backend for validation');
+    }
+
     // Add PKCE code_verifier if available (from frontend PKCE flow)
     if (storedVerifier) {
       params.append('code_verifier', storedVerifier);
