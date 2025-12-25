@@ -124,15 +124,15 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
   };
 
   const statusComponent = connected && accountId ? (
-    <div className="w-full p-3 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+    <div className="w-full p-3 rounded-md border border-emerald-600/40 bg-emerald-500/10">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-          <span className="text-sm font-semibold text-emerald-400">New Relic Connected</span>
+          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+          <span className="text-sm font-semibold text-emerald-600">New Relic Connected</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-[#9AA3B0]">Account ID:</span>
-          <span className="text-sm text-[#E5E7EB]">{accountId}</span>
+          <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Account ID:</span>
+          <span className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{accountId}</span>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
 
   const instructions = (
     <div className="flex flex-col items-start gap-3 w-full">
-      <h4 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+      <h4 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
         Instructions to integrate
       </h4>
 
@@ -148,14 +148,14 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
         {/* Step 1 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               1
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Go to API Keys Section
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Inside New Relic, open your <strong>API Keys</strong> settings page where all keys for your account are managed.
               </p>
             </div>
@@ -165,17 +165,17 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
         {/* Step 2 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               2
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Create User API Key
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Click &quot;Create a Key&quot; → Select <strong>Key Type: User</strong>
               </p>
-              <p className="text-xs leading-4 text-yellow-400 mt-1">
+              <p className="text-xs leading-4 mt-1" style={{ color: '#F59E0B' }}>
                 ⚠️ Must be &quot;User&quot; type, NOT Ingest-License or Ingest-Browser!
               </p>
             </div>
@@ -185,14 +185,14 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
         {/* Step 3 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               3
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Copy the Key
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 After creating, copy the key value (starts with <strong>NRAK-</strong>)
               </p>
             </div>
@@ -202,14 +202,14 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
         {/* Step 4 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               4
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Enter Credentials
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Paste your Account ID and User API Key (NRAK-...) above → Click &quot;Connect New Relic&quot;
               </p>
             </div>

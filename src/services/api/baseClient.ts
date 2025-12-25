@@ -160,4 +160,40 @@ export class BaseClient {
   async delete<T>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { method: 'DELETE' });
   }
+
+  /**
+   * Make a public request without authentication
+   * Use this for public endpoints that don't require tokens
+   */
+  async publicRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<ApiResponse<T>> {
+    try {
+      const headers = new Headers(options.headers);
+      headers.set('Content-Type', 'application/json');
+      headers.set('ngrok-skip-browser-warning', 'true');
+
+      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+        ...options,
+        headers
+      });
+
+      const data = await response.json();
+      return { data, status: response.status };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Network error';
+      errorHandler.handleNetworkError(errorMessage, {
+        customMessage: 'Failed to connect to server. Please check your internet connection.'
+      });
+      return { error: errorMessage, status: 500 };
+    }
+  }
+
+  async publicPost<T>(endpoint: string, data: unknown): Promise<ApiResponse<T>> {
+    return this.publicRequest<T>(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
 }

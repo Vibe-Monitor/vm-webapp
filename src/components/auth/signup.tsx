@@ -21,7 +21,7 @@ export default function SignupPage() {
         <div className="text-center">
           <div className="mb-4 flex items-center justify-center">
             <Image
-              src="/images/logo.svg"
+              src="/images/VibeMonitor1.png"
               alt="Vibe Monitor"
               width={40}
               height={40}

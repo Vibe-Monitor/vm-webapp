@@ -131,15 +131,15 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
   };
 
   const statusComponent = connected && grafanaUrl ? (
-    <div className="w-full p-3 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+    <div className="w-full p-3 rounded-md border border-emerald-600/40 bg-emerald-500/10">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-          <span className="text-sm font-semibold text-emerald-400">Grafana Connected</span>
+          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+          <span className="text-sm font-semibold text-emerald-600">Grafana Connected</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-[#9AA3B0]">Connected to:</span>
-          <span className="text-sm text-[#E5E7EB] font-mono break-all">{grafanaUrl}</span>
+          <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Connected to:</span>
+          <span className="text-sm break-all" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{grafanaUrl}</span>
         </div>
       </div>
     </div>
@@ -147,7 +147,7 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
 
   const instructions = (
     <div className="flex flex-col items-start gap-3 w-full">
-      <h4 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+      <h4 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
         Instructions to integrate
       </h4>
 
@@ -155,14 +155,14 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
         {/* Step 1 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               1
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Open Side Panel
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Click Grafana icon → Select &quot;Administration&quot; → &quot;Users and access&quot; → &quot;Service accounts&quot; → Add service account button.
               </p>
             </div>
@@ -172,14 +172,14 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
         {/* Step 2 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               2
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Create Account
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Enter Name → Set Role dropdown to &quot;Viewer&quot; → Click &quot;Create&quot; button.
               </p>
             </div>
@@ -189,14 +189,14 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
         {/* Step 3 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               3
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Add Token
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 In new account details, click &quot;Add service account token&quot; link/button.
               </p>
             </div>
@@ -206,14 +206,14 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
         {/* Step 4 */}
         <div className="flex flex-col items-start gap-1">
           <div className="flex flex-row items-start gap-2">
-            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border border-[#FFD11B] bg-transparent text-[#FFD11B] text-xs">
+            <div className="flex items-center justify-center min-w-[20px] w-[20px] h-[20px] rounded border bg-transparent text-xs" style={{ borderColor: '#FED835', color: '#FED835' }}>
               4
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
                 Generate Token
               </h5>
-              <p className="text-xs leading-4 text-[#9AA3B0]">
+              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
                 Enter token Name → Click &quot;Generate token&quot; → Copy full token (starts with glsa_... → visible once only, save securely).
               </p>
             </div>

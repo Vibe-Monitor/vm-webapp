@@ -187,26 +187,56 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
   }
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 lg:p-8 relative">
+    <main
+      className="theme-light min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 relative"
+      style={{
+        backgroundColor: 'var(--color-background-secondary)',
+        backgroundImage: `
+          linear-gradient(to right, rgba(128, 128, 128, 0.08) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(128, 128, 128, 0.08) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px'
+      }}
+    >
       <BackButton />
       <LogoutButton />
 
-      <Card className="w-full max-w-[794px] p-6 sm:p-10 lg:p-[50px] bg-[rgba(27,41,61,0.1)] border-[#2F4257] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-xl mt-16 sm:mt-0">
+      <Card
+        className="w-full max-w-[794px] p-6 sm:p-10 lg:p-[50px] rounded-xl mt-16 sm:mt-0"
+        style={{
+          backgroundColor: 'var(--color-surface)',
+          borderColor: 'var(--color-border)',
+          boxShadow: 'var(--shadow-card)',
+        }}
+      >
         <CardContent className="p-0 flex flex-col items-center">
           {/* Header */}
           <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[448px] mb-5 sm:mb-7">
             <div className="flex flex-row items-center gap-[5px] px-2">
-              <h1 className="text-xl sm:text-[24px] font-bold leading-tight tracking-[-0.3125px] text-[#E5E7EB]">
+              <h1
+                className="text-xl sm:text-[24px] font-bold leading-tight tracking-[-0.3125px]"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
                 Welcome to VibeMonitor!
               </h1>
-              <span className="text-sm sm:text-[16px] leading-tight tracking-[-0.3125px] text-[#FFD11B]">✨</span>
+              <span
+                className="text-sm sm:text-[16px] leading-tight tracking-[-0.3125px]"
+                style={{ color: 'var(--color-primary)' }}
+              >
+                ✨
+              </span>
             </div>
 
             <div className="flex flex-row items-center gap-[2px] w-full h-9">
               <Input
                 value={workspaceName}
                 onChange={(e) => setWorkspaceName(e.target.value)}
-                className="w-full h-9 px-3 py-1 text-sm bg-[rgba(27,41,61,0.3)] border-[#2F4257] rounded-md text-[#E5E7EB]"
+                className="w-full h-9 px-3 py-1 text-sm rounded-md"
+                style={{
+                  backgroundColor: 'var(--color-surface-secondary)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-text-primary)'
+                }}
               />
             </div>
           </div>
@@ -216,10 +246,19 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
             {/* Connect where work happens */}
             <div className="flex flex-col items-start gap-3 w-full">
               <div className="flex flex-row items-center gap-3">
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#6266FA] text-white text-sm">
+                <div
+                  className="flex items-center justify-center w-6 h-6 rounded-full text-sm"
+                  style={{
+                    backgroundColor: 'var(--color-button-blue)',
+                    color: 'var(--color-background)'
+                  }}
+                >
                   1
                 </div>
-                <h3 className="text-sm font-semibold leading-6 tracking-[-0.3125px] text-[#E5E7EB]">
+                <h3
+                  className="text-sm font-semibold leading-6 tracking-[-0.3125px]"
+                  style={{ color: 'var(--color-text-primary)' }}
+                >
                   Connect where work happens
                 </h3>
               </div>
@@ -228,8 +267,11 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                 {...slack}
                 title="Slack"
                 icon={
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E5E7EB] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" viewBox="0 0 24 24">
+                    <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z" fill="#E01E5A"/>
+                    <path d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z" fill="#36C5F0"/>
+                    <path d="M18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312z" fill="#2EB67D"/>
+                    <path d="M15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" fill="#ECB22E"/>
                   </svg>
                 }
                 value="slack"
@@ -240,10 +282,19 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
             {/* Connect your data sources */}
             <div className="flex flex-col items-start gap-4 w-full">
               <div className="flex flex-row items-center gap-3">
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#6266FA] text-white text-sm">
+                <div
+                  className="flex items-center justify-center w-6 h-6 rounded-full text-sm"
+                  style={{
+                    backgroundColor: 'var(--color-button-blue)',
+                    color: 'var(--color-background)'
+                  }}
+                >
                   2
                 </div>
-                <h3 className="text-sm font-semibold leading-6 tracking-[-0.3125px] text-[#E5E7EB]">
+                <h3
+                  className="text-sm font-semibold leading-6 tracking-[-0.3125px]"
+                  style={{ color: 'var(--color-text-primary)' }}
+                >
                   Connect your data sources
                 </h3>
               </div>
@@ -253,7 +304,7 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                 <IntegrationSection
                   {...github}
                   title="GitHub"
-                  icon={<GitHubLogoIcon className="w-4 h-4 sm:w-5 sm:h-5 text-[#E5E7EB] flex-shrink-0" />}
+                  icon={<GitHubLogoIcon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" style={{ color: '#171515' }} />}
                   value="github"
                 />
 
@@ -262,9 +313,9 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                   {...grafana}
                   title="Grafana"
                   icon={
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E5E7EB] flex-shrink-0" viewBox="0 0 32 32" fill="currentColor">
-                      <path d="M27.313 11.375c-0.063-1.25-0.25-2.438-0.563-3.563-1.063-3.688-3.75-6.438-7.375-7.563-1.125-0.313-2.313-0.5-3.563-0.563-0.125 0-0.188-0.063-0.188-0.188v-0.188h-0.625v0.188c0 0.125-0.063 0.188-0.188 0.188-1.25 0.063-2.438 0.25-3.563 0.563-3.688 1.063-6.438 3.75-7.563 7.375-0.313 1.125-0.5 2.313-0.563 3.563 0 0.125-0.063 0.188-0.188 0.188h-0.188v0.625h0.188c0.125 0 0.188 0.063 0.188 0.188 0.063 1.25 0.25 2.438 0.563 3.563 1.063 3.688 3.75 6.438 7.375 7.563 1.125 0.313 2.313 0.5 3.563 0.563 0.125 0 0.188 0.063 0.188 0.188v0.188h0.625v-0.188c0-0.125 0.063-0.188 0.188-0.188 1.25-0.063 2.438-0.25 3.563-0.563 3.688-1.063 6.438-3.75 7.563-7.375 0.313-1.125 0.5-2.313 0.563-3.563 0-0.125 0.063-0.188 0.188-0.188h0.188v-0.625h-0.188c-0.125 0-0.188-0.063-0.188-0.188zM16 26.5c-5.813 0-10.5-4.688-10.5-10.5s4.688-10.5 10.5-10.5 10.5 4.688 10.5 10.5-4.688 10.5-10.5 10.5z"/>
-                      <path d="M21.875 13.188c-0.125-1.063-0.5-2.063-1.063-2.938-0.875-1.375-2.188-2.375-3.75-2.813-0.75-0.188-1.5-0.313-2.313-0.313-0.063 0-0.125 0-0.188 0-0.063 0-0.125-0.063-0.125-0.125v-0.125h-0.313v0.125c0 0.063-0.063 0.125-0.125 0.125-0.063 0-0.125 0-0.188 0-0.813 0-1.563 0.125-2.313 0.313-1.563 0.438-2.875 1.438-3.75 2.813-0.563 0.875-0.938 1.875-1.063 2.938 0 0.063-0.063 0.125-0.125 0.125h-0.125v0.313h0.125c0.063 0 0.125 0.063 0.125 0.125 0.125 1.063 0.5 2.063 1.063 2.938 0.875 1.375 2.188 2.375 3.75 2.813 0.75 0.188 1.5 0.313 2.313 0.313 0.063 0 0.125 0 0.188 0 0.063 0 0.125 0.063 0.125 0.125v0.125h0.313v-0.125c0-0.063 0.063-0.125 0.125-0.125 0.063 0 0.125 0 0.188 0 0.813 0 1.563-0.125 2.313-0.313 1.563-0.438 2.875-1.438 3.75-2.813 0.563-0.875 0.938-1.875 1.063-2.938 0-0.063 0.063-0.125 0.125-0.125h0.125v-0.313h-0.125c-0.063 0-0.125-0.063-0.125-0.125zM14.5 18.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"/>
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" viewBox="0 0 32 32">
+                      <path d="M27.313 11.375c-0.063-1.25-0.25-2.438-0.563-3.563-1.063-3.688-3.75-6.438-7.375-7.563-1.125-0.313-2.313-0.5-3.563-0.563-0.125 0-0.188-0.063-0.188-0.188v-0.188h-0.625v0.188c0 0.125-0.063 0.188-0.188 0.188-1.25 0.063-2.438 0.25-3.563 0.563-3.688 1.063-6.438 3.75-7.563 7.375-0.313 1.125-0.5 2.313-0.563 3.563 0 0.125-0.063 0.188-0.188 0.188h-0.188v0.625h0.188c0.125 0 0.188 0.063 0.188 0.188 0.063 1.25 0.25 2.438 0.563 3.563 1.063 3.688 3.75 6.438 7.375 7.563 1.125 0.313 2.313 0.5 3.563 0.563 0.125 0 0.188 0.063 0.188 0.188v0.188h0.625v-0.188c0-0.125 0.063-0.188 0.188-0.188 1.25-0.063 2.438-0.25 3.563-0.563 3.688-1.063 6.438-3.75 7.563-7.375 0.313-1.125 0.5-2.313 0.563-3.563 0-0.125 0.063-0.188 0.188-0.188h0.188v-0.625h-0.188c-0.125 0-0.188-0.063-0.188-0.188zM16 26.5c-5.813 0-10.5-4.688-10.5-10.5s4.688-10.5 10.5-10.5 10.5 4.688 10.5 10.5-4.688 10.5-10.5 10.5z" fill="#F46800"/>
+                      <path d="M21.875 13.188c-0.125-1.063-0.5-2.063-1.063-2.938-0.875-1.375-2.188-2.375-3.75-2.813-0.75-0.188-1.5-0.313-2.313-0.313-0.063 0-0.125 0-0.188 0-0.063 0-0.125-0.063-0.125-0.125v-0.125h-0.313v0.125c0 0.063-0.063 0.125-0.125 0.125-0.063 0-0.125 0-0.188 0-0.813 0-1.563 0.125-2.313 0.313-1.563 0.438-2.875 1.438-3.75 2.813-0.563 0.875-0.938 1.875-1.063 2.938 0 0.063-0.063 0.125-0.125 0.125h-0.125v0.313h0.125c0.063 0 0.125 0.063 0.125 0.125 0.125 1.063 0.5 2.063 1.063 2.938 0.875 1.375 2.188 2.375 3.75 2.813 0.75 0.188 1.5 0.313 2.313 0.313 0.063 0 0.125 0 0.188 0 0.063 0 0.125 0.063 0.125 0.125v0.125h0.313v-0.125c0-0.063 0.063-0.125 0.125-0.125 0.063 0 0.125 0 0.188 0 0.813 0 1.563-0.125 2.313-0.313 1.563-0.438 2.875-1.438 3.75-2.813 0.563-0.875 0.938-1.875 1.063-2.938 0-0.063 0.063-0.125 0.125-0.125h0.125v-0.313h-0.125c-0.063 0-0.125-0.063-0.125-0.125zM14.5 18.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" fill="#F46800"/>
                     </svg>
                   }
                   value="grafana"
@@ -275,8 +326,10 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                   {...aws}
                   title="AWS CloudWatch"
                   icon={
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E5E7EB] flex-shrink-0" viewBox="0 0 256 256" fill="currentColor">
-                      <path d="M208 40H48a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm-72 152h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zm40 112h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zM96 192H80v-16h16zm0-32H80v-64h16zm0-80H80V64h16z"/>
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" viewBox="0 0 256 153" fill="none">
+                      <path d="M72.392 42.011c0 9.724-2.635 17.8-7.134 23.456-4.624 5.781-11.006 8.672-19.146 8.672-7.889 0-14.146-2.891-18.77-8.672C22.758 59.811 20 51.735 20 42.011c0-9.724 2.758-17.8 7.342-23.456 4.624-5.781 10.881-8.796 18.77-8.796 8.14 0 14.522 3.015 19.146 8.796 4.499 5.656 7.134 13.732 7.134 23.456zm-12.012 0c0-12.738-4.248-19.162-12.768-19.162-8.391 0-12.639 6.424-12.639 19.162 0 12.863 4.248 19.287 12.639 19.287 8.52 0 12.768-6.424 12.768-19.287zm36.169-16.897c1.506-2.516 3.513-4.532 6.023-5.906 2.51-1.375 5.396-2.141 8.657-2.141 5.522 0 9.77 1.75 12.768 5.281 2.998 3.407 4.498 8.422 4.498 14.92v34.94h-11.634V37.855c0-4.032-.75-6.924-2.384-8.796-1.633-1.873-4.123-2.766-7.468-2.766-4.123 0-7.343 1.375-9.728 4.157-2.384 2.782-3.512 6.673-3.512 11.706v30.052H81.137V6.551h11.412v18.563zm87.08-1.749c2.384-5.656 5.773-10.046 10.146-13.357 4.373-3.312 9.77-4.906 15.919-4.906 5.146 0 9.77 1.25 13.768 3.657 4.123 2.407 7.343 5.906 9.853 10.421 2.384-4.515 5.648-8.014 9.728-10.421 4.206-2.407 8.831-3.657 14.021-3.657 7.343 0 13.241 2.391 17.739 7.173 4.499 4.782 6.774 11.33 6.774 19.662v41.238h-11.635V33.198c0-5.031-1.13-8.797-3.387-11.08-2.258-2.407-5.396-3.532-9.394-3.532-4.498 0-8.139 1.5-11.007 4.407-2.867 2.907-4.248 7.048-4.248 12.33v37.883h-11.635V33.198c0-5.031-1.129-8.797-3.387-11.08-2.258-2.407-5.396-3.532-9.394-3.532-4.498 0-8.139 1.5-11.007 4.407-2.867 2.907-4.248 7.048-4.248 12.33v37.883h-11.635V6.551h11.034v16.814z" fill="#FF9900"/>
+                      <path d="M190.645 98.522c-28.771 21.316-70.552 32.614-106.528 32.614-50.401 0-95.822-18.659-130.117-49.645-2.697-2.438-.283-5.781 2.947-3.875 37.042 21.566 82.839 34.548 130.117 34.548 31.902 0 67.002-6.611 99.279-20.343 4.872-2.063 8.95 3.218 4.302 6.701z" fill="#FF9900"/>
+                      <path d="M204.043 82.961c-3.674-4.719-24.348-2.235-33.674-1.125-2.839.343-3.283-2.125-.717-3.906 16.469-11.588 43.501-8.241 46.624-4.36 3.124 3.938-.81 31.239-16.427 44.252-2.394 1.999-4.677.937-3.619-1.718 3.479-8.641 11.287-28.024 7.613-32.743z" fill="#FF9900"/>
                     </svg>
                   }
                   value="aws"
@@ -285,8 +338,11 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                   {...datadog}
                   title="Datadog"
                   icon={
-                     <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E5E7EB] flex-shrink-0" viewBox="0 0 256 256" fill="currentColor">
-                      <path d="M208 40H48a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm-72 152h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zm40 112h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zM96 192H80v-16h16zm0-32H80v-64h16zm0-80H80V64h16z"/>
+                     <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" viewBox="0 0 256 294" fill="none">
+                      <path d="M118.5 73.8l-5.1-14.5c-.2-.5-.8-.8-1.3-.6l-6.4 2.4c-.5.2-.8.8-.6 1.3l5.1 14.5c.2.5.8.8 1.3.6l6.4-2.4c.5-.2.8-.8.6-1.3z" fill="#632CA6"/>
+                      <path d="M223.1 122.3l-8.4-8.4c-.4-.4-1-.4-1.4 0l-5 5c-.4.4-.4 1 0 1.4l8.4 8.4c.4.4 1 .4 1.4 0l5-5c.4-.4.4-1 0-1.4zM31.1 122.3l8.4-8.4c.4-.4 1-.4 1.4 0l5 5c.4.4.4 1 0 1.4l-8.4 8.4c-.4.4-1 .4-1.4 0l-5-5c-.4-.4-.4-1 0-1.4z" fill="#632CA6"/>
+                      <path d="M127.8 0C57.3 0 0 57.3 0 127.8c0 19.6 4.4 38.1 12.3 54.7L46.5 240c1.3 3.8 4.8 6.4 8.8 6.4h145.5c4 0 7.5-2.6 8.8-6.4l34.2-57.5c7.9-16.6 12.3-35.1 12.3-54.7C256 57.3 198.7 0 127.8 0zm0 210.2c-45.6 0-82.4-36.9-82.4-82.4 0-45.6 36.9-82.4 82.4-82.4 45.6 0 82.4 36.9 82.4 82.4 0 45.5-36.8 82.4-82.4 82.4z" fill="#632CA6"/>
+                      <path d="M127.8 61.6c-36.5 0-66.2 29.7-66.2 66.2 0 36.5 29.7 66.2 66.2 66.2 36.5 0 66.2-29.7 66.2-66.2 0-36.5-29.7-66.2-66.2-66.2zm31.8 96.8c-.5.5-1.2.5-1.6 0l-9.6-9.6c-.5-.5-.5-1.2 0-1.6l5.5-5.5-13.1-13.1-5.5 5.5c-.5.5-1.2.5-1.6 0l-9.6-9.6c-.5-.5-.5-1.2 0-1.6l5.5-5.5-13.1-13.1-5.5 5.5c-.5.5-1.2.5-1.6 0l-9.6-9.6c-.5-.5-.5-1.2 0-1.6l20.7-20.7c.5-.5 1.2-.5 1.6 0l9.6 9.6c.5.5.5 1.2 0 1.6l-5.5 5.5 13.1 13.1 5.5-5.5c.5-.5 1.2-.5 1.6 0l9.6 9.6c.5.5.5 1.2 0 1.6l-5.5 5.5 13.1 13.1 5.5-5.5c.5-.5 1.2-.5 1.6 0l9.6 9.6c.5.5.5 1.2 0 1.6l-20.7 20.7z" fill="#632CA6"/>
                     </svg>
                   }
                   value="datadog"
@@ -295,8 +351,10 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                   {...newrelic}
                   title="New Relic"
                   icon={
-                     <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E5E7EB] flex-shrink-0" viewBox="0 0 256 256" fill="currentColor">
-                      <path d="M208 40H48a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm-72 152h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zm40 112h-16v-16h16zm0-32h-16v-64h16zm0-80h-16V64h16zM96 192H80v-16h16zm0-32H80v-64h16zm0-80H80V64h16z"/>
+                     <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" viewBox="0 0 256 233" fill="none">
+                      <path d="M126.834 0L0 72.8v87.6l31.656 18.2V96.2l95.178-54.6 95.178 54.6v109.2l31.656-18.2V72.8L126.834 0z" fill="#008C99"/>
+                      <path d="M126.834 64.4L64.489 100.8v72.8l31.656 18.2v-54.6l30.689-17.6 30.689 17.6v54.6l31.656-18.2v-72.8l-62.345-36.4z" fill="#1CE783"/>
+                      <path d="M95.178 173.6L63.522 191.8 95.178 210v23.2L31.656 196.8v-46.4l31.656-18.2 31.866 18.2v23.2z" fill="#1D252C"/>
                     </svg>
                   }
                   value="newrelic"
@@ -311,27 +369,58 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
               <div className="flex flex-col items-start gap-4 sm:gap-5 w-full max-w-[333px] px-4 sm:px-0">
                 <div className="flex flex-col items-center gap-1 w-full">
                   <div className="flex flex-row items-center gap-[9px]">
-                    <span className="text-xs leading-4 text-[#9AA3B0]">✨</span>
-                    <span className="text-sm sm:text-[16px] font-medium leading-5 tracking-[-0.150391px] text-[#E5E7EB]">
+                    <span className="text-xs leading-4" style={{ color: 'var(--color-primary)' }}>✨</span>
+                    <span
+                      className="text-sm sm:text-[16px] font-medium leading-5 tracking-[-0.150391px]"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
                       More coming soon!
                     </span>
                   </div>
-                  <p className="text-xs leading-4 text-[#9AA3B0] text-center">
+                  <p className="text-xs leading-4 text-center" style={{ color: 'var(--color-text-tertiary)' }}>
                     We&apos;re expanding context for richer results—stay tuned!
                   </p>
                 </div>
 
                 <div className="flex flex-row items-center justify-center flex-wrap gap-2 w-full">
-                  <Badge className="h-[22px] px-[9px] py-[3px] bg-[rgba(47,66,87,0.5)] border-[rgba(47,66,87,0.5)] text-[#9AA3B0] text-xs font-medium leading-4 hover:bg-[rgba(47,66,87,0.5)]">
+                  <Badge
+                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
+                    style={{
+                      backgroundColor: 'var(--color-surface-secondary)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-tertiary)'
+                    }}
+                  >
                     📋 Jira
                   </Badge>
-                  <Badge className="h-[22px] px-[9px] py-[3px] bg-[rgba(47,66,87,0.5)] border-[rgba(47,66,87,0.5)] text-[#9AA3B0] text-xs font-medium leading-4 hover:bg-[rgba(47,66,87,0.5)]">
+                  <Badge
+                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
+                    style={{
+                      backgroundColor: 'var(--color-surface-secondary)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-tertiary)'
+                    }}
+                  >
                     🐳 Docker
                   </Badge>
-                  <Badge className="h-[22px] px-[9px] py-[3px] bg-[rgba(47,66,87,0.5)] border-[rgba(47,66,87,0.5)] text-[#9AA3B0] text-xs font-medium leading-4 hover:bg-[rgba(47,66,87,0.5)]">
+                  <Badge
+                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
+                    style={{
+                      backgroundColor: 'var(--color-surface-secondary)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-tertiary)'
+                    }}
+                  >
                     🔧 Jenkins
                   </Badge>
-                  <Badge className="h-[22px] px-[9px] py-[3px] bg-[rgba(47,66,87,0.5)] border-[rgba(47,66,87,0.5)] text-[#9AA3B0] text-xs font-medium leading-4 hover:bg-[rgba(47,66,87,0.5)]">
+                  <Badge
+                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
+                    style={{
+                      backgroundColor: 'var(--color-surface-secondary)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-tertiary)'
+                    }}
+                  >
                     🐕 DataDog
                   </Badge>
                 </div>
@@ -340,7 +429,13 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
               {/* Setup Button */}
               <Button
                 onClick={handleContinue}
-                className="w-full h-10 bg-[#3F5ECC] hover:bg-[#3F5ECC]/90 text-white rounded-md text-sm font-medium"
+                className="w-full h-10 rounded-md text-sm font-medium"
+                style={{
+                  backgroundColor: 'var(--color-logo-blue)',
+                  color: '#ffffff'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
               >
                 Complete Setup
               </Button>

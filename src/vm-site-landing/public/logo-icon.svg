@@ -1,0 +1,9 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="circle-clip">
+      <circle cx="12" cy="12" r="11"/>
+    </clipPath>
+  </defs>
+  <circle cx="12" cy="12" r="11" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <image x="2" y="2" width="20" height="20" href="/images/vibemonitor-logo-optimized.png" clip-path="url(#circle-clip)"/>
+</svg>

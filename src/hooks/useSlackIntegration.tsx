@@ -94,11 +94,11 @@ export function useSlackIntegration(workspaceId: string | undefined) {
   };
 
   const statusComponent = connected && teamName ? (
-    <div className="w-full p-3 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+    <div className="w-full p-3 rounded-md border border-emerald-600/40 bg-emerald-500/10">
       <div className="flex items-center gap-2">
-        <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-        <span className="text-sm text-emerald-400">
-          Connected to <strong>{teamName}</strong>
+        <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+        <span className="text-sm text-emerald-600">
+          Connected to <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{teamName}</span>
         </span>
       </div>
     </div>
