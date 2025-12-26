@@ -1,19 +1,11 @@
 'use client';
 
 import { motion } from 'motion/react';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen theme-light" style={{ background: 'var(--color-background-secondary)' }}>
       <div className="max-w-4xl mx-auto px-6 py-16">
-        {/* Back Button */}
-        <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-70 transition-opacity" style={{ color: 'var(--color-text-secondary)' }}>
-          <ArrowLeft className="w-4 h-4" />
-          <span style={{ fontSize: '14px' }}>Back to Home</span>
-        </Link>
-
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

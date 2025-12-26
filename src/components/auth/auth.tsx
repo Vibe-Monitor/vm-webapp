@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import Image from "next/image"
 import Link from "next/link"
 import GoogleSignInButton from './GoogleSignInButton'
+import GitHubSignInButton from './GitHubSignInButton'
 import { api } from "@/services/api/apiFactory"
 import { tokenService } from "@/services/tokenService"
 
@@ -335,7 +336,10 @@ export default function Auth() {
         </div>
       </div>
 
-      <GoogleSignInButton text={mode === 'signin' ? "Sign in with Google" : "Sign up with Google"} />
+      <div className="space-y-3">
+        <GoogleSignInButton text={mode === 'signin' ? "Sign in with Google" : "Sign up with Google"} />
+        <GitHubSignInButton text={mode === 'signin' ? "Sign in with GitHub" : "Sign up with GitHub"} />
+      </div>
 
       <p
         className="text-center text-xs mt-6"

@@ -1,20 +1,20 @@
 import { generatePKCEPair, generateOAuthState, storePKCEVerifier, storeOAuthState, retrievePKCEVerifier, retrieveOAuthState } from '@/utils/pkce';
 
-export interface GoogleAuthTokenResponse {
+export interface GitHubAuthTokenResponse {
   access_token: string;
   refresh_token: string;
   expires_in: number;
   token_type: string;
 }
 
-export interface GoogleUserResponse {
+export interface GitHubUserResponse {
   id: string;
   email: string;
   name: string;
   created_at: string;
 }
 
-export class GoogleAuthClient {
+export class GitHubAuthClient {
   private readonly backendUrl: string;
 
   constructor() {
@@ -22,10 +22,10 @@ export class GoogleAuthClient {
   }
 
   /**
-   * Initiate Google OAuth flow with PKCE
+   * Initiate GitHub OAuth flow with PKCE
    * Generates PKCE pair, stores code_verifier, and fetches OAuth URL from backend
    * @param redirectUri - The frontend callback URL
-   * @returns Promise that redirects to Google OAuth page
+   * @returns Promise that redirects to GitHub OAuth page
    */
   async initiateOAuthFlow(redirectUri: string): Promise<void> {
     // Generate PKCE pair
@@ -48,7 +48,7 @@ export class GoogleAuthClient {
 
     // Fetch the OAuth URL from backend (returns JSON, no redirect)
     const response = await fetch(
-      `${this.backendUrl}/api/v1/auth/login?${params.toString()}`
+      `${this.backendUrl}/api/v1/auth/github/login?${params.toString()}`
     );
 
     if (!response.ok) {
@@ -57,13 +57,13 @@ export class GoogleAuthClient {
 
     const data = await response.json();
 
-    // Manually redirect to Google OAuth page
+    // Manually redirect to GitHub OAuth page
     window.location.href = data.auth_url;
   }
 
   /**
    * Exchange authorization code for tokens with optional PKCE
-   * @param code - Authorization code from Google
+   * @param code - Authorization code from GitHub
    * @param redirectUri - The same redirect_uri used in authorization request
    * @param state - State parameter to verify CSRF protection
    * @returns Token response from backend
@@ -72,7 +72,7 @@ export class GoogleAuthClient {
     code: string,
     redirectUri: string,
     state: string | null
-  ): Promise<GoogleAuthTokenResponse> {
+  ): Promise<GitHubAuthTokenResponse> {
     // Retrieve stored values (may not exist if manually testing)
     const storedVerifier = await retrievePKCEVerifier();
     const storedState = await retrieveOAuthState();
@@ -103,7 +103,7 @@ export class GoogleAuthClient {
     }
 
     const response = await fetch(
-      `${this.backendUrl}/api/v1/auth/callback?${params.toString()}`,
+      `${this.backendUrl}/api/v1/auth/github/callback?${params.toString()}`,
       {
         method: 'POST',
         headers: {
@@ -134,8 +134,8 @@ export class GoogleAuthClient {
    * @param accessToken - JWT access token
    * @returns User information
    */
-  async getCurrentUser(accessToken: string): Promise<GoogleUserResponse> {
-    const response = await fetch(`${this.backendUrl}/api/v1/auth/me`, {
+  async getCurrentUser(accessToken: string): Promise<GitHubUserResponse> {
+    const response = await fetch(`${this.backendUrl}/api/v1/auth/github/me`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
@@ -149,4 +149,4 @@ export class GoogleAuthClient {
   }
 }
 
-export const googleAuthClient = new GoogleAuthClient();
+export const githubAuthClient = new GitHubAuthClient();

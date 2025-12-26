@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 import posthog from 'posthog-js'
 import { tokenService } from '@/services/tokenService'
 import Loader from '@/components/ui/loader'
-import { googleAuthClient } from '@/services/api/auth/GoogleAuthClient'
+import { githubAuthClient } from '@/services/api/auth/GitHubAuthClient'
 
-export default function GoogleCallbackPage() {
+export default function GitHubCallbackPage() {
   const router = useRouter()
-  const [status, setStatus] = useState('Processing Google authentication...')
+  const [status, setStatus] = useState('Processing GitHub authentication...')
   const hasProcessed = useRef(false)
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function GoogleCallbackPage() {
         const state = urlParams.get('state')
         const error = urlParams.get('error')
 
-        posthog.capture('google_oauth_callback_received', {
+        posthog.capture('github_oauth_callback_received', {
           has_code: !!code,
           has_state: !!state,
           has_error: !!error,
@@ -45,7 +45,7 @@ export default function GoogleCallbackPage() {
           setStatus('Authentication failed')
           console.error('OAuth error:', error)
 
-          posthog.capture('google_oauth_failed', {
+          posthog.capture('github_oauth_failed', {
             error: error,
             stage: 'callback'
           })
@@ -57,7 +57,7 @@ export default function GoogleCallbackPage() {
         if (!code) {
           setStatus('No authorization code received')
 
-          posthog.capture('google_oauth_failed', {
+          posthog.capture('github_oauth_failed', {
             error: 'no_code',
             stage: 'callback'
           })
@@ -70,7 +70,7 @@ export default function GoogleCallbackPage() {
         setStatus('Exchanging code for tokens with PKCE...')
 
         const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
-        const redirectUri = `${frontendUrl}/auth/google/callback`
+        const redirectUri = `${frontendUrl}/auth/github/callback`
 
         console.log('Callback - Frontend URL:', frontendUrl)
         console.log('Callback - redirect_uri:', redirectUri)
@@ -78,7 +78,7 @@ export default function GoogleCallbackPage() {
 
         // Exchange code for tokens using PKCE
         // This retrieves code_verifier from session storage and sends it to backend
-        const data = await googleAuthClient.exchangeCodeForTokens(code, redirectUri, state)
+        const data = await githubAuthClient.exchangeCodeForTokens(code, redirectUri, state)
 
         if (data.access_token && data.refresh_token) {
           tokenService.setTokens({
@@ -88,7 +88,7 @@ export default function GoogleCallbackPage() {
           })
 
           // Get user information
-          const userData = await googleAuthClient.getCurrentUser(data.access_token)
+          const userData = await githubAuthClient.getCurrentUser(data.access_token)
 
           posthog.identify(userData.id, {
             email: userData.email,
@@ -99,12 +99,12 @@ export default function GoogleCallbackPage() {
           posthog.setPersonProperties({
             email: userData.email,
             name: userData.name,
-            auth_method: 'google',
+            auth_method: 'github',
             user_type: 'authenticated'
           })
 
           posthog.capture('user_authenticated_successfully', {
-            auth_method: 'google_oauth',
+            auth_method: 'github_oauth',
             has_refresh_token: true,
             uses_pkce: true
           })
@@ -123,7 +123,7 @@ export default function GoogleCallbackPage() {
         console.error('Callback error:', error)
         setStatus('Authentication failed')
 
-        posthog.capture('google_oauth_callback_failed', {
+        posthog.capture('github_oauth_callback_failed', {
           error: error instanceof Error ? error.message : 'unknown_error',
           stage: 'token_exchange'
         })
