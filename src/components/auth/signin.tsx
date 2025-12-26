@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton"
+import GitHubSignInButton from "@/components/auth/GitHubSignInButton"
 
 export default function SigninPage() {
   return (
@@ -94,11 +95,11 @@ export default function SigninPage() {
             <span className="w-full border-t" style={{ borderColor: 'var(--color-border)' }} />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span 
-              className="px-2" 
-              style={{ 
-                backgroundColor: 'var(--color-surface)', 
-                color: 'var(--color-text-tertiary)' 
+            <span
+              className="px-2"
+              style={{
+                backgroundColor: 'var(--color-surface)',
+                color: 'var(--color-text-tertiary)'
               }}
             >
               or Continue with
@@ -106,7 +107,10 @@ export default function SigninPage() {
           </div>
         </div>
 
-        <GoogleSignInButton />
+        <div className="space-y-3">
+          <GoogleSignInButton />
+          <GitHubSignInButton />
+        </div>
 
         <p 
           className="text-center text-xs"

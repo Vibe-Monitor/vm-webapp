@@ -3,6 +3,7 @@
 import posthog from 'posthog-js'
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { googleAuthClient } from '@/services/api/auth/GoogleAuthClient'
 
 interface GoogleSignInButtonProps {
   onError?: (error: string | Error) => void
@@ -23,26 +24,23 @@ export default function GoogleSignInButton({
     setIsLoading(true)
 
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
       const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin
       const redirectUri = `${frontendUrl}/auth/google/callback`
 
       posthog.capture('google_signin_button_clicked', {
         button_text: text,
         redirect_uri: redirectUri,
-        source: 'auth_page'
+        source: 'auth_page',
+        uses_pkce: true
       })
 
-      const params = new URLSearchParams({
-        redirect_uri: redirectUri,
-        code_challenge_method: 'S256'
-      })
+      console.log('Google OAuth redirect_uri:', redirectUri)
+      console.log('Initiating Google OAuth with PKCE...')
 
-      const backendAuthUrl = `${backendUrl}/api/v1/auth/login?${params.toString()}`
-
-      console.log('OAuth redirect_uri:', redirectUri)
-
-      window.location.href = backendAuthUrl
+      // Initiate OAuth flow with PKCE
+      // This generates code_verifier and code_challenge, stores code_verifier in session storage,
+      // and redirects to backend OAuth endpoint with code_challenge
+      await googleAuthClient.initiateOAuthFlow(redirectUri)
 
     } catch (error) {
       setIsLoading(false)
