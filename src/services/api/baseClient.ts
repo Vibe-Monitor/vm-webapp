@@ -27,16 +27,22 @@ export class BaseClient {
 
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
+      } else {
+        console.warn('[API] No access token available for request:', endpoint);
       }
 
       headers.set('Content-Type', 'application/json');
       headers.set('ngrok-skip-browser-warning', 'true');
 
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      const url = `${this.baseUrl}${endpoint}`;
+      console.log('[API] Request:', options.method || 'GET', url);
+
+      const response = await fetch(url, {
         ...options,
         headers
       });
 
+      console.log('[API] Response status:', response.status);
       const data = await response.json();
 
       if (response.status === 401 && token) {
@@ -62,6 +68,7 @@ export class BaseClient {
       return { data, status: response.status };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Network error';
+      console.error('[API] Request failed:', endpoint, error);
       errorHandler.handleNetworkError(errorMessage, {
         customMessage: 'Failed to connect to server. Please check your internet connection.'
       });
