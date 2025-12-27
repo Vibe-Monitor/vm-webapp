@@ -206,7 +206,7 @@ function EmptyState({ onSendMessage }: { onSendMessage: (message: string) => voi
 function ExamplePrompt({ text, onClick }: { text: string; onClick: (text: string) => void }) {
   return (
     <div
-      className="px-4 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-background-secondary)] text-[var(--color-text-secondary)] hover:bg-[var(--color-background-dropdown)] cursor-pointer transition-colors"
+      className="px-4 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-background-secondary)] hover:border-[var(--color-border-light)] cursor-pointer transition-colors"
       onClick={() => onClick(text)}
     >
       {text}

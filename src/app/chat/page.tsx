@@ -30,10 +30,6 @@ export default function ChatPage() {
     }
   }, [dispatch, router, workspaces.length]);
 
-  // Apply dark mode
-  useEffect(() => {
-    document.documentElement.classList.add('dark');
-  }, []);
 
   // Get the workspace ID to use
   const workspaceId = currentWorkspace?.id || workspaces[0]?.id;
@@ -49,7 +45,7 @@ export default function ChatPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--color-background)]">
+      <div className="theme-light min-h-screen bg-[var(--color-background)]">
         <Loader message="Loading workspace..." />
       </div>
     );
@@ -57,7 +53,7 @@ export default function ChatPage() {
 
   if (!workspaceId) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--color-background)]">
+      <div className="theme-light min-h-screen flex items-center justify-center bg-[var(--color-background)]">
         <div className="text-center">
           <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">
             No workspace found
@@ -77,13 +73,13 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="h-screen bg-[var(--color-background)]">
+    <div className="theme-light h-screen bg-[var(--color-background)]">
       <ChatContainer workspaceId={workspaceId} className="h-full" />
 
       <Toaster
         position="top-right"
         richColors
-        theme="dark"
+        theme="light"
         toastOptions={{
           style: {
             background: 'var(--color-surface)',

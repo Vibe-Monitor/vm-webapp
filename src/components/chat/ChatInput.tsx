@@ -58,7 +58,7 @@ export function ChatInput({
 
   return (
     <div className={cn('relative', className)}>
-      <div className="flex items-end gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-background-dropdown)] p-2 focus-within:border-[var(--color-border-light)]">
+      <div className="flex items-end gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 focus-within:border-[var(--color-border-light)]">
         <textarea
           ref={textareaRef}
           value={message}
