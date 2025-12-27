@@ -27,12 +27,12 @@ export const newrelicService = {
   },
 
   async getStatus(workspaceId: string): Promise<NewRelicIntegrationData> {
-    try {
-      const response = await api.newrelic.getStatus(workspaceId);
-      return response.data || { is_connected: false };
-    } catch {
+    const response = await api.newrelic.getStatus(workspaceId);
+    // 404 means integration not configured yet - this is expected, not an error
+    if (response.status === 404 || response.status !== 200) {
       return { is_connected: false };
     }
+    return response.data || { is_connected: false };
   },
 
   async disconnect(workspaceId: string): Promise<void> {

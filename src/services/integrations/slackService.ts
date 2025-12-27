@@ -12,6 +12,10 @@ export const slackService = {
 
   async getStatus(workspaceId: string): Promise<SlackIntegrationData> {
     const response = await api.slack.getStatus(workspaceId);
+    // 404 means integration not configured yet - this is expected, not an error
+    if (response.status === 404 || response.status !== 200) {
+      return { connected: false };
+    }
     return response.data || { connected: false };
   },
 
