@@ -215,6 +215,12 @@ export function useChat({ workspaceId }: UseChatOptions): UseChatReturn {
                 break;
 
               case 'complete':
+                // Mark all running steps as completed
+                for (const [id, step] of steps) {
+                  if (step.status === 'running') {
+                    steps.set(id, { ...step, status: 'completed' });
+                  }
+                }
                 setMessages((prev) =>
                   prev.map((msg) =>
                     msg.id === turnId

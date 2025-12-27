@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { ChatMessage as ChatMessageType, TurnStatus } from '@/types/chat';
 import { ChatSteps } from './ChatSteps';
-import { User, Bot, ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
+import { User, Bot, ThumbsUp, ThumbsDown, Loader2, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Button } from '@/components/ui/button';
@@ -75,8 +75,16 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
               </div>
             )}
 
+            {/* Failed state */}
+            {(message.status === TurnStatus.FAILED || (!message.content && !isProcessing)) && (
+              <div className="flex items-center gap-2 text-[var(--color-error)] bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <span className="text-sm">This request failed. Please try again.</span>
+              </div>
+            )}
+
             {/* Final response */}
-            {message.content && (
+            {message.content && message.status !== TurnStatus.FAILED && (
               <div className="prose prose-sm dark:prose-invert max-w-none text-[var(--color-text-primary)]">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
