@@ -8,6 +8,7 @@ import { NewRelicClient } from './integrations/NewRelicClient';
 import { WorkspaceClient } from './clients/WorkspaceClient';
 import { UserClient } from './clients/UserClient';
 import { MailgunClient } from './clients/MailgunClient';
+import { ChatClient } from './clients/ChatClient';
 import { GoogleAuthClient } from './auth/GoogleAuthClient';
 import { CredentialAuthClient } from './auth/CredentialAuthClient';
 
@@ -34,6 +35,7 @@ class ApiFactory {
   private _workspace?: WorkspaceClient;
   private _user?: UserClient;
   private _mailgun?: MailgunClient;
+  private _chat?: ChatClient;
   private _googleAuth?: GoogleAuthClient;
   private _credentialAuth?: CredentialAuthClient;
 
@@ -138,6 +140,17 @@ class ApiFactory {
       this._mailgun = new MailgunClient(this.baseClient);
     }
     return this._mailgun;
+  }
+
+  /**
+   * Chat API Client
+   * Lazy-loaded on first access
+   */
+  get chat(): ChatClient {
+    if (!this._chat) {
+      this._chat = new ChatClient(this.baseClient);
+    }
+    return this._chat;
   }
 
   /**

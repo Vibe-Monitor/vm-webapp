@@ -21,7 +21,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
     
 
       // List of protected routes that require authentication
-      const protectedPaths = ["/setup", "/github/callback"]
+      const protectedPaths = ["/setup", "/github/callback", "/chat"]
       const isProtectedPage = protectedPaths.some(path => pathname.startsWith(path))
 
       // Only redirect to auth if trying to access a known protected route without authentication
