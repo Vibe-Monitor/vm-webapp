@@ -126,6 +126,7 @@ export interface SSEToolStartEvent {
 
 export interface SSEToolEndEvent {
   event: 'tool_end';
+  step_id: string;
   tool_name: string;
   status: 'completed' | 'failed';
   content: string | null;

@@ -190,16 +190,14 @@ export function useChat({ workspaceId }: UseChatOptions): UseChatReturn {
                 break;
 
               case 'tool_end':
-                // Find and update the step
-                for (const [id, step] of steps) {
-                  if (step.name === data.tool_name && step.status === 'running') {
-                    steps.set(id, {
-                      ...step,
-                      status: data.status === 'completed' ? 'completed' : 'failed',
-                      content: data.content || undefined,
-                    });
-                    break;
-                  }
+                // Match by step_id for accurate step completion
+                if (data.step_id && steps.has(data.step_id)) {
+                  const step = steps.get(data.step_id)!;
+                  steps.set(data.step_id, {
+                    ...step,
+                    status: data.status === 'completed' ? 'completed' : 'failed',
+                    content: data.content || undefined,
+                  });
                 }
                 setMessages((prev) =>
                   prev.map((msg) =>
