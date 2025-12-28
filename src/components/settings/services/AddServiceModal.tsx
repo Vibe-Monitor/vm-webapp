@@ -103,7 +103,7 @@ export function AddServiceModal({ open, onOpenChange }: AddServiceModalProps) {
           workspaceId: currentWorkspace.id,
           data: {
             name: name.trim(),
-            repository_full_name: repository,
+            repository_name: repository,
           },
         })
       ).unwrap()

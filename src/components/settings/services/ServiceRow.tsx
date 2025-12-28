@@ -64,7 +64,7 @@ export function ServiceRow({ service }: ServiceRowProps) {
         {/* Repository */}
         <div className="flex items-center gap-2 text-[var(--color-text-secondary)]">
           <GitBranch className="size-4" />
-          <span>{service.repository_full_name}</span>
+          <span>{service.repository_name || 'No repository linked'}</span>
         </div>
 
         {/* Actions */}

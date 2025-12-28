@@ -43,14 +43,14 @@ export function EditServiceModal({ open, onOpenChange, service }: EditServiceMod
   const { currentWorkspace } = useAppSelector((state) => state.workspace)
   const { updateLoading } = useAppSelector((state) => state.services)
   const [name, setName] = useState(service.name)
-  const [repository, setRepository] = useState(service.repository_full_name)
+  const [repository, setRepository] = useState(service.repository_name || '')
   const [repositories, setRepositories] = useState<Repository[]>([])
   const [loadingRepos, setLoadingRepos] = useState(false)
 
   useEffect(() => {
     if (open) {
       setName(service.name)
-      setRepository(service.repository_full_name)
+      setRepository(service.repository_name || '')
       if (currentWorkspace?.id) {
         fetchRepositories()
       }
@@ -88,7 +88,8 @@ export function EditServiceModal({ open, onOpenChange, service }: EditServiceMod
 
     if (!currentWorkspace?.id) return
 
-    const hasChanges = name.trim() !== service.name || repository !== service.repository_full_name
+    const currentRepo = service.repository_name || ''
+    const hasChanges = name.trim() !== service.name || repository !== currentRepo
     if (!hasChanges) {
       onOpenChange(false)
       return
@@ -101,7 +102,7 @@ export function EditServiceModal({ open, onOpenChange, service }: EditServiceMod
           serviceId: service.id,
           data: {
             name: name.trim(),
-            repository_full_name: repository,
+            repository_name: repository,
           },
         })
       ).unwrap()

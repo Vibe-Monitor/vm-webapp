@@ -43,18 +43,31 @@ export const fetchServices = createAsyncThunk(
         // Handle both direct array and wrapped object responses
         const data = response.data
         if (Array.isArray(data)) {
-          return data
+          return { services: data, serviceCount: null }
         }
         if (data && typeof data === 'object') {
           const wrapped = data as Record<string, unknown>
+          let services: Service[] = []
+          let serviceCount: ServiceCount | null = null
+
           if (Array.isArray(wrapped.services)) {
-            return wrapped.services as Service[]
+            services = wrapped.services as Service[]
+          } else if (Array.isArray(wrapped.data)) {
+            services = wrapped.data as Service[]
           }
-          if (Array.isArray(wrapped.data)) {
-            return wrapped.data as Service[]
+
+          // Extract count info from wrapped response
+          if (typeof wrapped.total_count === 'number' && typeof wrapped.limit === 'number') {
+            serviceCount = {
+              count: wrapped.total_count,
+              limit: wrapped.limit,
+              is_paid: wrapped.limit_reached === false && wrapped.limit > 5, // Infer from limit
+            }
           }
+
+          return { services, serviceCount }
         }
-        return []
+        return { services: [], serviceCount: null }
       } else if (response.status === 401) {
         errorHandler.handleAuthError('Authentication failed while fetching services', {
           customMessage: 'Please log in again to continue.',
@@ -189,7 +202,10 @@ const servicesSlice = createSlice({
       })
       .addCase(fetchServices.fulfilled, (state, action) => {
         state.loading = false
-        state.services = action.payload
+        state.services = action.payload.services
+        if (action.payload.serviceCount) {
+          state.serviceCount = action.payload.serviceCount
+        }
         state.error = null
       })
       .addCase(fetchServices.rejected, (state, action) => {

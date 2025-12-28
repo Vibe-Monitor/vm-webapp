@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { Plus, AlertCircle } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { fetchServices, fetchServiceCount } from '@/lib/features/servicesSlice'
+import { fetchServices } from '@/lib/features/servicesSlice'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Loader from '@/components/ui/loader'
@@ -23,7 +23,6 @@ export function ServicesSection() {
   useEffect(() => {
     if (currentWorkspace?.id) {
       dispatch(fetchServices(currentWorkspace.id))
-      dispatch(fetchServiceCount(currentWorkspace.id))
     }
   }, [dispatch, currentWorkspace?.id])
 

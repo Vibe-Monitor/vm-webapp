@@ -3,10 +3,12 @@ import { BaseClient, ApiResponse } from '../baseClient'
 export interface Service {
   id: string
   name: string
-  repository_full_name: string
+  repository_id?: string | null
+  repository_name?: string | null
   workspace_id: string
+  enabled?: boolean
   created_at: string
-  updated_at?: string
+  updated_at?: string | null
 }
 
 export interface ServiceCount {
@@ -17,12 +19,12 @@ export interface ServiceCount {
 
 export interface CreateServiceRequest {
   name: string
-  repository_full_name: string
+  repository_name?: string
 }
 
 export interface UpdateServiceRequest {
   name?: string
-  repository_full_name?: string
+  repository_name?: string
 }
 
 export class ServicesClient {
