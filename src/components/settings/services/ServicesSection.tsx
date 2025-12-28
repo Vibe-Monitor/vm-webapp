@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Plus, AlertCircle } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { fetchServices } from '@/lib/features/servicesSlice'
@@ -12,6 +13,7 @@ import { ServiceRow } from './ServiceRow'
 import { AddServiceModal } from './AddServiceModal'
 
 export function ServicesSection() {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const { currentWorkspace } = useAppSelector((state) => state.workspace)
   const { services: rawServices, serviceCount, loading, error } = useAppSelector((state) => state.services)
@@ -38,7 +40,7 @@ export function ServicesSection() {
 
   if (error) {
     return (
-      <div className="rounded-lg border border-red-500/20 bg-red-500/10 p-4 text-red-400">
+      <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-destructive">
         {error}
       </div>
     )
@@ -71,15 +73,15 @@ export function ServicesSection() {
 
       {/* Upgrade Prompt */}
       {isAtLimit && !serviceCount?.is_paid && (
-        <div className="flex items-center gap-3 rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-4">
-          <AlertCircle className="size-5 text-yellow-500" />
+        <div className="flex items-center gap-3 rounded-lg border border-warning/20 bg-warning/10 p-4">
+          <AlertCircle className="size-5 text-warning" />
           <div className="flex-1">
-            <p className="font-medium text-yellow-500">Service limit reached</p>
+            <p className="font-medium text-warning">Service limit reached</p>
             <p className="text-sm text-muted-foreground">
               Upgrade to Pro to add unlimited services ($5/service)
             </p>
           </div>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => router.push('/settings/billing')}>
             Upgrade
           </Button>
         </div>

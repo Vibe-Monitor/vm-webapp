@@ -3,7 +3,8 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
-/* Tailwind v4 theme - shadcn/ui standard colors */
+/* Tailwind v4 theme - Single source of truth for all Tailwind colors
+   These generate utilities like bg-primary, text-warning, border-destructive */
 @theme {
   --color-background: #ffffff;
   --color-foreground: #171717;
@@ -21,6 +22,8 @@
   --color-accent-foreground: #171717;
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
+  --color-warning: #f59e0b;
+  --color-warning-foreground: #ffffff;
   --color-border: #E5E7EB;
   --color-input: #E5E7EB;
   --color-ring: #171717;

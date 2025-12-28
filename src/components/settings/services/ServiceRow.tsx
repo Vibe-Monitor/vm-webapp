@@ -93,7 +93,7 @@ export function ServiceRow({ service }: ServiceRowProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => setShowDeleteDialog(true)}
-              className="text-red-400 focus:text-red-400"
+              className="text-destructive focus:text-destructive"
             >
               <Trash2 className="mr-2 size-4" />
               Delete
@@ -124,7 +124,7 @@ export function ServiceRow({ service }: ServiceRowProps) {
             <AlertDialogAction
               onClick={handleDelete}
               disabled={deleteLoading}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {deleteLoading ? 'Deleting...' : 'Delete'}
             </AlertDialogAction>
