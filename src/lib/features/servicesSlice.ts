@@ -40,7 +40,21 @@ export const fetchServices = createAsyncThunk(
     try {
       const response = await api.services.getAll(workspaceId)
       if (response.status === 200 && response.data) {
-        return response.data
+        // Handle both direct array and wrapped object responses
+        const data = response.data
+        if (Array.isArray(data)) {
+          return data
+        }
+        if (data && typeof data === 'object') {
+          const wrapped = data as Record<string, unknown>
+          if (Array.isArray(wrapped.services)) {
+            return wrapped.services as Service[]
+          }
+          if (Array.isArray(wrapped.data)) {
+            return wrapped.data as Service[]
+          }
+        }
+        return []
       } else if (response.status === 401) {
         errorHandler.handleAuthError('Authentication failed while fetching services', {
           customMessage: 'Please log in again to continue.',

@@ -10,9 +10,9 @@ export default function SettingsGroupLayout({
   return (
     <div className="container max-w-6xl py-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Settings</h1>
+        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Space Settings</h1>
         <p className="text-[var(--color-text-secondary)]">
-          Manage your account and workspace preferences
+          Configure LLM, team members, and billing for this space
         </p>
       </div>
       <SettingsLayout>{children}</SettingsLayout>

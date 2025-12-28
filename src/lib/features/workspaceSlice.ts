@@ -155,6 +155,10 @@ const workspaceSlice = createSlice({
         state.loading = false
         state.workspaces = action.payload
         state.error = null
+        // Auto-select first workspace if none selected
+        if (!state.currentWorkspace && action.payload.length > 0) {
+          state.currentWorkspace = action.payload[0]
+        }
       })
       .addCase(fetchWorkspaces.rejected, (state, action) => {
         state.loading = false

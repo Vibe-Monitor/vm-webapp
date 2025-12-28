@@ -72,7 +72,7 @@ const navItems: NavItem[] = [
   },
   {
     title: 'Space Settings',
-    href: '/settings/space',
+    href: '/settings',
     icon: Settings,
     ownerAccess: 'full',
     userAccess: 'hidden',

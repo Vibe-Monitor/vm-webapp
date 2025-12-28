@@ -43,7 +43,19 @@ export class BaseClient {
       });
 
       console.log('[API] Response status:', response.status);
-      const data = await response.json();
+
+      // Handle empty responses (e.g., 204 No Content from DELETE)
+      let data = null;
+      const contentType = response.headers.get('content-type');
+      const contentLength = response.headers.get('content-length');
+      if (contentLength !== '0' && contentType?.includes('application/json')) {
+        try {
+          data = await response.json();
+        } catch {
+          // Response body is empty or not valid JSON
+          data = null;
+        }
+      }
 
       if (response.status === 401 && token) {
         const refreshed = await this.refreshToken();
@@ -54,7 +66,15 @@ export class BaseClient {
             ...options,
             headers
           });
-          const retryData = await retryResponse.json();
+          let retryData = null;
+          const retryContentType = retryResponse.headers.get('content-type');
+          if (retryContentType?.includes('application/json')) {
+            try {
+              retryData = await retryResponse.json();
+            } catch {
+              retryData = null;
+            }
+          }
           return { data: retryData, status: retryResponse.status };
         } else {
           errorHandler.handleAuthError('Token refresh failed', {

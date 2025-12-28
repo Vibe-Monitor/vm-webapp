@@ -147,7 +147,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
                 Repositories
               </h4>
 
-              {environment.repository_configs.length === 0 ? (
+              {!environment.repository_configs || environment.repository_configs.length === 0 ? (
                 <p className="text-sm text-[var(--color-text-tertiary)] py-2">
                   No repositories configured for this environment.
                 </p>

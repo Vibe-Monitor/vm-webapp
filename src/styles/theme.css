@@ -177,8 +177,12 @@ body {
   --color-background: #ffffff;
   --color-background-secondary: #F3F3F5;
   --color-background-tertiary: #E5E7EB;
+  --color-background-dropdown: #ffffff;
+  --color-background-hover: #F3F3F5;
   --color-surface: #ffffff;
   --color-surface-secondary: #F9FAFB;
+  --color-surface-hover: #F3F3F5;
+  --color-surface-active: #E5E7EB;
 
   /* Border Colors */
   --color-border: #E5E7EB;

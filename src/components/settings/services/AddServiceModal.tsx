@@ -58,7 +58,22 @@ export function AddServiceModal({ open, onOpenChange }: AddServiceModalProps) {
     try {
       const response = await api.github.getRepositories(currentWorkspace.id)
       if (response.status === 200 && response.data) {
-        setRepositories(response.data)
+        // Handle both direct array and wrapped object responses
+        const data = response.data
+        if (Array.isArray(data)) {
+          setRepositories(data)
+        } else if (data && typeof data === 'object') {
+          const wrapped = data as Record<string, unknown>
+          if (Array.isArray(wrapped.repositories)) {
+            setRepositories(wrapped.repositories as Repository[])
+          } else if (Array.isArray(wrapped.data)) {
+            setRepositories(wrapped.data as Repository[])
+          } else {
+            setRepositories([])
+          }
+        } else {
+          setRepositories([])
+        }
       }
     } catch {
       toast.error('Failed to fetch repositories')
@@ -149,11 +164,17 @@ export function AddServiceModal({ open, onOpenChange }: AddServiceModalProps) {
                   )}
                 </SelectTrigger>
                 <SelectContent>
-                  {repositories.map((repo) => (
-                    <SelectItem key={repo.full_name} value={repo.full_name}>
-                      {repo.full_name}
-                    </SelectItem>
-                  ))}
+                  {repositories.length === 0 ? (
+                    <div className="py-6 text-center text-sm text-[var(--color-text-tertiary)]">
+                      No repositories found. Connect GitHub integration first.
+                    </div>
+                  ) : (
+                    repositories.map((repo) => (
+                      <SelectItem key={repo.full_name} value={repo.full_name}>
+                        {repo.full_name}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
             </div>

@@ -14,8 +14,11 @@ import { AddServiceModal } from './AddServiceModal'
 export function ServicesSection() {
   const dispatch = useAppDispatch()
   const { currentWorkspace } = useAppSelector((state) => state.workspace)
-  const { services, serviceCount, loading, error } = useAppSelector((state) => state.services)
+  const { services: rawServices, serviceCount, loading, error } = useAppSelector((state) => state.services)
   const [showAddModal, setShowAddModal] = useState(false)
+
+  // Ensure services is always an array
+  const services = Array.isArray(rawServices) ? rawServices : []
 
   useEffect(() => {
     if (currentWorkspace?.id) {

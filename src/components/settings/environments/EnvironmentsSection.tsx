@@ -15,8 +15,11 @@ interface EnvironmentsSectionProps {
 
 export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
   const dispatch = useAppDispatch()
-  const { environments, loading, error } = useAppSelector((state) => state.environments)
+  const { environments: rawEnvironments, loading, error } = useAppSelector((state) => state.environments)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+
+  // Ensure environments is always an array (API might return null/undefined)
+  const environments = Array.isArray(rawEnvironments) ? rawEnvironments : []
 
   useEffect(() => {
     if (workspaceId) {

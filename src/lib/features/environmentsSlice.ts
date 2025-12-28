@@ -47,7 +47,22 @@ export const fetchEnvironments = createAsyncThunk(
     try {
       const response = await api.environments.getByWorkspace(workspaceId)
       if (response.status === 200 && response.data) {
-        return response.data
+        // Handle both direct array and wrapped object responses
+        const data = response.data
+        if (Array.isArray(data)) {
+          return data
+        }
+        // Check for common wrapper patterns
+        if (data && typeof data === 'object') {
+          const wrapped = data as Record<string, unknown>
+          if (Array.isArray(wrapped.environments)) {
+            return wrapped.environments as EnvironmentWithRepos[]
+          }
+          if (Array.isArray(wrapped.data)) {
+            return wrapped.data as EnvironmentWithRepos[]
+          }
+        }
+        return []
       } else if (response.status === 401) {
         errorHandler.handleAuthError('Authentication failed while fetching environments', {
           customMessage: 'Please log in again to continue.',
