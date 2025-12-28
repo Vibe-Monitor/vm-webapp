@@ -7,7 +7,8 @@ export const grafanaService = {
     grafana_url: string;
     api_token: string;
   }): Promise<GrafanaIntegrationData> {
-    const response = await api.grafana.connect(params);
+    const { workspace_id, grafana_url, api_token } = params;
+    const response = await api.grafana.connect(workspace_id, { grafana_url, api_token });
     if (response.status === 200 && response.data) {
       return response.data;
     }

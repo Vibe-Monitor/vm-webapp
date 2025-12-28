@@ -4,7 +4,7 @@ export class SlackClient {
   constructor(private baseClient: BaseClient) {}
 
   async getInstallUrl(workspaceId: string): Promise<ApiResponse<{ oauth_url: string }>> {
-    return this.baseClient.get(`/api/v1/slack/install?workspace_id=${workspaceId}`);
+    return this.baseClient.get(`/api/v1/workspaces/${workspaceId}/slack/install`);
   }
 
   async getStatus(workspaceId: string): Promise<ApiResponse<{
@@ -18,10 +18,10 @@ export class SlackClient {
       installed_at: string;
     };
   }>> {
-    return this.baseClient.get(`/api/v1/slack/connection/status?workspace_id=${workspaceId}`);
+    return this.baseClient.get(`/api/v1/workspaces/${workspaceId}/slack/status`);
   }
 
   async disconnect(workspaceId: string): Promise<ApiResponse<{ message: string }>> {
-    return this.baseClient.delete(`/api/v1/slack/disconnect?workspace_id=${workspaceId}`);
+    return this.baseClient.delete(`/api/v1/workspaces/${workspaceId}/slack/disconnect`);
   }
 }

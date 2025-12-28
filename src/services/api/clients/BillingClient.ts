@@ -44,22 +44,22 @@ export class BillingClient {
   }
 
   async getSubscription(workspaceId: string): Promise<ApiResponse<Subscription>> {
-    return this.baseClient.get(`/api/v1/billing/workspaces/${workspaceId}/subscription`);
+    return this.baseClient.get(`/api/v1/workspaces/${workspaceId}/billing/subscription`);
   }
 
   async getUsage(workspaceId: string): Promise<ApiResponse<Usage>> {
-    return this.baseClient.get(`/api/v1/billing/workspaces/${workspaceId}/usage`);
+    return this.baseClient.get(`/api/v1/workspaces/${workspaceId}/billing/usage`);
   }
 
   async subscribeToPro(workspaceId: string): Promise<ApiResponse<CheckoutSession>> {
-    return this.baseClient.post(`/api/v1/billing/workspaces/${workspaceId}/subscribe/pro`, {});
+    return this.baseClient.post(`/api/v1/workspaces/${workspaceId}/billing/subscribe/pro`, {});
   }
 
   async getBillingPortal(workspaceId: string): Promise<ApiResponse<BillingPortalSession>> {
-    return this.baseClient.post(`/api/v1/billing/workspaces/${workspaceId}/billing-portal`, {});
+    return this.baseClient.post(`/api/v1/workspaces/${workspaceId}/billing/portal`, {});
   }
 
   async cancelSubscription(workspaceId: string): Promise<ApiResponse<Subscription>> {
-    return this.baseClient.post(`/api/v1/billing/workspaces/${workspaceId}/subscription/cancel`, {});
+    return this.baseClient.post(`/api/v1/workspaces/${workspaceId}/billing/subscription/cancel`, {});
   }
 }
