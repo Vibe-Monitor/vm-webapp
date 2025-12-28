@@ -13,6 +13,7 @@ import { AccountClient } from './clients/AccountClient';
 import { EnvironmentsClient } from './clients/EnvironmentsClient';
 import { ServicesClient } from './clients/ServicesClient';
 import { LLMConfigClient } from './clients/LLMConfigClient';
+import { MembersClient } from './clients/MembersClient';
 import { GoogleAuthClient } from './auth/GoogleAuthClient';
 import { CredentialAuthClient } from './auth/CredentialAuthClient';
 
@@ -43,6 +44,7 @@ class ApiFactory {
   private _account?: AccountClient;
   private _environments?: EnvironmentsClient;
   private _llm?: LLMConfigClient;
+  private _members?: MembersClient;
   private _googleAuth?: GoogleAuthClient;
   private _credentialAuth?: CredentialAuthClient;
   private _services?: ServicesClient;
@@ -192,6 +194,17 @@ class ApiFactory {
       this._llm = new LLMConfigClient(this.baseClient);
     }
     return this._llm;
+  }
+
+  /**
+   * Members API Client
+   * Lazy-loaded on first access
+   */
+  get members(): MembersClient {
+    if (!this._members) {
+      this._members = new MembersClient(this.baseClient);
+    }
+    return this._members;
   }
 
   /**
