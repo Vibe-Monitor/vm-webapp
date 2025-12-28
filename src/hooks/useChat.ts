@@ -363,18 +363,27 @@ export function useChat({ workspaceId }: UseChatOptions): UseChatReturn {
   }, [workspaceId]);
 
   const submitFeedback = useCallback(async (turnId: string, score: 1 | 5) => {
+    // Optimistic update
+    const previousMessages = messages;
+    setMessages((prev) =>
+      prev.map((m) => (m.id === turnId ? { ...m, feedbackScore: score } : m))
+    );
+
     try {
       const response = await api.chat.submitFeedback(workspaceId, turnId, { score });
-      if (response.data && response.status === 200) {
-        setMessages((prev) =>
-          prev.map((m) => (m.id === turnId ? { ...m, feedbackScore: score } : m))
-        );
+      if (!response.data || response.status !== 200) {
+        // Rollback on failure
+        setMessages(previousMessages);
+        toast.error('Failed to submit feedback');
       }
     } catch (error) {
+      // Rollback on error
+      setMessages(previousMessages);
       console.error('Failed to submit feedback:', error);
       toast.error('Failed to submit feedback');
+      throw error;
     }
-  }, [workspaceId]);
+  }, [workspaceId, messages]);
 
   return {
     messages,

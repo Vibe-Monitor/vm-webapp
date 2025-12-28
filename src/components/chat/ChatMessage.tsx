@@ -3,21 +3,20 @@
 import { cn } from '@/lib/utils';
 import { ChatMessage as ChatMessageType, TurnStatus } from '@/types/chat';
 import { ChatSteps } from './ChatSteps';
-import { User, Bot, ThumbsUp, ThumbsDown, Loader2, AlertCircle } from 'lucide-react';
+import { ChatFeedback } from './ChatFeedback';
+import { User, Bot, Loader2, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Button } from '@/components/ui/button';
 
 interface ChatMessageProps {
   message: ChatMessageType;
-  onFeedback?: (score: 1 | 5) => void;
+  onFeedback?: (score: 1 | 5) => Promise<void>;
   className?: string;
 }
 
 export function ChatMessage({ message, onFeedback, className }: ChatMessageProps) {
   const isUser = message.role === 'user';
   const isProcessing = message.status === TurnStatus.PROCESSING || message.status === TurnStatus.PENDING;
-  const hasFeedback = message.feedbackScore !== null && message.feedbackScore !== undefined;
 
   return (
     <div
@@ -123,32 +122,11 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
 
             {/* Feedback buttons */}
             {message.content && onFeedback && !isProcessing && (
-              <div className="flex items-center gap-1 pt-1">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onFeedback(5)}
-                  className={cn(
-                    'h-7 w-7 p-0',
-                    hasFeedback && message.feedbackScore === 5 && 'text-green-500'
-                  )}
-                  title="Helpful"
-                >
-                  <ThumbsUp className="h-3.5 w-3.5" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onFeedback(1)}
-                  className={cn(
-                    'h-7 w-7 p-0',
-                    hasFeedback && message.feedbackScore === 1 && 'text-red-500'
-                  )}
-                  title="Not helpful"
-                >
-                  <ThumbsDown className="h-3.5 w-3.5" />
-                </Button>
-              </div>
+              <ChatFeedback
+                currentScore={message.feedbackScore}
+                onFeedback={onFeedback}
+                className="pt-1"
+              />
             )}
           </div>
         )}
