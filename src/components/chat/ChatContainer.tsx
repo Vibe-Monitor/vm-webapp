@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { useChat } from '@/hooks/useChat';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
+import { ChatHeader } from './ChatHeader';
 import { SessionList } from './SessionList';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Bot, PanelLeftClose, PanelLeft } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 interface ChatContainerProps {
   workspaceId: string;
@@ -45,6 +46,9 @@ export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
   const [renameTitle, setRenameTitle] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Get current session for header display
+  const currentSession = sessions.find((s) => s.id === currentSessionId);
+
   // Load sessions on mount
   useEffect(() => {
     loadSessions();
@@ -71,6 +75,13 @@ export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
     }
   };
 
+  // Inline rename from header
+  const handleHeaderRename = async (newTitle: string) => {
+    if (currentSessionId) {
+      await renameSession(currentSessionId, newTitle);
+    }
+  };
+
   return (
     <div className={cn('flex h-full', className)}>
       {/* Sidebar */}
@@ -94,26 +105,12 @@ export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--color-border)]">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="h-8 w-8 p-0"
-          >
-            {sidebarOpen ? (
-              <PanelLeftClose className="h-4 w-4" />
-            ) : (
-              <PanelLeft className="h-4 w-4" />
-            )}
-          </Button>
-          <div className="flex items-center gap-2">
-            <Bot className="h-5 w-5 text-[var(--color-primary)]" />
-            <h1 className="font-semibold text-[var(--color-text-primary)]">
-              AI Assistant
-            </h1>
-          </div>
-        </div>
+        <ChatHeader
+          title={currentSession?.title}
+          sidebarOpen={sidebarOpen}
+          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+          onRename={currentSessionId ? handleHeaderRename : undefined}
+        />
 
         {/* Messages Area */}
         <ScrollArea className="flex-1">
