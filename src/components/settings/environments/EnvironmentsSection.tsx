@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Plus, Loader2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Accordion } from '@/components/ui/accordion'
 import { EnvironmentCard } from './EnvironmentCard'
 import { AddEnvironmentModal } from './AddEnvironmentModal'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
@@ -81,7 +82,7 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
           </Button>
         </div>
       ) : (
-        <div className="space-y-3">
+        <Accordion type="single" collapsible className="w-full border border-border rounded-lg overflow-hidden">
           {environments.map((environment) => (
             <EnvironmentCard
               key={environment.id}
@@ -89,7 +90,7 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
               workspaceId={workspaceId}
             />
           ))}
-        </div>
+        </Accordion>
       )}
 
       {/* Add Environment Modal */}
