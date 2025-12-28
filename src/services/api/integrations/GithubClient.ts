@@ -49,4 +49,11 @@ export class GithubClient {
   async unsuspend(workspaceId: string): Promise<ApiResponse<{ message: string }>> {
     return this.baseClient.post(`/api/v1/github/unsuspend?workspace_id=${workspaceId}`, {});
   }
+
+  async getRepositories(workspaceId: string): Promise<ApiResponse<{
+    full_name: string;
+    default_branch: string;
+  }[]>> {
+    return this.baseClient.get(`/api/v1/github/repositories?workspace_id=${workspaceId}`);
+  }
 }
