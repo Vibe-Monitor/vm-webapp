@@ -102,8 +102,8 @@ export function AddRepositoryModal({
           workspaceId,
           environmentId,
           data: {
-            repository_full_name: selectedRepo,
-            branch: selectedBranch,
+            repo_full_name: selectedRepo,
+            branch_name: selectedBranch,
             is_enabled: true,
           },
         })

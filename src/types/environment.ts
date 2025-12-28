@@ -50,12 +50,12 @@ export interface UpdateEnvironmentInput {
 }
 
 export interface CreateRepositoryConfigInput {
-  repository_full_name: string
-  branch?: string
+  repo_full_name: string
+  branch_name?: string
   is_enabled?: boolean
 }
 
 export interface UpdateRepositoryConfigInput {
-  branch?: string
+  branch_name?: string
   is_enabled?: boolean
 }

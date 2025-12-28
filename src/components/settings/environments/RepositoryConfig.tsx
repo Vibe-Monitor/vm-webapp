@@ -46,13 +46,13 @@ export function RepositoryConfig({
     }
   }, [dispatch, config.repository_full_name, workspaceId, branchesCache])
 
-  const handleBranchChange = (branch: string) => {
+  const handleBranchChange = (branchName: string) => {
     dispatch(
       updateRepositoryConfig({
         workspaceId,
         environmentId,
         repoConfigId: config.id,
-        data: { branch },
+        data: { branch_name: branchName },
       })
     )
   }

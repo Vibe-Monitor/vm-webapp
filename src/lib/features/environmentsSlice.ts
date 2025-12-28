@@ -260,10 +260,10 @@ export const fetchRepositoryBranches = createAsyncThunk(
       if (response.status === 200 && response.data) {
         // Handle wrapped response { branches: [...] }
         // API returns string[] but we need { name, is_default }[]
-        const data = response.data
+        const data = response.data as unknown
         let rawBranches: string[] = []
         if (Array.isArray(data)) {
-          rawBranches = data
+          rawBranches = data as string[]
         } else if (data && typeof data === 'object') {
           const wrapped = data as Record<string, unknown>
           if (Array.isArray(wrapped.branches)) {
