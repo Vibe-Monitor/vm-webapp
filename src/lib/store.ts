@@ -6,6 +6,7 @@ import environmentsReducer from './features/environmentsSlice'
 import servicesReducer from './features/servicesSlice'
 import llmConfigReducer from './features/llmConfigSlice'
 import membersReducer from './features/membersSlice'
+import billingReducer from './features/billingSlice'
 
 export const makeStore = () => {
   return configureStore({
@@ -17,6 +18,7 @@ export const makeStore = () => {
       services: servicesReducer,
       llmConfig: llmConfigReducer,
       members: membersReducer,
+      billing: billingReducer,
     },
   })
 }

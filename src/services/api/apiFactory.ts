@@ -14,6 +14,7 @@ import { EnvironmentsClient } from './clients/EnvironmentsClient';
 import { ServicesClient } from './clients/ServicesClient';
 import { LLMConfigClient } from './clients/LLMConfigClient';
 import { MembersClient } from './clients/MembersClient';
+import { BillingClient } from './clients/BillingClient';
 import { GoogleAuthClient } from './auth/GoogleAuthClient';
 import { CredentialAuthClient } from './auth/CredentialAuthClient';
 
@@ -45,6 +46,7 @@ class ApiFactory {
   private _environments?: EnvironmentsClient;
   private _llm?: LLMConfigClient;
   private _members?: MembersClient;
+  private _billing?: BillingClient;
   private _googleAuth?: GoogleAuthClient;
   private _credentialAuth?: CredentialAuthClient;
   private _services?: ServicesClient;
@@ -205,6 +207,17 @@ class ApiFactory {
       this._members = new MembersClient(this.baseClient);
     }
     return this._members;
+  }
+
+  /**
+   * Billing API Client
+   * Lazy-loaded on first access
+   */
+  get billing(): BillingClient {
+    if (!this._billing) {
+      this._billing = new BillingClient(this.baseClient);
+    }
+    return this._billing;
   }
 
   /**
