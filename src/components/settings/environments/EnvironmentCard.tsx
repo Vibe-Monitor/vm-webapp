@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Trash2, Star, MoreHorizontal } from 'lucide-react'
+import { Trash2, Star, MoreHorizontal, Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import {
   AccordionContent,
@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { RepositoryConfig } from './RepositoryConfig'
+import { AddRepositoryModal } from './AddRepositoryModal'
 import { useAppDispatch } from '@/lib/hooks'
 import {
   updateEnvironment,
@@ -34,6 +35,7 @@ interface EnvironmentCardProps {
 export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardProps) {
   const dispatch = useAppDispatch()
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isAddRepoModalOpen, setIsAddRepoModalOpen] = useState(false)
 
   const handleAutoDiscoveryToggle = async (checked: boolean) => {
     try {
@@ -138,9 +140,20 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
 
           {/* Repositories Section */}
           <div className="space-y-3">
-            <h4 className="text-sm font-medium text-muted-foreground">
-              Repositories
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-medium text-muted-foreground">
+                Repositories
+              </h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 text-xs"
+                onClick={() => setIsAddRepoModalOpen(true)}
+              >
+                <Plus className="size-3 mr-1" />
+                Add
+              </Button>
+            </div>
 
             {!environment.repository_configs || environment.repository_configs.length === 0 ? (
               <p className="text-sm text-muted-foreground py-2">
@@ -161,6 +174,14 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
           </div>
         </div>
       </AccordionContent>
+
+      {/* Add Repository Modal */}
+      <AddRepositoryModal
+        open={isAddRepoModalOpen}
+        onOpenChange={setIsAddRepoModalOpen}
+        environmentId={environment.id}
+        workspaceId={workspaceId}
+      />
     </AccordionItem>
   )
 }

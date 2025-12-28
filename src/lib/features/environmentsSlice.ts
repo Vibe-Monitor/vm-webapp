@@ -207,7 +207,18 @@ export const fetchAvailableRepositories = createAsyncThunk(
     try {
       const response = await api.environments.getAvailableRepositories(environmentId)
       if (response.status === 200 && response.data) {
-        return response.data
+        // Handle wrapped response { repositories: [...] }
+        const data = response.data
+        if (Array.isArray(data)) {
+          return data
+        }
+        if (data && typeof data === 'object') {
+          const wrapped = data as Record<string, unknown>
+          if (Array.isArray(wrapped.repositories)) {
+            return wrapped.repositories as AvailableRepository[]
+          }
+        }
+        return []
       } else if (response.status === 401) {
         errorHandler.handleAuthError('Authentication failed while fetching repositories', {
           customMessage: 'Please log in again to continue.',
@@ -238,7 +249,18 @@ export const fetchRepositoryBranches = createAsyncThunk(
     try {
       const response = await api.environments.getRepositoryBranches(workspaceId, repoFullName)
       if (response.status === 200 && response.data) {
-        return { repoFullName, branches: response.data }
+        // Handle wrapped response { branches: [...] }
+        const data = response.data
+        let branches: RepositoryBranch[] = []
+        if (Array.isArray(data)) {
+          branches = data
+        } else if (data && typeof data === 'object') {
+          const wrapped = data as Record<string, unknown>
+          if (Array.isArray(wrapped.branches)) {
+            branches = wrapped.branches as RepositoryBranch[]
+          }
+        }
+        return { repoFullName, branches }
       } else if (response.status === 401) {
         errorHandler.handleAuthError('Authentication failed while fetching branches', {
           customMessage: 'Please log in again to continue.',
