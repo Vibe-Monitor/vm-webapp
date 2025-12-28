@@ -119,11 +119,11 @@ export const createEnvironment = createAsyncThunk(
 export const updateEnvironment = createAsyncThunk(
   'environments/updateEnvironment',
   async (
-    { environmentId, data }: { environmentId: string; data: UpdateEnvironmentInput },
+    { workspaceId, environmentId, data }: { workspaceId: string; environmentId: string; data: UpdateEnvironmentInput },
     { rejectWithValue }
   ) => {
     try {
-      const response = await api.environments.update(environmentId, data)
+      const response = await api.environments.update(workspaceId, environmentId, data)
       if (response.status === 200 && response.data) {
         return response.data
       } else if (response.status === 401) {
@@ -148,9 +148,12 @@ export const updateEnvironment = createAsyncThunk(
 
 export const deleteEnvironment = createAsyncThunk(
   'environments/deleteEnvironment',
-  async (environmentId: string, { rejectWithValue }) => {
+  async (
+    { workspaceId, environmentId }: { workspaceId: string; environmentId: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await api.environments.delete(environmentId)
+      const response = await api.environments.delete(workspaceId, environmentId)
       if (response.status === 200 || response.status === 204) {
         return environmentId
       } else if (response.status === 401) {
@@ -175,9 +178,12 @@ export const deleteEnvironment = createAsyncThunk(
 
 export const setDefaultEnvironment = createAsyncThunk(
   'environments/setDefault',
-  async (environmentId: string, { rejectWithValue }) => {
+  async (
+    { workspaceId, environmentId }: { workspaceId: string; environmentId: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await api.environments.setDefault(environmentId)
+      const response = await api.environments.setDefault(workspaceId, environmentId)
       if (response.status === 200 && response.data) {
         return response.data
       } else if (response.status === 401) {
@@ -203,9 +209,12 @@ export const setDefaultEnvironment = createAsyncThunk(
 
 export const fetchAvailableRepositories = createAsyncThunk(
   'environments/fetchAvailableRepositories',
-  async (environmentId: string, { rejectWithValue }) => {
+  async (
+    { workspaceId, environmentId }: { workspaceId: string; environmentId: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await api.environments.getAvailableRepositories(environmentId)
+      const response = await api.environments.getAvailableRepositories(workspaceId, environmentId)
       if (response.status === 200 && response.data) {
         // Handle wrapped response { repositories: [...] }
         const data = response.data
@@ -284,11 +293,11 @@ export const fetchRepositoryBranches = createAsyncThunk(
 export const addRepositoryConfig = createAsyncThunk(
   'environments/addRepositoryConfig',
   async (
-    { environmentId, data }: { environmentId: string; data: CreateRepositoryConfigInput },
+    { workspaceId, environmentId, data }: { workspaceId: string; environmentId: string; data: CreateRepositoryConfigInput },
     { rejectWithValue }
   ) => {
     try {
-      const response = await api.environments.addRepositoryConfig(environmentId, data)
+      const response = await api.environments.addRepositoryConfig(workspaceId, environmentId, data)
       if ((response.status === 200 || response.status === 201) && response.data) {
         return { environmentId, config: response.data }
       } else if (response.status === 401) {
@@ -315,14 +324,16 @@ export const updateRepositoryConfig = createAsyncThunk(
   'environments/updateRepositoryConfig',
   async (
     {
+      workspaceId,
       environmentId,
       repoConfigId,
       data,
-    }: { environmentId: string; repoConfigId: string; data: UpdateRepositoryConfigInput },
+    }: { workspaceId: string; environmentId: string; repoConfigId: string; data: UpdateRepositoryConfigInput },
     { rejectWithValue }
   ) => {
     try {
       const response = await api.environments.updateRepositoryConfig(
+        workspaceId,
         environmentId,
         repoConfigId,
         data
@@ -352,11 +363,11 @@ export const updateRepositoryConfig = createAsyncThunk(
 export const removeRepositoryConfig = createAsyncThunk(
   'environments/removeRepositoryConfig',
   async (
-    { environmentId, repoConfigId }: { environmentId: string; repoConfigId: string },
+    { workspaceId, environmentId, repoConfigId }: { workspaceId: string; environmentId: string; repoConfigId: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await api.environments.removeRepositoryConfig(environmentId, repoConfigId)
+      const response = await api.environments.removeRepositoryConfig(workspaceId, environmentId, repoConfigId)
       if (response.status === 200 || response.status === 204) {
         return { environmentId, repoConfigId }
       } else if (response.status === 401) {

@@ -41,6 +41,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
     try {
       await dispatch(
         updateEnvironment({
+          workspaceId,
           environmentId: environment.id,
           data: { auto_discovery: checked },
         })
@@ -55,7 +56,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
     if (environment.is_default) return
 
     try {
-      await dispatch(setDefaultEnvironment(environment.id)).unwrap()
+      await dispatch(setDefaultEnvironment({ workspaceId, environmentId: environment.id })).unwrap()
       toast.success(`${environment.name} is now the default environment`)
     } catch {
       toast.error('Failed to set default environment')
@@ -70,7 +71,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
 
     setIsDeleting(true)
     try {
-      await dispatch(deleteEnvironment(environment.id)).unwrap()
+      await dispatch(deleteEnvironment({ workspaceId, environmentId: environment.id })).unwrap()
       toast.success(`Environment "${environment.name}" deleted`)
     } catch {
       toast.error('Failed to delete environment')

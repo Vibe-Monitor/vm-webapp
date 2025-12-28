@@ -49,6 +49,7 @@ export function RepositoryConfig({
   const handleBranchChange = (branch: string) => {
     dispatch(
       updateRepositoryConfig({
+        workspaceId,
         environmentId,
         repoConfigId: config.id,
         data: { branch },
@@ -59,6 +60,7 @@ export function RepositoryConfig({
   const handleEnableToggle = (enabled: boolean) => {
     dispatch(
       updateRepositoryConfig({
+        workspaceId,
         environmentId,
         repoConfigId: config.id,
         data: { is_enabled: enabled },

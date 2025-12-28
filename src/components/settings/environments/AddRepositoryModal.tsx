@@ -52,13 +52,13 @@ export function AddRepositoryModal({
 
   // Fetch available repositories when modal opens
   useEffect(() => {
-    if (open && environmentId) {
+    if (open && environmentId && workspaceId) {
       setIsLoadingRepos(true)
-      dispatch(fetchAvailableRepositories(environmentId)).finally(() => {
+      dispatch(fetchAvailableRepositories({ workspaceId, environmentId })).finally(() => {
         setIsLoadingRepos(false)
       })
     }
-  }, [open, environmentId, dispatch])
+  }, [open, environmentId, workspaceId, dispatch])
 
   // Fetch branches when a repository is selected
   useEffect(() => {
@@ -99,6 +99,7 @@ export function AddRepositoryModal({
     try {
       await dispatch(
         addRepositoryConfig({
+          workspaceId,
           environmentId,
           data: {
             repository_full_name: selectedRepo,
