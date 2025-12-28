@@ -11,9 +11,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
-    company: '',
-    message: '',
+    interest: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -25,16 +23,10 @@ export default function ContactPage() {
     setError(null);
 
     try {
-      // Map form fields to API format
-      const contactInfo = formData.company ? `${formData.name} (${formData.company})` : formData.name;
-      const messageWithPhone = formData.phone
-        ? `Phone: ${formData.phone}\n\n${formData.message}`
-        : formData.message;
-
       const response = await api.mailgun.submitContactForm({
-        name: contactInfo,
+        name: formData.name,
         work_email: formData.email,
-        interested_topics: messageWithPhone,
+        interested_topics: formData.interest,
       });
 
       if (response.status === 200 && response.data?.success) {
@@ -50,7 +42,7 @@ export default function ContactPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -92,7 +84,7 @@ export default function ContactPage() {
             </motion.div>
           </div>
         </div>
-   
+
       </>
     );
   }
@@ -253,86 +245,42 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  {/* Phone Field (Optional) */}
+                  {/* Interest Dropdown */}
                   <div>
                     <label
-                      htmlFor="phone"
+                      htmlFor="interest"
                       style={{ fontSize: '14px', fontWeight: 600, color: '#1D1C1D', display: 'block', marginBottom: '8px' }}
                     >
-                      Phone <span style={{ fontSize: '12px', color: '#616061', fontWeight: 400 }}>(optional)</span>
+                      What are you interested in? <span style={{ color: '#DC2626' }}>*</span>
                     </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg transition-all duration-200"
-                      style={{
-                        border: '1px solid #E0E0E0',
-                        fontSize: '15px',
-                        color: '#1D1C1D',
-                        outline: 'none',
-                      }}
-                      placeholder="+1 (555) 123-4567"
-                      onFocus={(e) => e.target.style.borderColor = '#0A2540'}
-                      onBlur={(e) => e.target.style.borderColor = '#E0E0E0'}
-                    />
-                  </div>
-
-                  {/* Company Field (Optional) */}
-                  <div>
-                    <label
-                      htmlFor="company"
-                      style={{ fontSize: '14px', fontWeight: 600, color: '#1D1C1D', display: 'block', marginBottom: '8px' }}
-                    >
-                      Company <span style={{ fontSize: '12px', color: '#616061', fontWeight: 400 }}>(optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg transition-all duration-200"
-                      style={{
-                        border: '1px solid #E0E0E0',
-                        fontSize: '15px',
-                        color: '#1D1C1D',
-                        outline: 'none',
-                      }}
-                      placeholder="Acme Inc."
-                      onFocus={(e) => e.target.style.borderColor = '#0A2540'}
-                      onBlur={(e) => e.target.style.borderColor = '#E0E0E0'}
-                    />
-                  </div>
-
-                  {/* Message Field */}
-                  <div>
-                    <label
-                      htmlFor="message"
-                      style={{ fontSize: '14px', fontWeight: 600, color: '#1D1C1D', display: 'block', marginBottom: '8px' }}
-                    >
-                      Message <span style={{ color: '#DC2626' }}>*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
+                    <select
+                      id="interest"
+                      name="interest"
                       required
-                      value={formData.message}
+                      value={formData.interest}
                       onChange={handleChange}
-                      rows={4}
-                      className="w-full px-4 py-3 rounded-lg transition-all duration-200 resize-none"
+                      className="w-full px-4 py-3 rounded-lg transition-all duration-200"
                       style={{
                         border: '1px solid #E0E0E0',
                         fontSize: '15px',
-                        color: '#1D1C1D',
+                        color: formData.interest ? '#1D1C1D' : '#616061',
                         outline: 'none',
+                        background: '#ffffff',
                       }}
-                      placeholder="Tell us about your needs and how we can help..."
                       onFocus={(e) => e.target.style.borderColor = '#0A2540'}
                       onBlur={(e) => e.target.style.borderColor = '#E0E0E0'}
-                    />
+                    >
+                      <option value="">Select an option</option>
+                      <option value="demo">Seeing a demo</option>
+                      <option value="pricing">Pricing</option>
+                      <option value="product">General product overview</option>
+                      <option value="sales">Speak to sales</option>
+                      <option value="tech-partner">Partnering on technology</option>
+                      <option value="gtm-partner">Partnering on GTM</option>
+                      <option value="press">Analyst or Press</option>
+                      <option value="integration">Custom Integration</option>
+                      <option value="other">Other</option>
+                    </select>
                   </div>
 
                   {/* Error Message */}
@@ -381,7 +329,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-     
+
     </>
   );
 }
