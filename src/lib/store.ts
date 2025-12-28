@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './features/userSlice'
 import workspaceReducer from './features/workspaceSlice'
+import uiReducer from './features/uiSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userReducer,
       workspace: workspaceReducer,
+      ui: uiReducer,
     },
   })
 }
