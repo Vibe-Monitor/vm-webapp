@@ -91,7 +91,7 @@ export function AddEnvironmentModal({
                 disabled={createLoading}
                 autoFocus
               />
-              <p className="text-xs text-[var(--color-text-tertiary)]">
+              <p className="text-xs text-muted-foreground">
                 This should match the environment attribute in your logs (e.g.,
                 production, staging).
               </p>
@@ -100,7 +100,7 @@ export function AddEnvironmentModal({
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="auto-discovery">Auto-discovery</Label>
-                <p className="text-xs text-[var(--color-text-tertiary)]">
+                <p className="text-xs text-muted-foreground">
                   Automatically discover repositories from GitHub
                 </p>
               </div>

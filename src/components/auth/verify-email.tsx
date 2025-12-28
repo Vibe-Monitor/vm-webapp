@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Loader2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { api } from "@/services/api/apiFactory"
@@ -15,11 +18,11 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     const verifyToken = async (verificationToken: string) => {
-      if (hasVerified.current) return // Prevent duplicate calls
+      if (hasVerified.current) return
 
       hasVerified.current = true
       setIsLoading(true)
-      setError("") // Clear any existing errors
+      setError("")
 
       try {
         const response = await api.credentialAuth.verifyEmail({
@@ -27,14 +30,12 @@ export default function VerifyEmailPage() {
         })
 
         if (response.error || !response.data) {
-          // Extract detailed error message from backend
           const errorDetail = response.error || 'Failed to verify email. The token may be invalid or expired.'
           setError(errorDetail)
           setSuccess(false)
           return
         }
 
-        // Clear error and set success
         setError("")
         setSuccess(true)
       } catch (err) {
@@ -46,10 +47,8 @@ export default function VerifyEmailPage() {
       }
     }
 
-    // Get token from URL query params
     const tokenFromUrl = searchParams.get('token')
     if (tokenFromUrl) {
-      // Automatically verify if token is present
       verifyToken(tokenFromUrl)
     } else {
       setError('Invalid or missing verification token')
@@ -72,13 +71,12 @@ export default function VerifyEmailPage() {
       })
 
       if (response.error || !response.data) {
-        // Extract detailed error message from backend
         const errorDetail = response.error || 'Failed to resend verification email. Please try again.'
         setError(errorDetail)
         return
       }
 
-      setError("") // Clear any existing errors
+      setError("")
       alert('Verification email sent! Please check your inbox.')
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred'
@@ -89,115 +87,72 @@ export default function VerifyEmailPage() {
   }
 
   return (
-    <div
-      className="flex min-h-screen flex-col items-center justify-center px-4"
-      style={{ backgroundColor: 'var(--color-background)' }}
-    >
-      <div
-        className="w-full max-w-[420px] space-y-4 rounded-lg px-8 py-10 shadow-xl"
-        style={{
-          backgroundColor: 'var(--color-surface)',
-          boxShadow: '0 4px 40px rgba(0, 0, 0, 0.08)'
-        }}
-      >
-        <div className="text-center">
-          <div className="mb-4 flex items-center justify-center">
-            <Image
-              src="/images/VibeMonitor1.png"
-              alt="VibeMonitor"
-              width={60}
-              height={60}
-              className="object-contain"
-            />
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 bg-background">
+      <Card className="w-full max-w-[420px] shadow-xl">
+        <CardContent className="space-y-4 px-8 py-10">
+          <div className="text-center">
+            <div className="mb-4 flex items-center justify-center">
+              <Image
+                src="/images/VibeMonitor1.png"
+                alt="VibeMonitor"
+                width={60}
+                height={60}
+                className="object-contain"
+              />
+            </div>
+            <h2 className="text-xl font-semibold mb-2 text-foreground">
+              {isLoading ? 'Verifying Email...' : success ? 'Email Verified!' : 'Email Verification'}
+            </h2>
+            <p className="text-sm mb-4 text-muted-foreground">
+              {isLoading
+                ? 'Please wait while we verify your email address...'
+                : success
+                  ? 'Your email has been successfully verified!'
+                  : 'We\'re verifying your email address.'}
+            </p>
           </div>
-          <h2
-            className="text-xl font-semibold mb-2"
-            style={{
-              color: 'var(--color-text-primary)'
-            }}
-          >
-            {isLoading ? 'Verifying Email...' : success ? 'Email Verified!' : 'Email Verification'}
-          </h2>
-          <p
-            className="text-sm mb-4"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
-            {isLoading
-              ? 'Please wait while we verify your email address...'
-              : success
-                ? 'Your email has been successfully verified!'
-                : 'We\'re verifying your email address.'}
-          </p>
-        </div>
 
-        {isLoading && !error && !success && (
-          <div className="flex items-center justify-center py-6">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-current border-t-transparent"
-              style={{ color: 'var(--color-text-brand)' }}
-            />
-          </div>
-        )}
+          {isLoading && !error && !success && (
+            <div className="flex items-center justify-center py-6">
+              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+            </div>
+          )}
 
-        {error && (
-          <div
-            className="p-3 rounded-md text-sm"
-            style={{
-              backgroundColor: 'rgba(239, 68, 68, 0.1)',
-              color: '#ef4444',
-              border: '1px solid #ef4444'
-            }}
-          >
-            {error}
-          </div>
-        )}
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
 
-        {success && (
-          <div
-            className="p-3 rounded-md text-sm"
-            style={{
-              backgroundColor: 'rgba(16, 185, 129, 0.1)',
-              color: '#10b981',
-              border: '1px solid #10b981'
-            }}
-          >
-            Your email has been verified successfully! You can now access all features.
-          </div>
-        )}
+          {success && (
+            <Alert className="border-green-500 bg-green-500/10 text-green-600">
+              <AlertDescription>
+                Your email has been verified successfully! You can now access all features.
+              </AlertDescription>
+            </Alert>
+          )}
 
-        {success ? (
-          <div className="text-center space-y-2">
-            <Link href="/setup">
+          {success ? (
+            <div className="text-center space-y-2">
+              <Link href="/setup">
+                <Button className="w-full">
+                  Continue to Setup
+                </Button>
+              </Link>
+            </div>
+          ) : error && !isLoading ? (
+            <div className="space-y-2">
               <Button
-                className="w-full text-white hover:opacity-90"
-                style={{
-                  backgroundColor: 'var(--color-logo-blue, #0A2540)',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                  background: 'linear-gradient(to bottom, #1a3a5f, #0A2540)'
-                }}
+                onClick={handleResendVerification}
+                className="w-full"
+                disabled={isLoading}
               >
-                Continue to Setup
+                Resend Verification Email
               </Button>
-            </Link>
-          </div>
-        ) : error && !isLoading ? (
-          <div className="space-y-2">
-            <Button
-              onClick={handleResendVerification}
-              className="w-full text-white hover:opacity-90"
-              style={{
-                backgroundColor: 'var(--color-logo-blue, #0A2540)',
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                background: 'linear-gradient(to bottom, #1a3a5f, #0A2540)'
-              }}
-              disabled={isLoading}
-            >
-              Resend Verification Email
-            </Button>
-          </div>
-        ) : null}
-
- 
-      </div>
+            </div>
+          ) : null}
+        </CardContent>
+      </Card>
     </div>
   )
 }

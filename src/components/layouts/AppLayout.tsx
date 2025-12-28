@@ -11,7 +11,7 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen bg-[var(--color-background)]">
+      <div className="flex min-h-screen bg-background">
         {/* Sidebar */}
         <Sidebar />
 

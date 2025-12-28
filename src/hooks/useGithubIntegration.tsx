@@ -113,7 +113,7 @@ export function useGithubIntegration(workspaceId: string | undefined) {
                 <span className="text-sm font-semibold text-yellow-600">GitHub Integration Suspended</span>
               </div>
             </div>
-            <p className="text-xs leading-5" style={{ color: 'var(--color-text-tertiary)' }}>
+            <p className="text-xs leading-5 text-muted-foreground">
               Your GitHub integration (@{username}) is currently suspended. To restore functionality, please visit GitHub to unsuspend the installation manually.
             </p>
             <Button
@@ -135,7 +135,7 @@ export function useGithubIntegration(workspaceId: string | undefined) {
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
             <span className="text-sm text-emerald-600">
-              Connected as <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>@{username}</span>
+              Connected as <span className="font-mono font-semibold">@{username}</span>
             </span>
           </div>
         </div>

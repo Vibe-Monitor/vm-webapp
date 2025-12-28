@@ -53,10 +53,10 @@ export function SettingsLayout({ children }: SettingsLayoutProps) {
                 href={item.href}
                 className={cn(
                   'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors',
-                  'hover:bg-[var(--color-surface-hover)]',
+                  'hover:bg-accent',
                   isActive
-                    ? 'bg-[var(--color-surface-active)] text-[var(--color-text-primary)]'
-                    : 'text-[var(--color-text-secondary)]'
+                    ? 'bg-accent text-foreground'
+                    : 'text-muted-foreground'
                 )}
               >
                 <Icon className="size-4 shrink-0" />

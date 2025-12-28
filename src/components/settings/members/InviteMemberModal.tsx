@@ -97,7 +97,7 @@ export function InviteMemberModal({
                 <SelectItem value="owner">Owner</SelectItem>
               </SelectContent>
             </Select>
-            <div className="text-xs text-[var(--color-text-tertiary)] space-y-1 mt-2">
+            <div className="text-xs text-muted-foreground space-y-1 mt-2">
               <p>
                 <strong>Owner:</strong> Full access including billing, integrations, members, and workspace settings
               </p>

@@ -184,7 +184,7 @@ export function LLMConfigSection({ workspaceId, isOwner }: LLMConfigSectionProps
           <CardDescription>Configure AI model settings for your workspace</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center py-8">
-          <Loader2 className="size-6 animate-spin text-[var(--color-text-tertiary)]" />
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
         </CardContent>
       </Card>
     )
@@ -205,7 +205,7 @@ export function LLMConfigSection({ workspaceId, isOwner }: LLMConfigSectionProps
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
-          <h3 className="text-sm font-medium text-[var(--color-text-primary)]">Select Provider</h3>
+          <h3 className="text-sm font-medium text-foreground">Select Provider</h3>
           <LLMProviderCard
             selectedProvider={selectedProvider}
             onSelectProvider={handleProviderChange}
@@ -216,7 +216,7 @@ export function LLMConfigSection({ workspaceId, isOwner }: LLMConfigSectionProps
 
         {selectedProvider !== 'vibemonitor' && (
           <div className="space-y-4">
-            <h3 className="text-sm font-medium text-[var(--color-text-primary)]">Configuration</h3>
+            <h3 className="text-sm font-medium text-foreground">Configuration</h3>
             <ProviderConfigForm
               provider={selectedProvider}
               apiKey={apiKey}
@@ -246,7 +246,7 @@ export function LLMConfigSection({ workspaceId, isOwner }: LLMConfigSectionProps
           </Alert>
         )}
 
-        <div className="flex items-center justify-between border-t border-[var(--color-border)] pt-4">
+        <div className="flex items-center justify-between border-t border-border pt-4">
           <Button
             type="button"
             variant="outline"

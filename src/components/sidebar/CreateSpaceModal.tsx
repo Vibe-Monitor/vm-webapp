@@ -134,19 +134,19 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
                       onClick={() => setSpaceType(option.value)}
                       className={cn(
                         'relative flex flex-col items-center gap-2 rounded-lg border-2 p-4 text-center transition-all',
-                        'hover:border-[var(--color-brand)] hover:bg-[var(--color-surface-hover)]',
-                        'focus:outline-none focus:ring-2 focus:ring-[var(--color-brand)] focus:ring-offset-2',
+                        'hover:border-primary hover:bg-accent',
+                        'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                         isSelected
-                          ? 'border-[var(--color-brand)] bg-[var(--color-brand)]/5'
-                          : 'border-[var(--color-border)]'
+                          ? 'border-primary bg-primary/5'
+                          : 'border-border'
                       )}
                     >
                       <div
                         className={cn(
                           'size-10 rounded-full flex items-center justify-center transition-colors',
                           isSelected
-                            ? 'bg-[var(--color-brand)] text-[var(--color-primary)]'
-                            : 'bg-[var(--color-surface-hover)] text-[var(--color-text-secondary)]'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-accent text-muted-foreground'
                         )}
                       >
                         <Icon className="size-5" />
@@ -156,13 +156,13 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
                           className={cn(
                             'text-sm font-medium',
                             isSelected
-                              ? 'text-[var(--color-text-primary)]'
-                              : 'text-[var(--color-text-secondary)]'
+                              ? 'text-foreground'
+                              : 'text-muted-foreground'
                           )}
                         >
                           {option.label}
                         </p>
-                        <p className="text-xs text-[var(--color-text-tertiary)]">
+                        <p className="text-xs text-muted-foreground">
                           {option.description}
                         </p>
                       </div>
@@ -170,8 +170,8 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
                       {/* Info tooltip */}
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div className="absolute top-2 right-2 p-1 rounded-full hover:bg-[var(--color-surface-hover)]">
-                            <Info className="size-3.5 text-[var(--color-text-tertiary)]" />
+                          <div className="absolute top-2 right-2 p-1 rounded-full hover:bg-accent">
+                            <Info className="size-3.5 text-muted-foreground" />
                           </div>
                         </TooltipTrigger>
                         <TooltipContent
@@ -206,7 +206,7 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
                 className="w-full"
               />
               {createError && (
-                <p className="text-xs text-[var(--color-error)]">
+                <p className="text-xs text-destructive">
                   {createError}
                 </p>
               )}

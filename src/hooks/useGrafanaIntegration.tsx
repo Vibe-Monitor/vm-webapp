@@ -138,8 +138,8 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
           <span className="text-sm font-semibold text-emerald-600">Grafana Connected</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Connected to:</span>
-          <span className="text-sm break-all" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{grafanaUrl}</span>
+          <span className="text-xs font-medium text-muted-foreground">Connected to:</span>
+          <span className="text-sm break-all font-mono font-medium text-foreground">{grafanaUrl}</span>
         </div>
       </div>
     </div>
@@ -147,7 +147,7 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
 
   const instructions = (
     <div className="flex flex-col items-start gap-3 w-full">
-      <h4 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+      <h4 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
         Instructions to integrate
       </h4>
 
@@ -159,10 +159,10 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
               1
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Open Side Panel
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Click Grafana icon → Select &quot;Administration&quot; → &quot;Users and access&quot; → &quot;Service accounts&quot; → Add service account button.
               </p>
             </div>
@@ -176,10 +176,10 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
               2
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Create Account
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Enter Name → Set Role dropdown to &quot;Viewer&quot; → Click &quot;Create&quot; button.
               </p>
             </div>
@@ -193,10 +193,10 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
               3
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Add Token
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 In new account details, click &quot;Add service account token&quot; link/button.
               </p>
             </div>
@@ -210,10 +210,10 @@ export function useGrafanaIntegration(workspaceId: string | undefined) {
               4
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Generate Token
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Enter token Name → Click &quot;Generate token&quot; → Copy full token (starts with glsa_... → visible once only, save securely).
               </p>
             </div>

@@ -17,7 +17,7 @@ export function AppHeader({ className }: AppHeaderProps) {
   return (
     <header
       className={cn(
-        'sticky top-0 z-20 flex h-14 items-center gap-4 border-b border-[var(--color-border)] bg-[var(--color-background)] px-4',
+        'sticky top-0 z-20 flex h-14 items-center gap-4 border-b border-border bg-background px-4',
         className
       )}
     >

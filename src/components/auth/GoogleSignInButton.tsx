@@ -52,21 +52,11 @@ export default function GoogleSignInButton({
   return (
     <Button
       type="button"
-      variant="ghost"
-      className={`w-full transition-all duration-200 hover:opacity-90 ${className}`}
+      variant="outline"
+      className={`w-full h-12 text-[15px] font-medium rounded-xl transition-all duration-200 hover:opacity-90 ${className}`}
       onClick={handleGoogleSignIn}
       disabled={disabled || isLoading}
-      style={{
-        backgroundColor: 'var(--color-logo-blue)',
-        color: '#ffffff',
-        height: '48px',
-        fontSize: '15px',
-        fontWeight: '500',
-        border: 'none',
-        borderRadius: '12px'
-      }}
     >
-      
       {isLoading ? (
         <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
       ) : (

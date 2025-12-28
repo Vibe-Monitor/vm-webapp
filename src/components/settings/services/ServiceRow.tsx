@@ -59,10 +59,10 @@ export function ServiceRow({ service }: ServiceRowProps) {
     <>
       <div className="grid grid-cols-[1fr_1fr_auto] items-center gap-4 px-4 py-3">
         {/* Service Name */}
-        <div className="font-medium text-[var(--color-text-primary)]">{service.name}</div>
+        <div className="font-medium text-foreground">{service.name}</div>
 
         {/* Repository */}
-        <div className="flex items-center gap-2 text-[var(--color-text-secondary)]">
+        <div className="flex items-center gap-2 text-muted-foreground">
           <GitBranch className="size-4" />
           <span>{service.repository_name || 'No repository linked'}</span>
         </div>

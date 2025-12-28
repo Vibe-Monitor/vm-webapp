@@ -40,33 +40,33 @@ export function PendingInvitations({
 
   return (
     <div className="mt-6">
-      <h3 className="text-sm font-medium text-[var(--color-text-primary)] mb-3">
+      <h3 className="text-sm font-medium text-foreground mb-3">
         Pending Invitations
       </h3>
-      <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
+      <div className="rounded-lg border border-border bg-card">
         {pendingInvitations.map((invitation) => (
           <div
             key={invitation.id}
-            className="flex items-center justify-between py-3 px-4 border-b border-[var(--color-border)] last:border-b-0"
+            className="flex items-center justify-between py-3 px-4 border-b border-border last:border-b-0"
           >
             <div className="flex items-center gap-3 min-w-0 flex-1">
-              <div className="size-8 rounded-full bg-[var(--color-surface-active)] flex items-center justify-center shrink-0">
-                <span className="text-sm font-medium text-[var(--color-text-primary)]">
+              <div className="size-8 rounded-full bg-accent flex items-center justify-center shrink-0">
+                <span className="text-sm font-medium text-foreground">
                   {invitation.email?.charAt(0)?.toUpperCase()}
                 </span>
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-medium text-[var(--color-text-primary)] truncate">
+                <p className="text-sm font-medium text-foreground truncate">
                   {invitation.email}
                 </p>
-                <p className="text-xs text-[var(--color-text-tertiary)]">
+                <p className="text-xs text-muted-foreground">
                   {getExpiryText(invitation.expires_at)}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 shrink-0">
-              <span className="text-sm text-[var(--color-text-secondary)] capitalize">
+              <span className="text-sm text-muted-foreground capitalize">
                 {invitation.role}
               </span>
               <Button
@@ -74,7 +74,7 @@ export function PendingInvitations({
                 size="sm"
                 onClick={() => onRevoke(invitation.id)}
                 disabled={revokeLoading === invitation.id}
-                className="text-[var(--color-text-secondary)] hover:text-red-500"
+                className="text-muted-foreground hover:text-red-500"
               >
                 {revokeLoading === invitation.id ? (
                   <Loader2 className="size-4 animate-spin" />

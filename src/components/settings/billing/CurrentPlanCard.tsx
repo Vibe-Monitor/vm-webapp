@@ -72,8 +72,8 @@ export function CurrentPlanCard({
         <PlanFeatures features={isPro ? PRO_FEATURES : FREE_FEATURES} />
 
         {usage && (
-          <div className="space-y-4 pt-4 border-t border-[var(--color-border)]">
-            <h4 className="text-sm font-medium text-[var(--color-text-primary)]">Usage</h4>
+          <div className="space-y-4 pt-4 border-t border-border">
+            <h4 className="text-sm font-medium text-foreground">Usage</h4>
             <div className="grid gap-4 sm:grid-cols-2">
               <UsageProgress
                 label="Services"
@@ -90,7 +90,7 @@ export function CurrentPlanCard({
         )}
 
         {isPro && (
-          <div className="flex flex-wrap gap-3 pt-4 border-t border-[var(--color-border)]">
+          <div className="flex flex-wrap gap-3 pt-4 border-t border-border">
             <Button
               variant="outline"
               onClick={onManageBilling}

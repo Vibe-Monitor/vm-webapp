@@ -96,7 +96,7 @@ export function ProviderConfigForm({
   }
 
   return (
-    <div className="space-y-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+    <div className="space-y-4 rounded-lg border border-border bg-card p-4">
       <div className="space-y-2">
         <Label htmlFor="api-key">API Key</Label>
         <div className="relative">
@@ -116,14 +116,14 @@ export function ProviderConfigForm({
             onClick={() => setShowApiKey(!showApiKey)}
           >
             {showApiKey ? (
-              <EyeOff className="size-4 text-[var(--color-text-tertiary)]" />
+              <EyeOff className="size-4 text-muted-foreground" />
             ) : (
-              <Eye className="size-4 text-[var(--color-text-tertiary)]" />
+              <Eye className="size-4 text-muted-foreground" />
             )}
           </Button>
         </div>
         {hasExistingKey && !apiKey && (
-          <p className="text-xs text-[var(--color-text-tertiary)]">
+          <p className="text-xs text-muted-foreground">
             Leave empty to keep the existing key
           </p>
         )}

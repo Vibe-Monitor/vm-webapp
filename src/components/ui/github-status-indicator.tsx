@@ -24,10 +24,10 @@ interface GitHubStatus {
   }
 }
 
-export default function GitHubStatusIndicator({ 
-  workspaceId, 
-  showDetails = true, 
-  className = "" 
+export default function GitHubStatusIndicator({
+  workspaceId,
+  showDetails = true,
+  className = ""
 }: GitHubStatusIndicatorProps) {
   const [status, setStatus] = useState<GitHubStatus | null>(null)
   const [statusType, setStatusType] = useState<'connected' | 'suspended' | 'not-connected' | 'error'>('not-connected')
@@ -37,15 +37,15 @@ export default function GitHubStatusIndicator({
   const checkGitHubStatus = useCallback(async () => {
     setLoading(true)
     setError(null)
-    
+
     try {
       const result = await checkGitHubStatusWithService(workspaceId)
       setStatusType(result.status)
-      
+
       if (result.data) {
         setStatus(result.data)
       }
-      
+
       if (result.error) {
         setError(result.error)
       }
@@ -60,10 +60,10 @@ export default function GitHubStatusIndicator({
 
   useEffect(() => {
     checkGitHubStatus()
-    
+
     // Set up polling to check status periodically
     const interval = setInterval(checkGitHubStatus, 30000) // Check every 30 seconds
-    
+
     return () => clearInterval(interval)
   }, [checkGitHubStatus])
 
@@ -72,8 +72,8 @@ export default function GitHubStatusIndicator({
       return {
         icon: <Loader2 className="h-4 w-4 animate-spin" />,
         text: "Checking...",
-        color: "text-gray-400",
-        bgColor: "bg-gray-100"
+        color: "text-muted-foreground",
+        bgColor: "bg-muted"
       }
     }
 
@@ -82,18 +82,18 @@ export default function GitHubStatusIndicator({
         return {
           icon: <XCircle className="h-4 w-4" />,
           text: "Error",
-          color: "text-red-500",
-          bgColor: "bg-red-100"
+          color: "text-destructive",
+          bgColor: "bg-destructive/10"
         }
-      
+
       case 'not-connected':
         return {
           icon: <XCircle className="h-4 w-4" />,
           text: "Not Connected",
-          color: "text-gray-500",
-          bgColor: "bg-gray-100"
+          color: "text-muted-foreground",
+          bgColor: "bg-muted"
         }
-      
+
       case 'suspended':
         return {
           icon: <AlertTriangle className="h-4 w-4" />,
@@ -101,7 +101,7 @@ export default function GitHubStatusIndicator({
           color: "text-yellow-500",
           bgColor: "bg-yellow-100"
         }
-      
+
       case 'connected':
       default:
         return {
@@ -139,17 +139,17 @@ export default function GitHubStatusIndicator({
 
   const showActiveStatus = () => {
     const username = status?.integration?.github_username
-    
+
     return (
       <div className="mt-2 text-sm text-green-600">
-        ✅ Connected as <strong>@{username}</strong>
+        Connected as <strong>@{username}</strong>
       </div>
     )
   }
 
   const showNotConnectedMessage = () => {
     return (
-      <div className="mt-2 text-xs text-gray-500">
+      <div className="mt-2 text-xs text-muted-foreground">
         Connect GitHub to monitor repositories
       </div>
     )
@@ -159,14 +159,7 @@ export default function GitHubStatusIndicator({
     <div className={`github-status-indicator ${className}`}>
       {/* Status Badge */}
       <div className="flex items-center space-x-2">
-        <div 
-          className="flex items-center space-x-2 px-2 py-1 rounded-md text-xs font-medium border"
-          style={{
-            backgroundColor: 'var(--color-surface)',
-            borderColor: 'var(--color-border)',
-            color: 'var(--color-text-primary)'
-          }}
-        >
+        <div className="flex items-center space-x-2 px-2 py-1 rounded-md text-xs font-medium border bg-card border-border text-foreground">
           <Github className="h-3 w-3" />
           <span className={statusDisplay.color}>
             {statusDisplay.icon}
@@ -180,7 +173,7 @@ export default function GitHubStatusIndicator({
                 @{status.integration.github_username}
               </span>
               {status.integration.is_active === false && (
-                <span 
+                <span
                   className="ml-1 px-1 py-0.5 bg-yellow-100 text-yellow-700 rounded text-xs font-semibold cursor-pointer hover:bg-yellow-200 transition-colors"
                   onClick={() => window.open('https://github.com/settings/installations', '_blank')}
                   title="Click to unsuspend on GitHub"
@@ -191,7 +184,7 @@ export default function GitHubStatusIndicator({
             </>
           )}
         </div>
-        
+
         {showDetails && (
           <Button
             size="sm"
@@ -213,8 +206,8 @@ export default function GitHubStatusIndicator({
           {statusType === 'suspended' && showSuspendedMessage()}
           {statusType === 'not-connected' && showNotConnectedMessage()}
           {statusType === 'error' && error && (
-            <div className="text-xs text-red-500 mt-1">
-              ❌ {error}
+            <div className="text-xs text-destructive mt-1">
+              {error}
             </div>
           )}
         </div>

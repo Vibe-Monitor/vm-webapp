@@ -33,9 +33,9 @@ function SidebarContent() {
   const [createModalOpen, setCreateModalOpen] = React.useState(false)
 
   return (
-    <div className="flex h-full flex-col bg-[var(--color-background)] border-r border-[var(--color-border)]">
+    <div className="flex h-full flex-col bg-background border-r border-border">
       {/* Space Switcher */}
-      <div className="border-b border-[var(--color-border)] p-2">
+      <div className="border-b border-border p-2">
         <SpaceSwitcher onCreateSpace={() => setCreateModalOpen(true)} />
       </div>
 
@@ -46,7 +46,7 @@ function SidebarContent() {
       <SidebarChatList />
 
       {/* Collapse Toggle */}
-      <div className="mt-auto border-t border-[var(--color-border)] p-2">
+      <div className="mt-auto border-t border-border p-2">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -101,9 +101,9 @@ function MobileSidebar() {
             <SheetTitle>Navigation</SheetTitle>
             <SheetDescription>Main navigation menu</SheetDescription>
           </SheetHeader>
-          <div className="flex h-full flex-col bg-[var(--color-background)]">
+          <div className="flex h-full flex-col bg-background">
             {/* Space Switcher */}
-            <div className="border-b border-[var(--color-border)] p-2">
+            <div className="border-b border-border p-2">
               <SpaceSwitcher onCreateSpace={() => setCreateModalOpen(true)} />
             </div>
 

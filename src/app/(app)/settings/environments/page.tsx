@@ -35,12 +35,12 @@ export default function EnvironmentsSettingsPage() {
     return (
       <SettingsLayout>
         <div className="text-center py-12">
-          <p className="text-[var(--color-text-secondary)]">
+          <p className="text-muted-foreground">
             No workspace found. Please create a workspace first.
           </p>
           <button
             onClick={() => router.push('/setup')}
-            className="mt-4 text-[var(--color-button-blue)] hover:underline"
+            className="mt-4 text-primary hover:underline"
           >
             Go to Setup
           </button>

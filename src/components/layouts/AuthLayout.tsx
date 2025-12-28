@@ -10,7 +10,7 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--color-background)] px-4 py-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-8">
       {/* Logo */}
       <Link href="/" className="mb-8">
         <Image
@@ -29,22 +29,22 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       </div>
 
       {/* Footer links */}
-      <div className="mt-8 flex gap-4 text-sm text-[var(--color-text-tertiary)]">
+      <div className="mt-8 flex gap-4 text-sm text-muted-foreground">
         <Link
           href="/terms"
-          className="hover:text-[var(--color-text-secondary)] transition-colors"
+          className="hover:text-foreground transition-colors"
         >
           Terms
         </Link>
         <Link
           href="/privacy"
-          className="hover:text-[var(--color-text-secondary)] transition-colors"
+          className="hover:text-foreground transition-colors"
         >
           Privacy
         </Link>
         <Link
           href="/contact"
-          className="hover:text-[var(--color-text-secondary)] transition-colors"
+          className="hover:text-foreground transition-colors"
         >
           Contact
         </Link>

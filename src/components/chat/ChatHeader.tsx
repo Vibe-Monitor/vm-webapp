@@ -75,7 +75,7 @@ export function ChatHeader({
   return (
     <div
       className={cn(
-        'flex items-center gap-2 px-4 py-3 border-b border-[var(--color-border)]',
+        'flex items-center gap-2 px-4 py-3 border-b border-border',
         className
       )}
     >
@@ -94,7 +94,7 @@ export function ChatHeader({
       </Button>
 
       <div className="flex items-center gap-2 flex-1 min-w-0">
-        <Bot className="h-5 w-5 shrink-0 text-[var(--color-primary)]" />
+        <Bot className="h-5 w-5 shrink-0 text-primary" />
 
         {isEditing ? (
           <div className="flex items-center gap-1 flex-1 min-w-0">
@@ -131,7 +131,7 @@ export function ChatHeader({
               size="sm"
               onClick={handleCancelEdit}
               disabled={isSaving}
-              className="h-7 w-7 p-0 text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]"
+              className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
               title="Cancel"
             >
               <X className="h-4 w-4" />
@@ -139,7 +139,7 @@ export function ChatHeader({
           </div>
         ) : (
           <div className="flex items-center gap-1 min-w-0 group">
-            <h1 className="font-semibold text-[var(--color-text-primary)] truncate">
+            <h1 className="font-semibold text-foreground truncate">
               {displayTitle}
             </h1>
             {onRename && (
@@ -147,7 +147,7 @@ export function ChatHeader({
                 variant="ghost"
                 size="sm"
                 onClick={handleStartEdit}
-                className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]"
+                className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
                 title="Rename conversation"
               >
                 <Pencil className="h-3.5 w-3.5" />

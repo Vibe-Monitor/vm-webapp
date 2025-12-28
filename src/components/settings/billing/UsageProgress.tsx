@@ -17,15 +17,15 @@ export function UsageProgress({ label, used, limit, className }: UsageProgressPr
   return (
     <div className={cn('space-y-2', className)}>
       <div className="flex items-center justify-between text-sm">
-        <span className="text-[var(--color-text-secondary)]">{label}</span>
+        <span className="text-muted-foreground">{label}</span>
         <span className={cn(
           'font-medium',
-          isAtLimit ? 'text-destructive' : isNearLimit ? 'text-yellow-600 dark:text-yellow-500' : 'text-[var(--color-text-primary)]'
+          isAtLimit ? 'text-destructive' : isNearLimit ? 'text-yellow-600 dark:text-yellow-500' : 'text-foreground'
         )}>
           {used}/{limit}
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--color-surface-secondary)]">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
         <div
           className={cn(
             'h-full rounded-full transition-all duration-300',
@@ -34,7 +34,7 @@ export function UsageProgress({ label, used, limit, className }: UsageProgressPr
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <div className="text-xs text-[var(--color-text-tertiary)]">
+      <div className="text-xs text-muted-foreground">
         {percentage.toFixed(0)}% used
       </div>
     </div>

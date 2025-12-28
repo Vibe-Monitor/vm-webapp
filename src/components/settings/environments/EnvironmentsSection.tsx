@@ -30,7 +30,7 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="size-8 animate-spin text-[var(--color-text-tertiary)]" />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -49,10 +49,10 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+          <h2 className="text-lg font-semibold text-foreground">
             Environments
           </h2>
-          <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Environment names should match your log environment attribute.
           </p>
         </div>
@@ -64,11 +64,11 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
 
       {/* Environment List */}
       {environments.length === 0 ? (
-        <div className="text-center py-12 border border-dashed border-[var(--color-border)] rounded-lg">
-          <p className="text-[var(--color-text-secondary)]">
+        <div className="text-center py-12 border border-dashed border-border rounded-lg">
+          <p className="text-muted-foreground">
             No environments configured yet.
           </p>
-          <p className="text-sm text-[var(--color-text-tertiary)] mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Create your first environment to get started.
           </p>
           <Button

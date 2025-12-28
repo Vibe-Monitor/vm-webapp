@@ -114,10 +114,10 @@ export function SidebarNav() {
               href={item.href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                'hover:bg-[var(--color-surface-hover)]',
+                'hover:bg-accent',
                 isActive
-                  ? 'bg-[var(--color-surface-active)] text-[var(--color-text-primary)]'
-                  : 'text-[var(--color-text-secondary)]',
+                  ? 'bg-accent text-foreground'
+                  : 'text-muted-foreground',
                 collapsed && 'justify-center px-2'
               )}
             >
@@ -128,14 +128,14 @@ export function SidebarNav() {
                   {isViewOnly && (
                     <Badge
                       variant="outline"
-                      className="h-5 px-1.5 text-[10px] font-normal text-[var(--color-text-tertiary)] border-[var(--color-border)]"
+                      className="h-5 px-1.5 text-[10px] font-normal text-muted-foreground border-border"
                     >
                       <Eye className="size-3 mr-0.5" />
                       View
                     </Badge>
                   )}
                   {isActive && !isViewOnly && (
-                    <ChevronRight className="size-4 text-[var(--color-text-tertiary)]" />
+                    <ChevronRight className="size-4 text-muted-foreground" />
                   )}
                 </>
               )}

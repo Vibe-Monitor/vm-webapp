@@ -36,7 +36,7 @@ export default function BillingPage() {
   if (workspaceLoading || !currentWorkspace) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="size-8 animate-spin text-[var(--color-text-tertiary)]" />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" />
       </div>
     )
   }

@@ -39,7 +39,7 @@ export function ChatFeedback({ currentScore, onFeedback, className }: ChatFeedba
           'h-7 w-7 p-0 transition-colors',
           isPositiveSelected
             ? 'text-green-500 bg-green-500/10 hover:bg-green-500/20'
-            : 'text-[var(--color-text-tertiary)] hover:text-green-500'
+            : 'text-muted-foreground hover:text-green-500'
         )}
         title="Helpful"
       >
@@ -58,7 +58,7 @@ export function ChatFeedback({ currentScore, onFeedback, className }: ChatFeedba
           'h-7 w-7 p-0 transition-colors',
           isNegativeSelected
             ? 'text-red-500 bg-red-500/10 hover:bg-red-500/20'
-            : 'text-[var(--color-text-tertiary)] hover:text-red-500'
+            : 'text-muted-foreground hover:text-red-500'
         )}
         title="Not helpful"
       >

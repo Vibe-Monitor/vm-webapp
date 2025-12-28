@@ -54,19 +54,6 @@ export default function Page() {
         position="top-right"
         richColors
         theme="light"
-        toastOptions={{
-          style: {
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text-primary)',
-            fontFamily: 'var(--font-sans)',
-          },
-          classNames: {
-            success: 'border-emerald-600/40 bg-emerald-50',
-            error: 'border-red-600/40 bg-red-50',
-            info: 'border-blue-600/40 bg-blue-50',
-          },
-        }}
       />
     </div>
   );

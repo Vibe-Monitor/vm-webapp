@@ -53,23 +53,17 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
 
   const CodeBlock = ({ code, index }: { code: string; index: string }) => (
     <span className="relative group inline-block">
-      <code
-        className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md transition-all duration-150 hover:scale-105"
-        style={{ background: '#EFF6FF', border: '1px solid rgba(59, 130, 246, 0.2)' }}
-      >
-        <span className="text-xs sm:text-sm break-all" style={{ color: '#1E40AF' }}>{code}</span>
+      <code className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md transition-all duration-150 hover:scale-105 bg-blue-50 border border-blue-200/20">
+        <span className="text-xs sm:text-sm break-all text-blue-800">{code}</span>
         <button
           onClick={() => handleCopyCode(code, index)}
-          className="p-0.5 sm:p-1 rounded transition-colors flex-shrink-0"
-          style={{ background: 'transparent' }}
-          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-background-secondary)'}
-          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+          className="p-0.5 sm:p-1 rounded transition-colors flex-shrink-0 hover:bg-secondary"
           aria-label="Copy code"
         >
           {copiedCode === index ? (
-            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" style={{ color: '#10B981' }} />
+            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-500" />
           ) : (
-            <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#3B82F6' }} />
+            <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
           )}
         </button>
       </code>
@@ -77,17 +71,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
   );
 
   return (
-    <div
-      className="theme-light min-h-screen w-full relative flex items-center justify-center px-4 sm:px-6 py-8 sm:py-16 overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F0FDF4 100%)',
-        backgroundImage: `
-          linear-gradient(to right, rgba(10, 37, 64, 0.04) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(10, 37, 64, 0.04) 1px, transparent 1px)
-        `,
-        backgroundSize: '40px 40px'
-      }}
-    >
+    <div className="theme-light min-h-screen w-full relative flex items-center justify-center px-4 sm:px-6 py-8 sm:py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-indigo-50/50 to-green-50/50 bg-[length:40px_40px]">
       {/* Background */}
       <div className="absolute inset-0" />
 
@@ -135,15 +119,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
         transition={{ duration: 0.2 }}
         className="relative w-full max-w-[723.5px] mx-auto z-10"
       >
-        <div
-          className="relative p-4 sm:p-6 space-y-4 sm:space-y-5"
-          style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: '20px',
-            boxShadow: '0 4px 24px rgba(10, 37, 64, 0.08), 0 1px 2px rgba(10, 37, 64, 0.04)',
-            border: '1px solid rgba(10, 37, 64, 0.08)',
-          }}
-        >
+        <div className="relative p-4 sm:p-6 space-y-4 sm:space-y-5 bg-card rounded-[20px] shadow-lg border border-border/50">
           {/* Header Section */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -151,27 +127,11 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
             transition={{ delay: 0.1, duration: 0.15 }}
             className="text-center space-y-3 sm:space-y-5"
           >
-            <h1
-              className="text-2xl sm:text-[28px]"
-              style={{
-                lineHeight: '1.5',
-                letterSpacing: '0.382812px',
-                fontWeight: 400,
-                color: 'var(--color-text-primary)'
-              }}
-            >
+            <h1 className="text-2xl sm:text-[28px] leading-relaxed tracking-wide font-normal text-foreground">
               You are all set-up
             </h1>
 
-            <p
-              className="text-sm px-2"
-              style={{
-                lineHeight: '21px',
-                letterSpacing: '-0.150391px',
-                fontWeight: 400,
-                color: 'var(--color-text-secondary)'
-              }}
-            >
+            <p className="text-sm px-2 leading-[21px] tracking-tight font-normal text-muted-foreground">
               Fix bugs and get insights instantly. Join now for free.
             </p>
           </motion.div>
@@ -183,50 +143,22 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.15, duration: 0.2 }}
-              className="rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6"
-              style={{
-                background: 'linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%)',
-                border: '1px solid rgba(16, 185, 129, 0.2)',
-              }}
+              className="rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200/50"
             >
-              <h2
-                className="text-lg sm:text-[20px]"
-                style={{
-                  lineHeight: '1.5',
-                  letterSpacing: '-0.449219px',
-                  fontWeight: 400,
-                  color: 'var(--color-text-primary)'
-                }}
-              >
+              <h2 className="text-lg sm:text-[20px] leading-relaxed tracking-tight font-normal text-foreground">
                 How It Works
               </h2>
 
               <div className="space-y-4 sm:space-y-[18px]">
                 {/* Start */}
                 <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                  <Play className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 sm:mt-0" style={{ color: '#10B981' }} />
+                  <Play className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 sm:mt-0 text-green-500" />
                   <div className="flex-1 flex items-center gap-2 flex-wrap">
-                    <span
-                      className="text-sm sm:text-base"
-                      style={{
-                        lineHeight: '1.5',
-                        letterSpacing: '-0.3125px',
-                        fontWeight: 400,
-                        color: 'var(--color-text-primary)'
-                      }}
-                    >
+                    <span className="text-sm sm:text-base leading-relaxed tracking-tight font-normal text-foreground">
                       Tag @VibeMonitor in Slack:
                     </span>
                     <CodeBlock code="@VibeMonitor debug runtime error in v2.1" index="start-1" />
-                    <span
-                      className="text-sm sm:text-base"
-                      style={{
-                        lineHeight: '1.5',
-                        letterSpacing: '-0.3125px',
-                        fontWeight: 400,
-                        color: 'var(--color-text-primary)'
-                      }}
-                    >
+                    <span className="text-sm sm:text-base leading-relaxed tracking-tight font-normal text-foreground">
                       to analyze issues.
                     </span>
                   </div>
@@ -234,29 +166,13 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
 
                 {/* Context */}
                 <div className="flex items-start sm:items-center gap-2 sm:gap-3">
-                  <Edit className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 sm:mt-0" style={{ color: '#3B82F6' }} />
+                  <Edit className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 sm:mt-0 text-blue-500" />
                   <div className="flex-1 flex items-center gap-2 flex-wrap">
-                    <span
-                      className="text-sm sm:text-base"
-                      style={{
-                        lineHeight: '1.5',
-                        letterSpacing: '-0.3125px',
-                        fontWeight: 400,
-                        color: 'var(--color-text-primary)'
-                      }}
-                    >
+                    <span className="text-sm sm:text-base leading-relaxed tracking-tight font-normal text-foreground">
                       Add details:
                     </span>
                     <CodeBlock code="@Vibemonitor check logs after 10/16 deploy" index="context-1" />
-                    <span
-                      className="text-sm sm:text-base"
-                      style={{
-                        lineHeight: '1.5',
-                        letterSpacing: '-0.3125px',
-                        fontWeight: 400,
-                        color: 'var(--color-text-primary)'
-                      }}
-                    >
+                    <span className="text-sm sm:text-base leading-relaxed tracking-tight font-normal text-foreground">
                       vague queries limit accuracy.
                     </span>
                   </div>
@@ -264,16 +180,8 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
 
                 {/* Time */}
                 <div className="flex items-start gap-2 sm:gap-3">
-                  <Hourglass className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" style={{ color: '#F59E0B' }} />
-                  <p
-                    className="flex-1 text-sm sm:text-base"
-                    style={{
-                      lineHeight: '1.5',
-                      letterSpacing: '-0.3125px',
-                      fontWeight: 400,
-                      color: 'var(--color-text-primary)'
-                    }}
-                  >
+                  <Hourglass className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 text-amber-500" />
+                  <p className="flex-1 text-sm sm:text-base leading-relaxed tracking-tight font-normal text-foreground">
                     Takes 10-30s to pull GitHub/Grafana data for thorough insights.
                   </p>
                 </div>
@@ -285,51 +193,23 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.15 }}
-              className="rounded-lg p-4 sm:p-6"
-              style={{
-                background: 'linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)',
-                border: '1px solid rgba(139, 92, 246, 0.2)',
-              }}
+              className="rounded-lg p-4 sm:p-6 bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-200/50"
             >
               <div className="flex items-start gap-2 sm:gap-3">
-                <Search className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" style={{ color: '#8B5CF6' }} />
+                <Search className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 text-violet-500" />
                 <div className="flex-1 space-y-2 sm:space-y-3">
-                  <h2
-                    className="text-lg sm:text-[20px]"
-                    style={{
-                      lineHeight: '1.5',
-                      letterSpacing: '-0.449219px',
-                      fontWeight: 400,
-                      color: 'var(--color-text-primary)'
-                    }}
-                  >
+                  <h2 className="text-lg sm:text-[20px] leading-relaxed tracking-tight font-normal text-foreground">
                     Beyond Basics
                   </h2>
                   <div className="space-y-2 sm:space-y-[10px]">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span
-                        className="text-sm"
-                        style={{
-                          lineHeight: '21px',
-                          letterSpacing: '-0.150391px',
-                          fontWeight: 400,
-                          color: 'var(--color-text-secondary)'
-                        }}
-                      >
+                      <span className="text-sm leading-[21px] tracking-tight font-normal text-muted-foreground">
                         Ask
                       </span>
                       <CodeBlock code="@Vibemonitor explain API rate limits" index="bonus-1" />
                     </div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span
-                        className="text-sm"
-                        style={{
-                          lineHeight: '21px',
-                          letterSpacing: '-0.150391px',
-                          fontWeight: 400,
-                          color: 'var(--color-text-secondary)'
-                        }}
-                      >
+                      <span className="text-sm leading-[21px] tracking-tight font-normal text-muted-foreground">
                         or
                       </span>
                       <CodeBlock code="@Vibemonitor optimise this SQL query" index="bonus-2" />
@@ -348,20 +228,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
           >
             <Button
               onClick={handleLaunchClick}
-              className="w-full h-11 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg"
-              style={{
-                background: 'linear-gradient(135deg, #0A2540 0%, #1E3A5F 100%)',
-                color: '#FFFFFF',
-                boxShadow: '0 4px 14px rgba(10, 37, 64, 0.25)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, #0D3050 0%, #264A6E 100%)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, #0A2540 0%, #1E3A5F 100%)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              className="w-full h-11 rounded-lg text-sm font-medium"
             >
               Launch Slack to start debugging
             </Button>
@@ -372,68 +239,31 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.15 }}
-            className="pt-4 sm:pt-5 space-y-2"
-            style={{
-              borderTop: '1px solid rgba(10, 37, 64, 0.1)'
-            }}
+            className="pt-4 sm:pt-5 space-y-2 border-t border-border"
           >
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <HelpCircle className="w-4 h-4" style={{ color: '#14B8A6' }} />
-                <h4
-                  className="text-sm"
-                  style={{
-                    lineHeight: '21px',
-                    letterSpacing: '-0.150391px',
-                    fontWeight: 400,
-                    color: 'var(--color-text-primary)'
-                  }}
-                >
+                <HelpCircle className="w-4 h-4 text-teal-500" />
+                <h4 className="text-sm leading-[21px] tracking-tight font-normal text-foreground">
                   Need Help?
                 </h4>
               </div>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
                 <motion.button
                   onClick={() => toast.info("Documentation coming soon!")}
-                  className="transition-colors duration-150 flex items-center gap-2"
+                  className="transition-colors duration-150 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-blue-500"
                   whileHover={{ scale: 1.05 }}
-                  style={{
-                    fontSize: '14px',
-                    lineHeight: '1.5',
-                    letterSpacing: '-0.3125px',
-                    fontWeight: 500,
-                    color: '#64748B'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#3B82F6'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
                 >
                   <FileText className="w-4 h-4" />
                   Documentation
                 </motion.button>
-                <span
-                  className="text-sm hidden sm:inline"
-                  style={{
-                    lineHeight: '20px',
-                    letterSpacing: '-0.150391px',
-                    fontWeight: 400,
-                    color: 'var(--color-text-tertiary)'
-                  }}
-                >
+                <span className="text-sm hidden sm:inline text-muted-foreground">
                   or
                 </span>
                 <motion.button
                   onClick={() => toast.info("Support team ready to help!")}
-                  className="transition-colors duration-150 flex items-center gap-2"
+                  className="transition-colors duration-150 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-green-500"
                   whileHover={{ scale: 1.05 }}
-                  style={{
-                    fontSize: '14px',
-                    lineHeight: '1.5',
-                    letterSpacing: '-0.3125px',
-                    fontWeight: 500,
-                    color: '#64748B'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#10B981'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
                 >
                   <MessageSquare className="w-4 h-4" />
                   Support

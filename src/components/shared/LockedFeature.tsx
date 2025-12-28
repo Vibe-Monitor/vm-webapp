@@ -20,19 +20,19 @@ export function LockedFeature({
     <div
       className={cn(
         'flex items-center gap-3 rounded-lg border border-dashed p-4',
-        'bg-[var(--color-surface-secondary)] border-[var(--color-border)]',
+        'bg-secondary border-border',
         className
       )}
     >
-      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-surface-hover)]">
-        <Lock className="size-4 text-[var(--color-text-tertiary)]" />
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent">
+        <Lock className="size-4 text-muted-foreground" />
       </div>
       <div className="flex flex-col gap-1 min-w-0">
-        <p className="text-sm text-[var(--color-text-secondary)]">{message}</p>
+        <p className="text-sm text-muted-foreground">{message}</p>
         {onAction && (
           <button
             onClick={onAction}
-            className="text-sm font-medium text-[var(--color-brand)] hover:underline text-left"
+            className="text-sm font-medium text-primary hover:underline text-left"
           >
             {actionLabel}
           </button>

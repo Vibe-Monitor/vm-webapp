@@ -166,13 +166,13 @@ export function useAwsIntegration(workspaceId: string | undefined) {
           <span className="text-sm font-semibold text-emerald-600">AWS CloudWatch Connected</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Role ARN:</span>
-          <span className="text-sm break-all" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{roleArn}</span>
+          <span className="text-xs font-medium text-muted-foreground">Role ARN:</span>
+          <span className="text-sm break-all font-mono font-medium text-foreground">{roleArn}</span>
         </div>
         {region && (
           <div className="flex flex-col gap-1">
-            <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Region:</span>
-            <span className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{region}</span>
+            <span className="text-xs font-medium text-muted-foreground">Region:</span>
+            <span className="text-sm font-mono font-medium text-foreground">{region}</span>
           </div>
         )}
       </div>
@@ -181,7 +181,7 @@ export function useAwsIntegration(workspaceId: string | undefined) {
 
   const instructions = (
     <div className="flex flex-col items-start gap-3 w-full">
-      <h4 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+      <h4 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
         Instructions to integrate
       </h4>
 
@@ -193,10 +193,10 @@ export function useAwsIntegration(workspaceId: string | undefined) {
               1
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Create IAM Role with Custom Trust Policy
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Go to AWS IAM Console → Roles → Create Role → Select &quot;Custom trust policy&quot; → Paste the trust policy below:
               </p>
               <div className="w-full mt-2 relative group">
@@ -248,10 +248,10 @@ export function useAwsIntegration(workspaceId: string | undefined) {
               2
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Review Trust Policy
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Click &quot;Next&quot; after pasting the trust policy. AWS will validate the JSON format automatically.
               </p>
             </div>
@@ -265,10 +265,10 @@ export function useAwsIntegration(workspaceId: string | undefined) {
               3
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Attach Permissions
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Add this AWS managed policy: <strong>CloudWatchReadOnlyAccess</strong> → This provides read access to CloudWatch logs and metrics.
               </p>
             </div>
@@ -282,10 +282,10 @@ export function useAwsIntegration(workspaceId: string | undefined) {
               4
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Name Your Role
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Enter a role name (e.g., VibeMonitor-CloudWatchRole) → Add optional description → Click &quot;Create role&quot; → Copy the Role ARN.
               </p>
             </div>
@@ -299,10 +299,10 @@ export function useAwsIntegration(workspaceId: string | undefined) {
               5
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Enter Credentials
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Paste the Role ARN and External ID (must match the &quot;sts:ExternalId&quot; from your trust policy) into the fields above → Optionally specify your primary AWS region → Click &quot;Connect AWS CloudWatch&quot;.
               </p>
             </div>

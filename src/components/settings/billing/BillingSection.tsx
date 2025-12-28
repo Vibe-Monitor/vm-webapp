@@ -52,7 +52,7 @@ export function BillingSection({ workspaceId }: BillingSectionProps) {
   if (loading && !subscription && !usage) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="size-8 animate-spin text-[var(--color-text-tertiary)]" />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -62,8 +62,8 @@ export function BillingSection({ workspaceId }: BillingSectionProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Billing & Plans</h2>
-        <p className="text-sm text-[var(--color-text-secondary)]">
+        <h2 className="text-lg font-semibold text-foreground">Billing & Plans</h2>
+        <p className="text-sm text-muted-foreground">
           Manage your subscription and billing information
         </p>
       </div>

@@ -73,10 +73,10 @@ export function RepositoryConfig({
   const defaultBranch = branches.find((b: RepositoryBranch) => b.is_default)?.name
 
   return (
-    <div className="flex items-center justify-between py-3 px-4 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)]">
+    <div className="flex items-center justify-between py-3 px-4 border border-border rounded-lg bg-card">
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <GitBranch className="size-4 text-[var(--color-text-tertiary)] shrink-0" />
-        <span className="text-sm text-[var(--color-text-primary)] truncate">
+        <GitBranch className="size-4 text-muted-foreground shrink-0" />
+        <span className="text-sm text-foreground truncate">
           {config.repository_full_name}
         </span>
       </div>
@@ -104,7 +104,7 @@ export function RepositoryConfig({
                 <SelectItem key={branch.name} value={branch.name}>
                   {branch.name}
                   {branch.is_default && (
-                    <span className="ml-2 text-xs text-[var(--color-text-tertiary)]">
+                    <span className="ml-2 text-xs text-muted-foreground">
                       (default)
                     </span>
                   )}
@@ -116,7 +116,7 @@ export function RepositoryConfig({
 
         {/* Enable/Disable Toggle */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-[var(--color-text-secondary)]">
+          <span className="text-xs text-muted-foreground">
             {config.is_enabled ? 'Enabled' : 'Disabled'}
           </span>
           <Switch

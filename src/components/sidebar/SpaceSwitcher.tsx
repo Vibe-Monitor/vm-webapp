@@ -73,13 +73,13 @@ export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
         sideOffset={collapsed ? 8 : 4}
         className="w-64"
       >
-        <DropdownMenuLabel className="text-[var(--color-text-tertiary)]">
+        <DropdownMenuLabel className="text-muted-foreground">
           Spaces
         </DropdownMenuLabel>
 
         {loading && workspaces.length === 0 ? (
           <div className="flex items-center justify-center py-4">
-            <Loader2 className="size-4 animate-spin text-[var(--color-text-tertiary)]" />
+            <Loader2 className="size-4 animate-spin text-muted-foreground" />
           </div>
         ) : (
           <>
@@ -93,22 +93,22 @@ export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
                   onClick={() => handleSelectWorkspace(workspace)}
                   className={cn(
                     'flex items-center gap-3 cursor-pointer',
-                    isSelected && 'bg-[var(--color-surface-active)]'
+                    isSelected && 'bg-accent'
                   )}
                 >
                   {/* Workspace Icon */}
-                  <div className="relative size-7 shrink-0 rounded-md bg-[var(--color-brand)] flex items-center justify-center">
-                    <span className="text-[10px] font-bold text-[var(--color-primary)]">
+                  <div className="relative size-7 shrink-0 rounded-md bg-primary flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-primary-foreground">
                       {getWorkspaceInitials(workspace.name)}
                     </span>
                   </div>
 
                   {/* Workspace Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
+                    <p className="truncate text-sm font-medium text-foreground">
                       {workspace.name}
                     </p>
-                    <div className="flex items-center gap-1 text-xs text-[var(--color-text-tertiary)]">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
                       {workspaceType === 'team' ? (
                         <Building2 className="size-3" />
                       ) : (
@@ -120,7 +120,7 @@ export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
 
                   {/* Selected Check */}
                   {isSelected && (
-                    <Check className="size-4 shrink-0 text-[var(--color-brand)]" />
+                    <Check className="size-4 shrink-0 text-primary" />
                   )}
                 </DropdownMenuItem>
               )
@@ -134,10 +134,10 @@ export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
           onClick={handleCreateSpace}
           className="flex items-center gap-3 cursor-pointer"
         >
-          <div className="size-7 rounded-md border border-dashed border-[var(--color-border)] flex items-center justify-center">
-            <Plus className="size-4 text-[var(--color-text-tertiary)]" />
+          <div className="size-7 rounded-md border border-dashed border-border flex items-center justify-center">
+            <Plus className="size-4 text-muted-foreground" />
           </div>
-          <span className="text-sm font-medium text-[var(--color-text-secondary)]">
+          <span className="text-sm font-medium text-muted-foreground">
             Create New Space
           </span>
         </DropdownMenuItem>

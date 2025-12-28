@@ -3,9 +3,31 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
+/* Map CSS variables to Tailwind colors */
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius: var(--radius);
+}
+
 html, body {
-  background: var(--color-background);
-  color: var(--color-text-primary);
   font-family: var(--font-sans);
   line-height: var(--leading-normal);
 }
@@ -15,8 +37,8 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px var(--color-background) inset !important;
-  -webkit-text-fill-color: var(--color-text-primary) !important;
+  -webkit-box-shadow: 0 0 0 30px var(--background) inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -24,14 +46,6 @@ input:-webkit-autofill:active {
 input:-moz-autofill,
 input:-moz-autofill-preview {
   filter: none;
-}
-
-/* Prevent input background from changing */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  background-color: var(--color-background) !important;
-  color: var(--color-text-primary) !important;
 }
 
 /* Auto-hide scrollbar styles */
@@ -103,7 +117,8 @@ input[type="password"] {
 /* VM-Site Landing Page Styles */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-:root {
+/* Dark theme for landing page only - scoped to avoid overriding app theme */
+.vm-site-dark {
   --font-size: 16px;
   --background: #0f1828;
   --card-bg: #1e293b40;

@@ -38,7 +38,7 @@ const statusConfig: Record<
   not_connected: {
     label: 'Not Connected',
     icon: AlertCircle,
-    className: 'bg-[var(--color-surface-hover)] text-[var(--color-text-tertiary)] border-[var(--color-border)]',
+    className: 'bg-muted text-muted-foreground border-border',
   },
 }
 
@@ -63,7 +63,7 @@ export function IntegrationStatus({
         {config.label}
       </div>
       {status === 'connected' && lastVerified && (
-        <p className="text-xs text-[var(--color-text-tertiary)]">
+        <p className="text-xs text-muted-foreground">
           Last verified: {lastVerified}
         </p>
       )}

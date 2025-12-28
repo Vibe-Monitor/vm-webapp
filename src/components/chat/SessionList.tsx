@@ -37,8 +37,8 @@ export function SessionList({
   return (
     <div className={cn('flex flex-col h-full', className)}>
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-[var(--color-border)]">
-        <h2 className="text-sm font-semibold text-[var(--color-text-primary)]">
+      <div className="flex items-center justify-between px-3 py-2 border-b border-border">
+        <h2 className="text-sm font-semibold text-foreground">
           Conversations
         </h2>
         <Button
@@ -60,17 +60,17 @@ export function SessionList({
             Array.from({ length: 5 }).map((_, i) => (
               <div
                 key={i}
-                className="h-14 rounded-lg bg-[var(--color-background-secondary)] animate-pulse"
+                className="h-14 rounded-lg bg-secondary animate-pulse"
               />
             ))
           ) : sessions.length === 0 ? (
             // Empty state
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <MessageSquare className="h-8 w-8 text-[var(--color-text-tertiary)] mb-2" />
-              <p className="text-sm text-[var(--color-text-secondary)]">
+              <MessageSquare className="h-8 w-8 text-muted-foreground mb-2" />
+              <p className="text-sm text-muted-foreground">
                 No conversations yet
               </p>
-              <p className="text-xs text-[var(--color-text-tertiary)] mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Start a new conversation to get help
               </p>
             </div>
@@ -117,20 +117,20 @@ function SessionItem({
       className={cn(
         'group relative flex items-start gap-2 rounded-lg px-3 py-2 cursor-pointer transition-colors',
         isActive
-          ? 'bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20'
-          : 'hover:bg-[var(--color-background-secondary)]'
+          ? 'bg-primary/10 border border-primary/20'
+          : 'hover:bg-secondary'
       )}
       onClick={onSelect}
     >
-      <MessageSquare className="h-4 w-4 mt-0.5 shrink-0 text-[var(--color-text-tertiary)]" />
+      <MessageSquare className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-[var(--color-text-primary)] truncate">
+        <p className="text-sm font-medium text-foreground truncate">
           {session.title || 'New conversation'}
         </p>
-        <p className="text-xs text-[var(--color-text-tertiary)] truncate">
+        <p className="text-xs text-muted-foreground truncate">
           {session.last_message_preview || `${session.turn_count} message${session.turn_count !== 1 ? 's' : ''}`}
         </p>
-        <p className="text-xs text-[var(--color-text-tertiary)] mt-0.5">
+        <p className="text-xs text-muted-foreground mt-0.5">
           {timeAgo}
         </p>
       </div>

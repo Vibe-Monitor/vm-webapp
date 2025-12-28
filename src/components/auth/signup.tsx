@@ -9,16 +9,8 @@ import GitHubSignInButton from "@/components/auth/GitHubSignInButton"
 
 export default function SignupPage() {
   return (
-    <div 
-      className="flex min-h-screen flex-col items-center justify-center px-4"  
-    >
-      <div 
-        className="w-full max-w-sm space-y-5 rounded-lg p-8 shadow-xl" 
-        style={{ 
-          backgroundColor: 'var(--color-surface)',
-          
-        }}
-      >
+    <div className="flex min-h-screen flex-col items-center justify-center px-4">
+      <div className="w-full max-w-sm space-y-5 rounded-lg bg-card p-8 shadow-xl">
         <div className="text-center">
           <div className="mb-4 flex items-center justify-center">
             <Image
@@ -28,18 +20,12 @@ export default function SignupPage() {
               height={40}
               className="mr-3"
             />
-            <h1 
-              className="text-2xl font-semibold"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
+            <h1 className="text-2xl font-semibold text-foreground">
               Vibe Monitor
             </h1>
           </div>
-          <p 
-            className="text-base mb-6"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
-            Start free in 30 seconsds. No credit card required.
+          <p className="text-base mb-6 text-muted-foreground">
+            Start free in 30 seconds. No credit card required.
           </p>
         </div>
         <form className="space-y-4">
@@ -63,29 +49,22 @@ export default function SignupPage() {
               placeholder="Password"
             />
           </div>
-          <Button 
-            type="submit" 
-            className="w-full text-white hover:brightness-90 mt-2" 
-            style={{ backgroundColor: 'var(--color-text-brand)' }}
+          <Button
+            type="submit"
+            className="w-full mt-2"
           >
             Create Account
           </Button>
         </form>
-        
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" style={{ borderColor: 'var(--color-border)' }} />
+            <span className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span 
-              className="px-2" 
-              style={{ 
-                backgroundColor: 'var(--color-surface)', 
-                color: 'var(--color-text-tertiary)' 
-              }}
-            >
+            <span className="bg-card px-2 text-muted-foreground">
               or Continue with
-        </span>
+            </span>
           </div>
         </div>
 
@@ -94,38 +73,29 @@ export default function SignupPage() {
           <GitHubSignInButton />
         </div>
 
-        <p 
-          className="text-center text-xs"
-          style={{ color: 'var(--color-text-tertiary)' }}
-        >
+        <p className="text-center text-xs text-muted-foreground">
           By continuing, you agree to our{' '}
-          <a 
-            href="#" 
-            className="underline"
-            style={{ color: 'var(--color-text-brand)' }}
+          <a
+            href="#"
+            className="underline text-primary"
           >
             Terms of Service
           </a>{' '}
           and{' '}
-          <a 
-            href="#" 
-            className="underline"
-            style={{ color: 'var(--color-text-brand)' }}
+          <a
+            href="#"
+            className="underline text-primary"
           >
             Privacy Policy
           </a>.
         </p>
 
         <div className="text-center mt-4">
-          <p 
-            className="text-sm"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
+          <p className="text-sm text-muted-foreground">
             Already have an account?{' '}
             <Link
               href="/auth/signin"
-              className="font-medium underline"
-              style={{ color: 'var(--color-text-brand)' }}
+              className="font-medium underline text-primary"
             >
               Sign in
             </Link>

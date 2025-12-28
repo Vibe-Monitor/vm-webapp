@@ -83,22 +83,22 @@ export function MembersSection({ workspaceId, isPersonalSpace }: MembersSectionP
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+          <h2 className="text-lg font-semibold text-foreground">
             Members
           </h2>
-          <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your workspace members and invitations.
           </p>
         </div>
 
-        <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+        <div className="rounded-lg border border-border bg-card p-6">
           <div className="flex items-start gap-3">
-            <AlertCircle className="size-5 text-[var(--color-text-tertiary)] shrink-0 mt-0.5" />
+            <AlertCircle className="size-5 text-muted-foreground shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-[var(--color-text-primary)]">
+              <p className="text-sm font-medium text-foreground">
                 Personal Workspace
               </p>
-              <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+              <p className="text-sm text-muted-foreground mt-1">
                 Cannot invite members to personal spaces. Create a team workspace to collaborate.
               </p>
             </div>
@@ -111,7 +111,7 @@ export function MembersSection({ workspaceId, isPersonalSpace }: MembersSectionP
   if (loading && members.length === 0) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="size-6 animate-spin text-[var(--color-text-tertiary)]" />
+        <Loader2 className="size-6 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -128,10 +128,10 @@ export function MembersSection({ workspaceId, isPersonalSpace }: MembersSectionP
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+          <h2 className="text-lg font-semibold text-foreground">
             Members
           </h2>
-          <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your workspace members and invitations.
           </p>
         </div>
@@ -144,9 +144,9 @@ export function MembersSection({ workspaceId, isPersonalSpace }: MembersSectionP
         )}
       </div>
 
-      <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
+      <div className="rounded-lg border border-border bg-card">
         {members.length === 0 ? (
-          <div className="py-8 text-center text-sm text-[var(--color-text-secondary)]">
+          <div className="py-8 text-center text-sm text-muted-foreground">
             No members found.
           </div>
         ) : (

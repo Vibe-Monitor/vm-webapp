@@ -58,7 +58,7 @@ export function ChatInput({
 
   return (
     <div className={cn('relative', className)}>
-      <div className="flex items-end gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 focus-within:border-[var(--color-border-light)]">
+      <div className="flex items-end gap-2 rounded-xl border border-border bg-card p-2 focus-within:border-ring">
         <textarea
           ref={textareaRef}
           value={message}
@@ -69,8 +69,8 @@ export function ChatInput({
           rows={1}
           className={cn(
             'flex-1 resize-none bg-transparent px-2 py-1.5 text-sm outline-none',
-            'placeholder:text-[var(--color-text-tertiary)]',
-            'text-[var(--color-text-primary)]',
+            'placeholder:text-muted-foreground',
+            'text-foreground',
             'disabled:cursor-not-allowed disabled:opacity-50',
             'max-h-[200px]'
           )}
@@ -91,7 +91,7 @@ export function ChatInput({
 
       {/* Character count */}
       {message.length > MAX_LENGTH * 0.9 && (
-        <div className="absolute right-2 -bottom-5 text-xs text-[var(--color-text-tertiary)]">
+        <div className="absolute right-2 -bottom-5 text-xs text-muted-foreground">
           {message.length.toLocaleString()}/{MAX_LENGTH.toLocaleString()}
         </div>
       )}

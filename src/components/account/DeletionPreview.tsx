@@ -21,14 +21,14 @@ export function DeletionPreview({ preview }: DeletionPreviewProps) {
               <h4 className="font-medium text-red-500">
                 Cannot delete account
               </h4>
-              <p className="text-sm text-[var(--color-text-secondary)]">
+              <p className="text-sm text-muted-foreground">
                 You are the only owner of the following workspaces. Transfer ownership or delete these workspaces first:
               </p>
               <ul className="mt-2 space-y-1">
                 {blocking_workspaces.map((ws) => (
-                  <li key={ws.id} className="text-sm text-[var(--color-text-primary)]">
+                  <li key={ws.id} className="text-sm text-foreground">
                     <span className="font-medium">{ws.name}</span>
-                    <span className="text-[var(--color-text-tertiary)]"> - {ws.reason}</span>
+                    <span className="text-muted-foreground"> - {ws.reason}</span>
                   </li>
                 ))}
               </ul>
@@ -38,19 +38,19 @@ export function DeletionPreview({ preview }: DeletionPreviewProps) {
       )}
 
       {workspaces_to_delete.length > 0 && (
-        <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="rounded-lg border border-border bg-card p-4">
           <div className="flex items-start gap-3">
             <Trash2 className="mt-0.5 size-5 shrink-0 text-red-500" />
             <div className="space-y-2">
-              <h4 className="font-medium text-[var(--color-text-primary)]">
+              <h4 className="font-medium text-foreground">
                 Workspaces to be deleted
               </h4>
-              <p className="text-sm text-[var(--color-text-secondary)]">
+              <p className="text-sm text-muted-foreground">
                 These workspaces will be permanently deleted along with all their data:
               </p>
               <ul className="mt-2 space-y-1">
                 {workspaces_to_delete.map((ws) => (
-                  <li key={ws.id} className="text-sm text-[var(--color-text-primary)]">
+                  <li key={ws.id} className="text-sm text-foreground">
                     {ws.name}
                   </li>
                 ))}
@@ -61,19 +61,19 @@ export function DeletionPreview({ preview }: DeletionPreviewProps) {
       )}
 
       {workspaces_to_leave.length > 0 && (
-        <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="rounded-lg border border-border bg-card p-4">
           <div className="flex items-start gap-3">
-            <LogOut className="mt-0.5 size-5 shrink-0 text-[var(--color-text-secondary)]" />
+            <LogOut className="mt-0.5 size-5 shrink-0 text-muted-foreground" />
             <div className="space-y-2">
-              <h4 className="font-medium text-[var(--color-text-primary)]">
+              <h4 className="font-medium text-foreground">
                 Workspaces you will leave
               </h4>
-              <p className="text-sm text-[var(--color-text-secondary)]">
+              <p className="text-sm text-muted-foreground">
                 You will be removed from these workspaces:
               </p>
               <ul className="mt-2 space-y-1">
                 {workspaces_to_leave.map((ws) => (
-                  <li key={ws.id} className="text-sm text-[var(--color-text-primary)]">
+                  <li key={ws.id} className="text-sm text-foreground">
                     {ws.name}
                   </li>
                 ))}
@@ -91,7 +91,7 @@ export function DeletionPreview({ preview }: DeletionPreviewProps) {
               <h4 className="font-medium text-yellow-500">
                 This action is irreversible
               </h4>
-              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Once you delete your account, there is no going back. All your data will be permanently removed.
               </p>
             </div>

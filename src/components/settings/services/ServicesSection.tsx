@@ -50,14 +50,14 @@ export function ServicesSection() {
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-semibold text-[var(--color-text-primary)]">Services</h2>
+            <h2 className="text-xl font-semibold text-foreground">Services</h2>
             {serviceCount && (
               <Badge variant="secondary">
                 {serviceCount.count}/{serviceCount.limit} services used
               </Badge>
             )}
           </div>
-          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+          <p className="mt-1 text-sm text-muted-foreground">
             Map your services to repositories for accurate code analysis
           </p>
         </div>
@@ -73,7 +73,7 @@ export function ServicesSection() {
           <AlertCircle className="size-5 text-yellow-500" />
           <div className="flex-1">
             <p className="font-medium text-yellow-500">Service limit reached</p>
-            <p className="text-sm text-[var(--color-text-secondary)]">
+            <p className="text-sm text-muted-foreground">
               Upgrade to Pro to add unlimited services ($5/service)
             </p>
           </div>
@@ -84,14 +84,14 @@ export function ServicesSection() {
       )}
 
       {/* Helper Text */}
-      <p className="text-sm text-[var(--color-text-tertiary)]">
+      <p className="text-sm text-muted-foreground">
         One repo can have multiple services, but each service maps to exactly one repo
       </p>
 
       {/* Services Table */}
       {services.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-[var(--color-border)] p-12 text-center">
-          <p className="text-[var(--color-text-secondary)]">
+        <div className="rounded-lg border border-dashed border-border p-12 text-center">
+          <p className="text-muted-foreground">
             No services configured yet. Add a service to get started.
           </p>
           <Button className="mt-4" onClick={() => setShowAddModal(true)} disabled={isAtLimit}>
@@ -100,15 +100,15 @@ export function ServicesSection() {
           </Button>
         </div>
       ) : (
-        <div className="rounded-lg border border-[var(--color-border)]">
+        <div className="rounded-lg border border-border">
           {/* Table Header */}
-          <div className="grid grid-cols-[1fr_1fr_auto] gap-4 border-b border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-4 py-3 text-sm font-medium text-[var(--color-text-secondary)]">
+          <div className="grid grid-cols-[1fr_1fr_auto] gap-4 border-b border-border bg-secondary px-4 py-3 text-sm font-medium text-muted-foreground">
             <div>Service Name</div>
             <div>Repository</div>
             <div>Actions</div>
           </div>
           {/* Table Body */}
-          <div className="divide-y divide-[var(--color-border)]">
+          <div className="divide-y divide-border">
             {services.map((service) => (
               <ServiceRow key={service.id} service={service} />
             ))}

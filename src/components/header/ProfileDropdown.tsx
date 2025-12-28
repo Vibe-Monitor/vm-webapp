@@ -35,7 +35,7 @@ export function ProfileDropdown() {
           size="icon"
           className="rounded-full"
         >
-          <div className="flex size-8 items-center justify-center rounded-full bg-[var(--color-surface-active)] text-[var(--color-text-primary)]">
+          <div className="flex size-8 items-center justify-center rounded-full bg-accent text-foreground">
             {user?.name ? (
               <span className="text-xs font-medium">
                 {getInitials(user.name)}
@@ -53,7 +53,7 @@ export function ProfileDropdown() {
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">{user.name}</p>
-                <p className="text-xs leading-none text-[var(--color-text-tertiary)]">
+                <p className="text-xs leading-none text-muted-foreground">
                   {user.email}
                 </p>
               </div>

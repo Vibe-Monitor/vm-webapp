@@ -165,7 +165,7 @@ export function AddServiceModal({ open, onOpenChange }: AddServiceModalProps) {
                 </SelectTrigger>
                 <SelectContent>
                   {repositories.length === 0 ? (
-                    <div className="py-6 text-center text-sm text-[var(--color-text-tertiary)]">
+                    <div className="py-6 text-center text-sm text-muted-foreground">
                       No repositories found. Connect GitHub integration first.
                     </div>
                   ) : (

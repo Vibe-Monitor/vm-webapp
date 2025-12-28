@@ -91,20 +91,20 @@ export function LLMProviderCard({
             onClick={() => onSelectProvider(provider.id)}
             className={cn(
               'relative flex items-start gap-4 rounded-lg border p-4 text-left transition-all',
-              'hover:border-[var(--color-border-light)] hover:bg-[var(--color-surface-hover)]',
+              'hover:border-border hover:bg-accent',
               isSelected
-                ? 'border-[var(--color-brand)] bg-[var(--color-surface-active)]'
-                : 'border-[var(--color-border)] bg-[var(--color-surface)]'
+                ? 'border-primary bg-accent'
+                : 'border-border bg-card'
             )}
           >
             {provider.icon}
             <div className="flex-1 space-y-1">
               <div className="flex items-center gap-2">
-                <span className="font-medium text-[var(--color-text-primary)]">
+                <span className="font-medium text-foreground">
                   {provider.name}
                 </span>
                 {provider.id === 'vibemonitor' && (
-                  <span className="rounded-full bg-[var(--color-brand)]/10 px-2 py-0.5 text-xs font-medium text-[var(--color-brand)]">
+                  <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
                     Default
                   </span>
                 )}
@@ -115,19 +115,19 @@ export function LLMProviderCard({
                   </span>
                 )}
               </div>
-              <p className="text-sm text-[var(--color-text-secondary)]">
+              <p className="text-sm text-muted-foreground">
                 {provider.description}
               </p>
               {provider.id === 'vibemonitor' && (
-                <p className="text-xs text-[var(--color-text-tertiary)]">
+                <p className="text-xs text-muted-foreground">
                   Rate limits: Free (10/day), Pro (100/day)
                 </p>
               )}
             </div>
             {isSelected && (
               <div className="absolute right-3 top-3">
-                <div className="size-4 rounded-full border-2 border-[var(--color-brand)] bg-[var(--color-brand)]">
-                  <CheckCircle2 className="size-4 text-white" />
+                <div className="size-4 rounded-full border-2 border-primary bg-primary">
+                  <CheckCircle2 className="size-4 text-primary-foreground" />
                 </div>
               </div>
             )}

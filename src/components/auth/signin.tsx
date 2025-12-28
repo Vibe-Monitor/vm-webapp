@@ -2,6 +2,7 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import Image from "next/image"
 import Link from "next/link"
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton"
@@ -9,16 +10,8 @@ import GitHubSignInButton from "@/components/auth/GitHubSignInButton"
 
 export default function SigninPage() {
   return (
-    <div 
-      className="flex min-h-screen flex-col items-center justify-center px-4"  
-    >
-      <div 
-        className="w-full max-w-sm space-y-4 rounded-lg p-8 shadow-xl" 
-        style={{ 
-          backgroundColor: 'var(--color-surface)',
-       
-        }}
-      >
+    <div className="flex min-h-screen flex-col items-center justify-center px-4">
+      <div className="w-full max-w-sm space-y-4 rounded-lg bg-card p-8 shadow-xl">
         <div className="text-center">
           <div className="mb-4 flex items-center justify-center">
             <Image
@@ -28,17 +21,11 @@ export default function SigninPage() {
               height={40}
               className="mr-3"
             />
-            <h1 
-              className="text-2xl font-semibold"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
+            <h1 className="text-2xl font-semibold text-foreground">
               Vibe Monitor
             </h1>
           </div>
-          <p 
-            className="text-base mb-4"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
+          <p className="text-base mb-4 text-muted-foreground">
             Welcome back! Sign in to your account.
           </p>
         </div>
@@ -65,45 +52,34 @@ export default function SigninPage() {
           </div>
           <div className="flex items-center justify-between">
             <label className="flex items-center space-x-2">
-              <input type="checkbox" className="rounded" />
-              <span 
-                className="text-sm"
-                style={{ color: 'var(--color-text-secondary)' }}
-              >
+              <Checkbox />
+              <span className="text-sm text-muted-foreground">
                 Remember me
               </span>
             </label>
-            <Link 
-              href="#" 
-              className="text-sm underline"
-              style={{ color: 'var(--color-text-brand)' }}
+            <Link
+              href="#"
+              className="text-sm underline text-primary"
             >
               Forgot password?
             </Link>
           </div>
-          <Button 
-            type="submit" 
-            className="w-full text-white hover:brightness-90" 
-            style={{ backgroundColor: 'var(--color-text-brand)' }}
+          <Button
+            type="submit"
+            className="w-full"
           >
             Sign In
           </Button>
         </form>
-        
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" style={{ borderColor: 'var(--color-border)' }} />
+            <span className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span
-              className="px-2"
-              style={{
-                backgroundColor: 'var(--color-surface)',
-                color: 'var(--color-text-tertiary)'
-              }}
-            >
+            <span className="bg-card px-2 text-muted-foreground">
               or Continue with
-        </span>
+            </span>
           </div>
         </div>
 
@@ -112,38 +88,29 @@ export default function SigninPage() {
           <GitHubSignInButton />
         </div>
 
-        <p 
-          className="text-center text-xs"
-          style={{ color: 'var(--color-text-tertiary)' }}
-        >
+        <p className="text-center text-xs text-muted-foreground">
           By continuing, you agree to our{' '}
-          <Link 
-            href="#" 
-            className="underline"
-            style={{ color: 'var(--color-text-brand)' }}
+          <Link
+            href="#"
+            className="underline text-primary"
           >
             Terms of Service
           </Link>{' '}
           and{' '}
           <Link
             href="#"
-            className="underline"
-            style={{ color: 'var(--color-text-brand)' }}
+            className="underline text-primary"
           >
             Privacy Policy
           </Link>.
         </p>
 
         <div className="text-center mt-4">
-          <p 
-            className="text-sm"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
+          <p className="text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Link
               href="/auth/signup"
-              className="font-medium underline"
-              style={{ color: 'var(--color-text-brand)' }}
+              className="font-medium underline text-primary"
             >
               Sign up
             </Link>

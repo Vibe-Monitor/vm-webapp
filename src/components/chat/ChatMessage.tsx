@@ -31,14 +31,14 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
         className={cn(
           'flex h-8 w-8 shrink-0 items-center justify-center rounded-full',
           isUser
-            ? 'bg-[var(--color-primary)] text-white'
-            : 'bg-[var(--color-background-secondary)] border border-[var(--color-border)]'
+            ? 'bg-primary text-primary-foreground'
+            : 'bg-secondary border border-border'
         )}
       >
         {isUser ? (
           <User className="h-4 w-4" />
         ) : (
-          <Bot className="h-4 w-4 text-[var(--color-text-secondary)]" />
+          <Bot className="h-4 w-4 text-muted-foreground" />
         )}
       </div>
 
@@ -51,7 +51,7 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
       >
         {/* User message */}
         {isUser && (
-          <div className="inline-block max-w-[85%] rounded-2xl bg-[var(--color-primary)] px-4 py-2 text-white">
+          <div className="inline-block max-w-[85%] rounded-2xl bg-primary px-4 py-2 text-primary-foreground">
             <p className="text-sm whitespace-pre-wrap">{message.content}</p>
           </div>
         )}
@@ -61,14 +61,14 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
           <div className="space-y-3">
             {/* Processing steps */}
             {message.steps && message.steps.length > 0 && (
-              <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-background-secondary)] p-3">
+              <div className="rounded-lg border border-border bg-secondary p-3">
                 <ChatSteps steps={message.steps} />
               </div>
             )}
 
             {/* Loading state */}
             {isProcessing && (!message.steps || message.steps.length === 0) && (
-              <div className="flex items-center gap-2 text-[var(--color-text-secondary)]">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 <span className="text-sm">Analyzing...</span>
               </div>
@@ -76,7 +76,7 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
 
             {/* Failed state */}
             {(message.status === TurnStatus.FAILED || (!message.content && !isProcessing)) && (
-              <div className="flex items-center gap-2 text-[var(--color-error)] bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              <div className="flex items-center gap-2 text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
                 <AlertCircle className="h-4 w-4 shrink-0" />
                 <span className="text-sm">This request failed. Please try again.</span>
               </div>
@@ -84,19 +84,19 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
 
             {/* Final response */}
             {message.content && message.status !== TurnStatus.FAILED && (
-              <div className="prose prose-sm dark:prose-invert max-w-none text-[var(--color-text-primary)]">
+              <div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-code:text-foreground prose-code:before:content-none prose-code:after:content-none">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
                     pre: ({ children }) => (
-                      <pre className="overflow-x-auto rounded-lg bg-[var(--color-background-secondary)] p-3 text-sm">
+                      <pre className="overflow-x-auto rounded-lg bg-secondary p-3 text-sm">
                         {children}
                       </pre>
                     ),
                     code: ({ children, className }) => {
                       const isInline = !className;
                       return isInline ? (
-                        <code className="rounded bg-[var(--color-background-secondary)] px-1.5 py-0.5 text-sm">
+                        <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-medium text-foreground font-mono">
                           {children}
                         </code>
                       ) : (
@@ -108,7 +108,7 @@ export function ChatMessage({ message, onFeedback, className }: ChatMessageProps
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[var(--color-primary)] hover:underline"
+                        className="text-blue-600 hover:underline"
                       >
                         {children}
                       </a>

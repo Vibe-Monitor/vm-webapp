@@ -87,7 +87,7 @@ export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
       {/* Sidebar */}
       <div
         className={cn(
-          'border-r border-[var(--color-border)] bg-[var(--color-background-secondary)] transition-all duration-300',
+          'border-r border-border bg-secondary transition-all duration-300',
           sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
         )}
       >
@@ -137,7 +137,7 @@ export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
         </ScrollArea>
 
         {/* Input Area */}
-        <div className="border-t border-[var(--color-border)] bg-[var(--color-background)]">
+        <div className="border-t border-border bg-background">
           <div className="max-w-3xl mx-auto px-4 py-4">
             <ChatInput
               onSend={sendMessage}
@@ -181,13 +181,13 @@ export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
 function EmptyState({ onSendMessage }: { onSendMessage: (message: string) => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-primary)]/10 mb-4">
-        <Bot className="h-8 w-8 text-[var(--color-primary)]" />
+      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
+        <Bot className="h-8 w-8 text-primary" />
       </div>
-      <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">
+      <h2 className="text-xl font-semibold text-foreground mb-2">
         How can I help you today?
       </h2>
-      <p className="text-sm text-[var(--color-text-secondary)] max-w-md">
+      <p className="text-sm text-muted-foreground max-w-md">
         Ask me about your infrastructure, debug issues, or analyze logs and metrics.
         I can help investigate problems across your services.
       </p>
@@ -203,7 +203,7 @@ function EmptyState({ onSendMessage }: { onSendMessage: (message: string) => voi
 function ExamplePrompt({ text, onClick }: { text: string; onClick: (text: string) => void }) {
   return (
     <div
-      className="px-4 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-background-secondary)] hover:border-[var(--color-border-light)] cursor-pointer transition-colors"
+      className="px-4 py-2 rounded-lg border border-border bg-card text-muted-foreground hover:bg-secondary hover:border-ring cursor-pointer transition-colors"
       onClick={() => onClick(text)}
     >
       {text}

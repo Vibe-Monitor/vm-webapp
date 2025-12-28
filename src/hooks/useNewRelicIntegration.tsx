@@ -131,8 +131,8 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
           <span className="text-sm font-semibold text-emerald-600">New Relic Connected</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Account ID:</span>
-          <span className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{accountId}</span>
+          <span className="text-xs font-medium text-muted-foreground">Account ID:</span>
+          <span className="text-sm font-mono font-medium text-foreground">{accountId}</span>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
 
   const instructions = (
     <div className="flex flex-col items-start gap-3 w-full">
-      <h4 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+      <h4 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
         Instructions to integrate
       </h4>
 
@@ -152,10 +152,10 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
               1
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Go to API Keys Section
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Inside New Relic, open your <strong>API Keys</strong> settings page where all keys for your account are managed.
               </p>
             </div>
@@ -169,10 +169,10 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
               2
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Create User API Key
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Click &quot;Create a Key&quot; → Select <strong>Key Type: User</strong>
               </p>
               <p className="text-xs leading-4 mt-1" style={{ color: '#F59E0B' }}>
@@ -189,10 +189,10 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
               3
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Copy the Key
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 After creating, copy the key value (starts with <strong>NRAK-</strong>)
               </p>
             </div>
@@ -206,10 +206,10 @@ export function useNewRelicIntegration(workspaceId: string | undefined) {
               4
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Enter Credentials
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Paste your Account ID and User API Key (NRAK-...) above → Click &quot;Connect New Relic&quot;
               </p>
             </div>

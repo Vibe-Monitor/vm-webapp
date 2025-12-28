@@ -1,46 +1,87 @@
 :root {
-  /* Colors - Brand (Landing Page Theme) */
+  /* ============================================
+     shadcn/ui Standard Variables (Global)
+     These work with all shadcn components
+     ============================================ */
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #171717;
+  --primary-foreground: #ffffff;
+  --secondary: #F3F3F5;
+  --secondary-foreground: #171717;
+  --muted: #F3F3F5;
+  --muted-foreground: #6B7280;
+  --accent: #F3F3F5;
+  --accent-foreground: #171717;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #171717;
+  --radius: 0.5rem;
+
+  /* ============================================
+     Extended App Colors
+     For custom components and specific use cases
+     ============================================ */
+
+  /* Background Colors */
+  --color-background: #ffffff;
+  --color-background-secondary: #F3F3F5;
+  --color-background-tertiary: #E5E7EB;
+  --color-background-subtle: rgba(255, 255, 255, 0.02);
+  --color-background-dropdown: #ffffff;
+  --color-background-hover: #F3F3F5;
+
+  /* Surface Colors */
+  --color-surface: #ffffff;
+  --color-surface-secondary: #F9FAFB;
+  --color-surface-hover: #F3F3F5;
+  --color-surface-active: #E5E7EB;
+
+  /* Border Colors */
+  --color-border: #E5E7EB;
+  --color-border-light: #D1D5DB;
+  --color-border-dark: #64748b;
+  --color-border-subtle: rgba(156, 163, 175, 0.2);
+
+  /* Text Colors */
+  --color-text-primary: #171717;
+  --color-text-secondary: #454545;
+  --color-text-tertiary: #6B7280;
+  --color-text-inverse: #ffffff;
+  --color-text-brand: #171717;
+  --color-text-dark-brand: #054cbf;
+
+  /* Brand Colors */
   --color-brand: #FED835;
   --color-brand-light: #FEE168;
   --color-brand-dark: #E5C230;
   --color-accent: #FED835;
   --color-accent-light: #FEE168;
   --color-accent-dark: #E5C230;
+  --color-primary: #FED835;
+  --color-primary-hover: #E5C230;
 
+  /* Button Colors */
+  --color-button-dark: #171717;
+  --color-button-dark-hover: #333333;
+  --color-button-blue: #3B82F6;
+  --color-button-blue-hover: #2563EB;
+
+  /* Contextual Colors */
   --color-blue-line: #3B82F6;
-  /* Colors - Contextual */
   --color-analytical: #3B82F6;
   --color-integration: #10B981;
   --color-tools: #F59E0B;
   --color-linkedin: #0077B5;
   --color-cta: #171717;
-
-  /* Colors - Neutral - Dark Theme (Dashboard only - NOT used in .theme-light pages) */
-  /* Variables below are COMMENTED OUT to avoid conflicts with .theme-light */
-  /* Use .theme-light colors for Auth, Landing, Setup pages */
-
-  /* --color-background: #111827; */
-  /* --color-background-secondary: #1e293b; */
-  /* --color-background-tertiary: #334155; */
-  --color-background-subtle: rgba(255, 255, 255, 0.02);
-  --color-background-dropdown: #0d0c0c;
-  --color-background-hover: #1a1a1a;
-  /* --color-surface: #1e293b; */
-  /* --color-surface-secondary: #334155; */
-  /* --color-border: #475569; */
-  /* --color-border-light: #334155; */
-  --color-border-dark: #64748b;
-  --color-border-subtle: rgba(156, 163, 175, 0.2);
-
-  /* Colors - Text - Dark Theme (Dashboard only - NOT used in .theme-light pages) */
-  /* Variables below are COMMENTED OUT to avoid conflicts with .theme-light */
-
-  /* --color-text-primary: #E5E7EB; */
-  /* --color-text-secondary: #cbd5e1; */
-  /* --color-text-tertiary: #9CA3AF; */
-  --color-text-inverse: #0f172a;
-  /* --color-text-brand: #1769ed; */
-  --color-text-dark-brand: #054cbf;  
+  --color-logo-blue: #0A2540;
+  --color-logo-gray: #4A5568;  
 
   /* Colors - Status */
   --color-success: #10b981;
@@ -171,57 +212,9 @@ body {
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
-/* Light Theme for Auth & Landing Pages */
+/* Theme class - kept for backwards compatibility
+   All variables are now in :root, so .theme-light just adds shadows */
 .theme-light {
-  /* Background Colors */
-  --color-background: #ffffff;
-  --color-background-secondary: #F3F3F5;
-  --color-background-tertiary: #E5E7EB;
-  --color-background-dropdown: #ffffff;
-  --color-background-hover: #F3F3F5;
-  --color-surface: #ffffff;
-  --color-surface-secondary: #F9FAFB;
-  --color-surface-hover: #F3F3F5;
-  --color-surface-active: #E5E7EB;
-
-  /* Border Colors */
-  --color-border: #E5E7EB;
-  --color-border-light: #D1D5DB;
-
-  /* Text Colors */
-  --color-text-primary: #171717;
-  --color-text-secondary: #454545;
-  --color-text-tertiary: #6B7280;
-  --color-text-brand: #171717;
-
-  /* Brand/Accent Colors */
-  --color-primary: #FED835;
-  --color-primary-hover: #E5C230;
-  --color-button-dark: #171717;
-  --color-button-dark-hover: #333333;
-  --color-button-blue: #3B82F6;
-  --color-button-blue-hover: #2563EB;
-  --color-logo-blue: #0A2540;
-  --color-logo-gray: #4A5568;
-
-  /* Tailwind/shadcn color variables */
-  --primary: #171717;
-  --primary-foreground: #ffffff;
-  --secondary: #F3F3F5;
-  --secondary-foreground: #171717;
-  --accent: #F3F3F5;
-  --accent-foreground: #171717;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --muted: #F3F3F5;
-  --muted-foreground: #6B7280;
-  --background: #ffffff;
-  --foreground: #171717;
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #171717;
-
-  /* Shadows */
   --shadow-card: 0 20px 60px -15px rgba(0, 0, 0, 0.1);
   --shadow-button: 0 4px 12px rgba(0, 0, 0, 0.15);
   --shadow-button-hover: 0 6px 20px rgba(0, 0, 0, 0.2);

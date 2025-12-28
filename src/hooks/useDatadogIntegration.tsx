@@ -136,8 +136,8 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
           <span className="text-sm font-semibold text-emerald-600">Datadog Connected</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium" style={{ color: 'var(--color-text-tertiary)' }}>Region:</span>
-          <span className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{region}</span>
+          <span className="text-xs font-medium text-muted-foreground">Region:</span>
+          <span className="text-sm font-mono font-medium text-foreground">{region}</span>
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
 
   const instructions = (
     <div className="flex flex-col items-start gap-3 w-full">
-      <h4 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+      <h4 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
         Instructions to integrate
       </h4>
 
@@ -157,10 +157,10 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
               1
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Create API Key
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Go to Organization Settings → API Keys → Create New Key (example name: Vibe_API_KEY)
               </p>
             </div>
@@ -174,10 +174,10 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
               2
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Create Application Key
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Go to Organization Settings → Application Keys → Create New Application Key (example name: Vibe_APP_KEY)
               </p>
               <p className="text-xs leading-4 mt-1" style={{ color: '#F59E0B' }}>
@@ -194,10 +194,10 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
               3
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Assign Permissions
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Grant READ-ONLY permissions: <strong>logs_read_data, logs_read_index_data, logs_live_tail, metrics_read, timeseries_query, events_read</strong>
               </p>
             </div>
@@ -211,10 +211,10 @@ export function useDatadogIntegration(workspaceId: string | undefined) {
               4
             </div>
             <div className="flex flex-col items-start gap-1">
-              <h5 className="text-sm leading-5 tracking-[-0.150391px]" style={{ color: 'var(--color-text-primary)' }}>
+              <h5 className="text-sm leading-5 tracking-[-0.150391px] text-foreground">
                 Enter Credentials
               </h5>
-              <p className="text-xs leading-4" style={{ color: 'var(--color-text-secondary)' }}>
+              <p className="text-xs leading-4 text-muted-foreground">
                 Paste your API Key, Application Key, and Region (e.g., us5.datadoghq.com) above → Click &quot;Connect Datadog&quot;
               </p>
             </div>

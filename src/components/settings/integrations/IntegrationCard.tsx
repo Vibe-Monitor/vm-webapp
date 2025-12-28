@@ -51,26 +51,26 @@ export function IntegrationCard({
     <div
       className={cn(
         'flex flex-col gap-4 rounded-lg border p-4',
-        'bg-[var(--color-surface-secondary)] border-[var(--color-border)]',
+        'bg-secondary border-border',
         isLocked && 'opacity-75',
         className
       )}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-surface-hover)]">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted">
             {icon}
           </div>
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
+              <h3 className="text-sm font-semibold text-foreground">
                 {name}
               </h3>
               {isLocked && (
-                <Lock className="size-3.5 text-[var(--color-text-tertiary)]" />
+                <Lock className="size-3.5 text-muted-foreground" />
               )}
             </div>
-            <p className="text-sm text-[var(--color-text-secondary)]">
+            <p className="text-sm text-muted-foreground">
               {description}
             </p>
           </div>
@@ -86,9 +86,9 @@ export function IntegrationCard({
       </div>
 
       {isLocked ? (
-        <div className="flex items-center gap-3 rounded-lg border border-dashed p-3 bg-[var(--color-background)] border-[var(--color-border)]">
-          <Lock className="size-4 shrink-0 text-[var(--color-text-tertiary)]" />
-          <p className="text-sm text-[var(--color-text-secondary)] flex-1">
+        <div className="flex items-center gap-3 rounded-lg border border-dashed p-3 bg-background border-border">
+          <Lock className="size-4 shrink-0 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground flex-1">
             {lockMessage}
           </p>
           {onCreateTeam && (

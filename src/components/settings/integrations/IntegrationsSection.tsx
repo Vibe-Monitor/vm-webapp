@@ -23,7 +23,7 @@ export function IntegrationsSection({
     <div className={cn('flex flex-col gap-8', className)}>
       {categories.map((category) => (
         <div key={category.id} className="flex flex-col gap-4">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-tertiary)]">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {category.name}
           </h2>
           <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">

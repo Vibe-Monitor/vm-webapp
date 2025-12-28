@@ -127,7 +127,7 @@ export default function IntegrationsPage() {
           id: 'github',
           name: 'GitHub',
           description: 'Monitor commits, issues, and pull requests in real time.',
-          icon: <GitHubLogoIcon className="size-5 text-[var(--color-text-primary)]" />,
+          icon: <GitHubLogoIcon className="size-5 text-foreground" />,
           status: mapStatus(github.connected, github.status),
           onConnect: github.onConnect,
           onReconfigure: github.onConnect,
@@ -214,10 +214,10 @@ export default function IntegrationsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
-        <h1 className="text-xl font-semibold text-[var(--color-text-primary)]">
+        <h1 className="text-xl font-semibold text-foreground">
           Integrations
         </h1>
-        <p className="text-sm text-[var(--color-text-secondary)]">
+        <p className="text-sm text-muted-foreground">
           Connect your tools and services to enhance your observability workflow.
         </p>
       </div>

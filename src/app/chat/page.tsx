@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ChatContainer } from '@/components/chat';
 import { Toaster } from 'sonner';
 import Loader from '@/components/ui/loader';
+import { Button } from '@/components/ui/button';
 import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { fetchWorkspaces } from '@/lib/features/workspaceSlice';
 import { tokenService } from '@/services/tokenService';
@@ -45,7 +46,7 @@ export default function ChatPage() {
 
   if (loading) {
     return (
-      <div className="theme-light min-h-screen bg-[var(--color-background)]">
+      <div className="min-h-screen bg-background">
         <Loader message="Loading workspace..." />
       </div>
     );
@@ -53,27 +54,24 @@ export default function ChatPage() {
 
   if (!workspaceId) {
     return (
-      <div className="theme-light min-h-screen flex items-center justify-center bg-[var(--color-background)]">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
             No workspace found
           </h2>
-          <p className="text-[var(--color-text-secondary)] mb-4">
+          <p className="text-muted-foreground mb-4">
             Please complete the setup to create a workspace.
           </p>
-          <button
-            onClick={() => router.push('/setup')}
-            className="px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white hover:opacity-90 transition-opacity"
-          >
+          <Button onClick={() => router.push('/setup')}>
             Go to Setup
-          </button>
+          </Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="theme-light h-screen bg-[var(--color-background)]">
+    <div className="h-screen bg-background">
       <ChatContainer workspaceId={workspaceId} className="h-full" />
 
       <Toaster
@@ -81,12 +79,7 @@ export default function ChatPage() {
         richColors
         theme="light"
         toastOptions={{
-          style: {
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text-primary)',
-            fontFamily: 'var(--font-sans)',
-          },
+          className: 'bg-card border-border text-foreground',
         }}
       />
     </div>

@@ -18,7 +18,7 @@ interface RoleSelectorProps {
 export function RoleSelector({ value, onChange, disabled, isOwner }: RoleSelectorProps) {
   if (isOwner && value === 'owner') {
     return (
-      <span className="text-sm text-[var(--color-text-secondary)]">Owner</span>
+      <span className="text-sm text-muted-foreground">Owner</span>
     )
   }
 

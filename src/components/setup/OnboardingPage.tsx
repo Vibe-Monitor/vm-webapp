@@ -6,7 +6,7 @@ import posthog from "posthog-js";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Badge } from "../ui/badge"; 
+import { Badge } from "../ui/badge";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 import { api } from "@/services/api/apiFactory";
@@ -23,6 +23,7 @@ import { useAwsIntegration } from "@/hooks/useAwsIntegration";
 import { useIntegrationStatusPoller } from "@/hooks/useIntegrationStatusPoller";
 import { useDatadogIntegration } from "@/hooks/useDatadogIntegration";
 import { useNewRelicIntegration } from "@/hooks/useNewRelicIntegration";
+
 interface OnboardingPageProps {
   onComplete: () => void;
   userName?: string;
@@ -163,7 +164,7 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
           description: 'User completed workspace setup'
         });
 
-        toast.success("Workspace setup complete! 🎉");
+        toast.success("Workspace setup complete!");
         onComplete();
       } else {
         throw new Error(response.error || 'Failed to update workspace');
@@ -187,42 +188,19 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
   }
 
   return (
-    <main
-      className="theme-light min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 relative"
-      style={{
-        backgroundColor: 'var(--color-background-secondary)',
-        backgroundImage: `
-          linear-gradient(to right, rgba(128, 128, 128, 0.08) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(128, 128, 128, 0.08) 1px, transparent 1px)
-        `,
-        backgroundSize: '40px 40px'
-      }}
-    >
+    <main className="theme-light min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 relative bg-secondary bg-[length:40px_40px]">
       <BackButton />
       <LogoutButton />
 
-      <Card
-        className="w-full max-w-[794px] p-6 sm:p-10 lg:p-[50px] rounded-xl mt-16 sm:mt-0"
-        style={{
-          backgroundColor: 'var(--color-surface)',
-          borderColor: 'var(--color-border)',
-          boxShadow: 'var(--shadow-card)',
-        }}
-      >
+      <Card className="w-full max-w-[794px] p-6 sm:p-10 lg:p-[50px] rounded-xl mt-16 sm:mt-0 bg-card border-border shadow-lg">
         <CardContent className="p-0 flex flex-col items-center">
           {/* Header */}
           <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[448px] mb-5 sm:mb-7">
             <div className="flex flex-row items-center gap-[5px] px-2">
-              <h1
-                className="text-xl sm:text-[24px] font-bold leading-tight tracking-[-0.3125px]"
-                style={{ color: 'var(--color-text-primary)' }}
-              >
+              <h1 className="text-xl sm:text-[24px] font-bold leading-tight tracking-tight text-foreground">
                 Welcome to VibeMonitor!
               </h1>
-              <span
-                className="text-sm sm:text-[16px] leading-tight tracking-[-0.3125px]"
-                style={{ color: 'var(--color-primary)' }}
-              >
+              <span className="text-sm sm:text-[16px] leading-tight tracking-tight text-primary">
                 ✨
               </span>
             </div>
@@ -232,11 +210,6 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                 value={workspaceName}
                 onChange={(e) => setWorkspaceName(e.target.value)}
                 className="w-full h-9 px-3 py-1 text-sm rounded-md"
-                style={{
-                  backgroundColor: 'var(--color-surface-secondary)',
-                  borderColor: 'var(--color-border)',
-                  color: 'var(--color-text-primary)'
-                }}
               />
             </div>
           </div>
@@ -246,19 +219,10 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
             {/* Connect where work happens */}
             <div className="flex flex-col items-start gap-3 w-full">
               <div className="flex flex-row items-center gap-3">
-                <div
-                  className="flex items-center justify-center w-6 h-6 rounded-full text-sm"
-                  style={{
-                    backgroundColor: 'var(--color-button-blue)',
-                    color: 'var(--color-background)'
-                  }}
-                >
+                <div className="flex items-center justify-center w-6 h-6 rounded-full text-sm bg-primary text-primary-foreground">
                   1
                 </div>
-                <h3
-                  className="text-sm font-semibold leading-6 tracking-[-0.3125px]"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
+                <h3 className="text-sm font-semibold leading-6 tracking-tight text-foreground">
                   Connect where work happens
                 </h3>
               </div>
@@ -282,19 +246,10 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
             {/* Connect your data sources */}
             <div className="flex flex-col items-start gap-4 w-full">
               <div className="flex flex-row items-center gap-3">
-                <div
-                  className="flex items-center justify-center w-6 h-6 rounded-full text-sm"
-                  style={{
-                    backgroundColor: 'var(--color-button-blue)',
-                    color: 'var(--color-background)'
-                  }}
-                >
+                <div className="flex items-center justify-center w-6 h-6 rounded-full text-sm bg-primary text-primary-foreground">
                   2
                 </div>
-                <h3
-                  className="text-sm font-semibold leading-6 tracking-[-0.3125px]"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
+                <h3 className="text-sm font-semibold leading-6 tracking-tight text-foreground">
                   Connect your data sources
                 </h3>
               </div>
@@ -304,7 +259,7 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                 <IntegrationSection
                   {...github}
                   title="GitHub"
-                  icon={<GitHubLogoIcon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" style={{ color: '#171515' }} />}
+                  icon={<GitHubLogoIcon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-foreground" />}
                   value="github"
                 />
 
@@ -359,7 +314,7 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
                   }
                   value="newrelic"
                   />
-                
+
 
               </div>
             </div>
@@ -369,58 +324,27 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
               <div className="flex flex-col items-start gap-4 sm:gap-5 w-full max-w-[333px] px-4 sm:px-0">
                 <div className="flex flex-col items-center gap-1 w-full">
                   <div className="flex flex-row items-center gap-[9px]">
-                    <span className="text-xs leading-4" style={{ color: 'var(--color-primary)' }}>✨</span>
-                    <span
-                      className="text-sm sm:text-[16px] font-medium leading-5 tracking-[-0.150391px]"
-                      style={{ color: 'var(--color-text-primary)' }}
-                    >
+                    <span className="text-xs leading-4 text-primary">✨</span>
+                    <span className="text-sm sm:text-[16px] font-medium leading-5 tracking-tight text-foreground">
                       More coming soon!
                     </span>
                   </div>
-                  <p className="text-xs leading-4 text-center" style={{ color: 'var(--color-text-tertiary)' }}>
+                  <p className="text-xs leading-4 text-center text-muted-foreground">
                     We&apos;re expanding context for richer results—stay tuned!
                   </p>
                 </div>
 
                 <div className="flex flex-row items-center justify-center flex-wrap gap-2 w-full">
-                  <Badge
-                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
-                    style={{
-                      backgroundColor: 'var(--color-surface-secondary)',
-                      borderColor: 'var(--color-border)',
-                      color: 'var(--color-text-tertiary)'
-                    }}
-                  >
+                  <Badge variant="secondary" className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4">
                     📋 Jira
                   </Badge>
-                  <Badge
-                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
-                    style={{
-                      backgroundColor: 'var(--color-surface-secondary)',
-                      borderColor: 'var(--color-border)',
-                      color: 'var(--color-text-tertiary)'
-                    }}
-                  >
+                  <Badge variant="secondary" className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4">
                     🐳 Docker
                   </Badge>
-                  <Badge
-                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
-                    style={{
-                      backgroundColor: 'var(--color-surface-secondary)',
-                      borderColor: 'var(--color-border)',
-                      color: 'var(--color-text-tertiary)'
-                    }}
-                  >
+                  <Badge variant="secondary" className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4">
                     🔧 Jenkins
                   </Badge>
-                  <Badge
-                    className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4"
-                    style={{
-                      backgroundColor: 'var(--color-surface-secondary)',
-                      borderColor: 'var(--color-border)',
-                      color: 'var(--color-text-tertiary)'
-                    }}
-                  >
+                  <Badge variant="secondary" className="h-[22px] px-[9px] py-[3px] text-xs font-medium leading-4">
                     🐕 DataDog
                   </Badge>
                 </div>
@@ -430,12 +354,6 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
               <Button
                 onClick={handleContinue}
                 className="w-full h-10 rounded-md text-sm font-medium"
-                style={{
-                  backgroundColor: 'var(--color-logo-blue)',
-                  color: '#ffffff'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
               >
                 Complete Setup
               </Button>

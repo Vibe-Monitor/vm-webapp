@@ -82,11 +82,11 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem
         value={environment.id}
-        className="border border-[var(--color-border)] rounded-lg overflow-hidden"
+        className="border border-border rounded-lg overflow-hidden"
       >
-        <AccordionTrigger className="px-4 hover:no-underline hover:bg-[var(--color-surface-hover)]">
+        <AccordionTrigger className="px-4 hover:no-underline hover:bg-muted">
           <div className="flex items-center gap-3 flex-1">
-            <span className="font-medium text-[var(--color-text-primary)]">
+            <span className="font-medium text-foreground">
               {environment.name}
             </span>
             {environment.is_default && (
@@ -102,7 +102,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
             {/* Auto-discovery and Actions Row */}
             <div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-3">
-                <span className="text-sm text-[var(--color-text-secondary)]">
+                <span className="text-sm text-muted-foreground">
                   Auto-discovery
                 </span>
                 <Switch
@@ -110,7 +110,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
                   onCheckedChange={handleAutoDiscoveryToggle}
                   aria-label="Toggle auto-discovery"
                 />
-                <span className="text-xs text-[var(--color-text-tertiary)]">
+                <span className="text-xs text-muted-foreground">
                   {environment.auto_discovery ? 'ON' : 'OFF'}
                 </span>
               </div>
@@ -143,12 +143,12 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
 
             {/* Repositories Section */}
             <div className="space-y-3">
-              <h4 className="text-sm font-medium text-[var(--color-text-secondary)]">
+              <h4 className="text-sm font-medium text-muted-foreground">
                 Repositories
               </h4>
 
               {!environment.repository_configs || environment.repository_configs.length === 0 ? (
-                <p className="text-sm text-[var(--color-text-tertiary)] py-2">
+                <p className="text-sm text-muted-foreground py-2">
                   No repositories configured for this environment.
                 </p>
               ) : (

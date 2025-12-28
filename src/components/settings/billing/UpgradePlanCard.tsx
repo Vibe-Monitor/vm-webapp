@@ -37,15 +37,15 @@ export function UpgradePlanCard({ onUpgrade, isLoading }: UpgradePlanCardProps) 
             </CardDescription>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-[var(--color-text-primary)]">$30</div>
-            <div className="text-sm text-[var(--color-text-secondary)]">per month</div>
+            <div className="text-2xl font-bold text-foreground">$30</div>
+            <div className="text-sm text-muted-foreground">per month</div>
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
         <PlanFeatures features={PRO_FEATURES} />
 
-        <div className="pt-4 border-t border-[var(--color-border)]">
+        <div className="pt-4 border-t border-border">
           <Button
             size="lg"
             className="w-full"
@@ -64,7 +64,7 @@ export function UpgradePlanCard({ onUpgrade, isLoading }: UpgradePlanCardProps) 
               </>
             )}
           </Button>
-          <p className="text-xs text-center text-[var(--color-text-tertiary)] mt-2">
+          <p className="text-xs text-center text-muted-foreground mt-2">
             Cancel anytime. Powered by Stripe.
           </p>
         </div>

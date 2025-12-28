@@ -91,7 +91,7 @@ export function AccountSettings() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="size-8 animate-spin text-[var(--color-text-tertiary)]" />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -103,7 +103,7 @@ export function AccountSettings() {
           <AlertTriangle className="mt-0.5 size-5 shrink-0 text-red-500" />
           <div>
             <h3 className="font-medium text-red-500">Error loading profile</h3>
-            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{error}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{error}</p>
             <Button
               variant="ghost"
               size="sm"
@@ -125,15 +125,15 @@ export function AccountSettings() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-semibold text-[var(--color-text-primary)]">
+        <h2 className="text-2xl font-semibold text-foreground">
           Account Settings
         </h2>
-        <p className="mt-1 text-[var(--color-text-secondary)]">
+        <p className="mt-1 text-muted-foreground">
           Manage your account settings and preferences.
         </p>
       </div>
 
-      <div className="space-y-8 divide-y divide-[var(--color-border)]">
+      <div className="space-y-8 divide-y divide-border">
         {/* Profile Section */}
         <ProfileSection
           name={profile.name}
@@ -144,8 +144,8 @@ export function AccountSettings() {
         {/* Marketing Section */}
         <div className="pt-8 space-y-6">
           <div>
-            <h3 className="text-lg font-medium text-[var(--color-text-primary)]">Marketing</h3>
-            <p className="text-sm text-[var(--color-text-secondary)]">
+            <h3 className="text-lg font-medium text-foreground">Marketing</h3>
+            <p className="text-sm text-muted-foreground">
               Manage your communication preferences.
             </p>
           </div>
@@ -159,12 +159,12 @@ export function AccountSettings() {
             />
             <Label
               htmlFor="newsletter"
-              className="text-sm font-normal text-[var(--color-text-primary)] cursor-pointer"
+              className="text-sm font-normal text-foreground cursor-pointer"
             >
               Subscribe to newsletter
             </Label>
             {isUpdatingNewsletter && (
-              <Loader2 className="size-4 animate-spin text-[var(--color-text-tertiary)]" />
+              <Loader2 className="size-4 animate-spin text-muted-foreground" />
             )}
           </div>
         </div>
@@ -173,7 +173,7 @@ export function AccountSettings() {
         <div className="pt-8 space-y-6">
           <div>
             <h3 className="text-lg font-medium text-red-500">Danger Zone</h3>
-            <p className="text-sm text-[var(--color-text-secondary)]">
+            <p className="text-sm text-muted-foreground">
               Irreversible and destructive actions.
             </p>
           </div>
@@ -181,10 +181,10 @@ export function AccountSettings() {
           <div className="rounded-lg border border-red-500/30 p-4">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-[var(--color-text-primary)]">
+                <h4 className="font-medium text-foreground">
                   Delete Account
                 </h4>
-                <p className="text-sm text-[var(--color-text-secondary)]">
+                <p className="text-sm text-muted-foreground">
                   Permanently delete your account and all associated data.
                 </p>
               </div>

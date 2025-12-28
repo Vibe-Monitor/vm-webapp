@@ -14,10 +14,10 @@ export default function Loader({ message, size = 'md' }: LoaderProps) {
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-center">
         <div
-          className={`animate-spin rounded-full border-b-2 border-blue-600 mx-auto mb-4 ${sizeClasses[size]}`}
+          className={`animate-spin rounded-full border-b-2 border-primary mx-auto mb-4 ${sizeClasses[size]}`}
         ></div>
         {message && (
-          <p style={{ color: 'var(--color-text-primary)' }}>{message}</p>
+          <p className="text-foreground">{message}</p>
         )}
       </div>
     </div>

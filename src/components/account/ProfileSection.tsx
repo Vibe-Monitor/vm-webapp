@@ -60,8 +60,8 @@ export function ProfileSection({ name, email, onNameUpdate }: ProfileSectionProp
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-[var(--color-text-primary)]">Profile</h3>
-        <p className="text-sm text-[var(--color-text-secondary)]">
+        <h3 className="text-lg font-medium text-foreground">Profile</h3>
+        <p className="text-sm text-muted-foreground">
           Your personal account information.
         </p>
       </div>
@@ -103,7 +103,7 @@ export function ProfileSection({ name, email, onNameUpdate }: ProfileSectionProp
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <span className="text-[var(--color-text-primary)]">{name}</span>
+              <span className="text-foreground">{name}</span>
               <Button
                 variant="ghost"
                 size="icon"
@@ -122,8 +122,8 @@ export function ProfileSection({ name, email, onNameUpdate }: ProfileSectionProp
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <div className="flex items-center gap-2">
-            <span className="text-[var(--color-text-secondary)]">{email}</span>
-            <span className="text-xs text-[var(--color-text-tertiary)]">(read-only)</span>
+            <span className="text-muted-foreground">{email}</span>
+            <span className="text-xs text-muted-foreground">(read-only)</span>
           </div>
         </div>
       </div>

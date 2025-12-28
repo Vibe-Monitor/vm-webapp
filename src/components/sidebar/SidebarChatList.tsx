@@ -85,21 +85,21 @@ export function SidebarChatList() {
   const hasMore = sessions.length > MAX_VISIBLE_CHATS
 
   return (
-    <div className="border-t border-[var(--color-border)] py-2">
+    <div className="border-t border-border py-2">
       <div className="px-3 mb-2">
-        <h3 className="text-xs font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wider">
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           Recent Chats
         </h3>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center py-4">
-          <Loader2 className="size-4 animate-spin text-[var(--color-text-tertiary)]" />
+          <Loader2 className="size-4 animate-spin text-muted-foreground" />
         </div>
       ) : sessions.length === 0 ? (
         <div className="px-3 py-4 text-center">
-          <MessageSquare className="size-6 mx-auto mb-2 text-[var(--color-text-tertiary)]" />
-          <p className="text-xs text-[var(--color-text-tertiary)]">
+          <MessageSquare className="size-6 mx-auto mb-2 text-muted-foreground" />
+          <p className="text-xs text-muted-foreground">
             No chats yet
           </p>
         </div>
@@ -121,17 +121,17 @@ export function SidebarChatList() {
                         href={`/chat/${session.id}`}
                         className={cn(
                           'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
-                          'hover:bg-[var(--color-surface-hover)]',
+                          'hover:bg-accent',
                           isActive
-                            ? 'bg-[var(--color-surface-active)] text-[var(--color-text-primary)]'
-                            : 'text-[var(--color-text-secondary)]'
+                            ? 'bg-accent text-foreground'
+                            : 'text-muted-foreground'
                         )}
                       >
-                        <MessageSquare className="size-4 shrink-0 text-[var(--color-text-tertiary)]" />
+                        <MessageSquare className="size-4 shrink-0 text-muted-foreground" />
                         <span className="flex-1 truncate text-xs">
                           {title}
                         </span>
-                        <span className="text-[10px] text-[var(--color-text-tertiary)] shrink-0">
+                        <span className="text-[10px] text-muted-foreground shrink-0">
                           {time}
                         </span>
                       </Link>
@@ -159,7 +159,7 @@ export function SidebarChatList() {
               variant="ghost"
               size="sm"
               onClick={() => setExpanded(!expanded)}
-              className="w-full mt-1 h-7 text-xs text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]"
+              className="w-full mt-1 h-7 text-xs text-muted-foreground hover:text-foreground"
             >
               {expanded ? (
                 <>

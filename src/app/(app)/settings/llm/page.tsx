@@ -47,15 +47,15 @@ export default function LLMSettingsPage() {
   if (!workspaceId) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
-        <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">
+        <h2 className="text-xl font-semibold text-foreground mb-2">
           No workspace found
         </h2>
-        <p className="text-[var(--color-text-secondary)] mb-4">
+        <p className="text-muted-foreground mb-4">
           Please complete the setup to create a workspace.
         </p>
         <button
           onClick={() => router.push('/setup')}
-          className="px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white hover:opacity-90 transition-opacity"
+          className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
         >
           Go to Setup
         </button>
