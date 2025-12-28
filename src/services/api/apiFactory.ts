@@ -11,6 +11,7 @@ import { MailgunClient } from './clients/MailgunClient';
 import { ChatClient } from './clients/ChatClient';
 import { AccountClient } from './clients/AccountClient';
 import { EnvironmentsClient } from './clients/EnvironmentsClient';
+import { ServicesClient } from './clients/ServicesClient';
 import { GoogleAuthClient } from './auth/GoogleAuthClient';
 import { CredentialAuthClient } from './auth/CredentialAuthClient';
 
@@ -42,6 +43,7 @@ class ApiFactory {
   private _environments?: EnvironmentsClient;
   private _googleAuth?: GoogleAuthClient;
   private _credentialAuth?: CredentialAuthClient;
+  private _services?: ServicesClient;
 
   constructor() {
     this.baseClient = new BaseClient();
@@ -199,6 +201,17 @@ class ApiFactory {
       this._credentialAuth = new CredentialAuthClient();
     }
     return this._credentialAuth;
+  }
+
+  /**
+   * Services API Client
+   * Lazy-loaded on first access
+   */
+  get services(): ServicesClient {
+    if (!this._services) {
+      this._services = new ServicesClient(this.baseClient);
+    }
+    return this._services;
   }
 }
 

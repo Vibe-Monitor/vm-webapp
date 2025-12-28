@@ -3,6 +3,7 @@ import userReducer from './features/userSlice'
 import workspaceReducer from './features/workspaceSlice'
 import uiReducer from './features/uiSlice'
 import environmentsReducer from './features/environmentsSlice'
+import servicesReducer from './features/servicesSlice'
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       workspace: workspaceReducer,
       ui: uiReducer,
       environments: environmentsReducer,
+      services: servicesReducer,
     },
   })
 }

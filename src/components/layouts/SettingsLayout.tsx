@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { User, Shield, Bell, Palette, Plug, Layers } from 'lucide-react'
+import { User, Shield, Bell, Palette, Plug, Layers, Server } from 'lucide-react'
 
 interface SettingsLayoutProps {
   children: React.ReactNode
@@ -46,6 +46,11 @@ const settingsNavItems: SettingsNavItem[] = [
     title: 'Environments',
     href: '/settings/environments',
     icon: Layers,
+  },
+  {
+    title: 'Services',
+    href: '/settings/services',
+    icon: Server,
   },
 ]
 
