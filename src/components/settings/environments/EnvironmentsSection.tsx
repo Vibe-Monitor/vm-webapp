@@ -57,23 +57,21 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
             Environment names should match your log environment attribute.
           </p>
         </div>
-        <Button onClick={() => setIsAddModalOpen(true)}>
-          <Plus className="size-4 mr-2" />
-          Add Environment
-        </Button>
+        {environments.length > 0 && (
+          <Button onClick={() => setIsAddModalOpen(true)}>
+            <Plus className="size-4 mr-2" />
+            Add Environment
+          </Button>
+        )}
       </div>
 
       {/* Environment List */}
       {environments.length === 0 ? (
         <div className="text-center py-12 border border-dashed border-border rounded-lg">
           <p className="text-muted-foreground">
-            No environments configured yet.
-          </p>
-          <p className="text-sm text-muted-foreground mt-1">
-            Create your first environment to get started.
+            No environments configured yet. Add an environment to get started.
           </p>
           <Button
-            variant="outline"
             className="mt-4"
             onClick={() => setIsAddModalOpen(true)}
           >
