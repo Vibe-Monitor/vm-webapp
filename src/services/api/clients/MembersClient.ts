@@ -1,0 +1,65 @@
+import { BaseClient, ApiResponse } from '../baseClient';
+
+export interface Member {
+  id: string;
+  user_id: string;
+  email: string;
+  name: string;
+  avatar_url?: string;
+  role: 'owner' | 'user';
+  joined_at: string;
+}
+
+export interface Invitation {
+  id: string;
+  email: string;
+  role: 'owner' | 'user';
+  status: 'pending' | 'accepted' | 'expired';
+  expires_at: string;
+  created_at: string;
+  invited_by: string;
+}
+
+export interface InviteMemberRequest {
+  email: string;
+  role: 'owner' | 'user';
+}
+
+export interface UpdateMemberRoleRequest {
+  role: 'owner' | 'user';
+}
+
+export class MembersClient {
+  constructor(private baseClient: BaseClient) {}
+
+  async getMembers(workspaceId: string): Promise<ApiResponse<Member[]>> {
+    return this.baseClient.get(`/api/v1/workspaces/${workspaceId}/members`);
+  }
+
+  async updateMemberRole(
+    workspaceId: string,
+    userId: string,
+    data: UpdateMemberRoleRequest
+  ): Promise<ApiResponse<Member>> {
+    return this.baseClient.patch(`/api/v1/workspaces/${workspaceId}/members/${userId}`, data);
+  }
+
+  async removeMember(workspaceId: string, userId: string): Promise<ApiResponse<void>> {
+    return this.baseClient.delete(`/api/v1/workspaces/${workspaceId}/members/${userId}`);
+  }
+
+  async getInvitations(workspaceId: string): Promise<ApiResponse<Invitation[]>> {
+    return this.baseClient.get(`/api/v1/workspaces/${workspaceId}/invitations`);
+  }
+
+  async createInvitation(
+    workspaceId: string,
+    data: InviteMemberRequest
+  ): Promise<ApiResponse<Invitation>> {
+    return this.baseClient.post(`/api/v1/workspaces/${workspaceId}/invitations`, data);
+  }
+
+  async revokeInvitation(workspaceId: string, invitationId: string): Promise<ApiResponse<void>> {
+    return this.baseClient.delete(`/api/v1/workspaces/${workspaceId}/invitations/${invitationId}`);
+  }
+}

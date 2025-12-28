@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './features/userSlice'
 import workspaceReducer from './features/workspaceSlice'
 import uiReducer from './features/uiSlice'
+import membersReducer from './features/membersSlice'
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       user: userReducer,
       workspace: workspaceReducer,
       ui: uiReducer,
+      members: membersReducer,
     },
   })
 }
