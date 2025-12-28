@@ -259,16 +259,22 @@ export const fetchRepositoryBranches = createAsyncThunk(
       const response = await api.environments.getRepositoryBranches(workspaceId, repoFullName)
       if (response.status === 200 && response.data) {
         // Handle wrapped response { branches: [...] }
+        // API returns string[] but we need { name, is_default }[]
         const data = response.data
-        let branches: RepositoryBranch[] = []
+        let rawBranches: string[] = []
         if (Array.isArray(data)) {
-          branches = data
+          rawBranches = data
         } else if (data && typeof data === 'object') {
           const wrapped = data as Record<string, unknown>
           if (Array.isArray(wrapped.branches)) {
-            branches = wrapped.branches as RepositoryBranch[]
+            rawBranches = wrapped.branches as string[]
           }
         }
+        // Transform string[] to RepositoryBranch[]
+        const branches: RepositoryBranch[] = rawBranches.map((name) => ({
+          name,
+          is_default: name === 'main' || name === 'master',
+        }))
         return { repoFullName, branches }
       } else if (response.status === 401) {
         errorHandler.handleAuthError('Authentication failed while fetching branches', {
