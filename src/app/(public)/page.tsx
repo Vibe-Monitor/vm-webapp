@@ -6,6 +6,8 @@ import { benefits } from "@/vm-site-landing/data/benefits";
 import { FinalCTAWithVideo } from "@/vm-site-landing/components/FinalCTAWithVideo";
 import { VideoShowcaseSection } from "@/vm-site-landing/components/VideoShowcaseSection";
 import { IntegrationsSection } from "@/vm-site-landing/components/IntegrationsSection";
+import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
+import { PricingSection } from "@/components/landing/PricingSection";
 
 export default function Home() {
   const sections = [
@@ -16,9 +18,11 @@ export default function Home() {
     //     <BenefitSection benefit={benefit} />
     //   </div>
     // )),
-   
+
     <VideoShowcaseSection key="video" />,
     <IntegrationsSection key="integrations" />,
+    <TestimonialsSection key="testimonials" />,
+    <PricingSection key="pricing" />,
     <FinalCTAWithVideo key="cta" />
   ];
 
@@ -28,6 +32,8 @@ export default function Home() {
     ...benefits.map((_, index) => `benefit-${index}`),
     'video',
     'integrations',
+    'testimonials',
+    'pricing',
     'cta'
   ];
 
