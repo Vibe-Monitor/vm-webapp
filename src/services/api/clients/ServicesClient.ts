@@ -47,7 +47,7 @@ export class ServicesClient {
     serviceId: string,
     data: UpdateServiceRequest
   ): Promise<ApiResponse<Service>> {
-    return this.baseClient.put(`/api/v1/workspaces/${workspaceId}/services/${serviceId}`, data)
+    return this.baseClient.patch(`/api/v1/workspaces/${workspaceId}/services/${serviceId}`, data)
   }
 
   async delete(workspaceId: string, serviceId: string): Promise<ApiResponse<void>> {

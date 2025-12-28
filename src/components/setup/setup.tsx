@@ -71,7 +71,7 @@ export function LandingPage({ onLaunchClick }: LandingPageProps) {
   );
 
   return (
-    <div className="theme-light min-h-screen w-full relative flex items-center justify-center px-4 sm:px-6 py-8 sm:py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-indigo-50/50 to-green-50/50 bg-[length:40px_40px]">
+    <div className="min-h-screen w-full relative flex items-center justify-center px-4 sm:px-6 py-8 sm:py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-indigo-50/50 to-green-50/50 bg-[length:40px_40px]">
       {/* Background */}
       <div className="absolute inset-0" />
 

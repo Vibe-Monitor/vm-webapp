@@ -188,7 +188,7 @@ export function OnboardingPage({ onComplete, userName = "" }: OnboardingPageProp
   }
 
   return (
-    <main className="theme-light min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 relative bg-secondary bg-[length:40px_40px]">
+    <main className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 relative bg-secondary bg-[length:40px_40px]">
       <BackButton />
       <LogoutButton />
 

@@ -64,7 +64,18 @@ export function ServiceRow({ service }: ServiceRowProps) {
         {/* Repository */}
         <div className="flex items-center gap-2 text-muted-foreground">
           <GitBranch className="size-4" />
-          <span>{service.repository_name || 'No repository linked'}</span>
+          {service.repository_name ? (
+            <a
+              href={`https://github.com/${service.repository_name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground hover:underline"
+            >
+              {service.repository_name}
+            </a>
+          ) : (
+            <span>No repository linked</span>
+          )}
         </div>
 
         {/* Actions */}

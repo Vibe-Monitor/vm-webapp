@@ -61,10 +61,12 @@ export function ServicesSection() {
             Map your services to repositories for accurate code analysis
           </p>
         </div>
-        <Button onClick={() => setShowAddModal(true)} disabled={isAtLimit}>
-          <Plus className="mr-2 size-4" />
-          Add Service
-        </Button>
+        {services.length > 0 && (
+          <Button onClick={() => setShowAddModal(true)} disabled={isAtLimit}>
+            <Plus className="mr-2 size-4" />
+            Add Service
+          </Button>
+        )}
       </div>
 
       {/* Upgrade Prompt */}

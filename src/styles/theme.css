@@ -25,163 +25,33 @@
   --radius: 0.5rem;
 
   /* ============================================
-     Extended App Colors
-     For custom components and specific use cases
+     Extended App Colors (only used variables)
      ============================================ */
-
-  /* Background Colors */
-  --color-background: #ffffff;
-  --color-background-secondary: #F3F3F5;
-  --color-background-tertiary: #E5E7EB;
-  --color-background-subtle: rgba(255, 255, 255, 0.02);
-  --color-background-dropdown: #ffffff;
-  --color-background-hover: #F3F3F5;
-
-  /* Surface Colors */
-  --color-surface: #ffffff;
-  --color-surface-secondary: #F9FAFB;
-  --color-surface-hover: #F3F3F5;
-  --color-surface-active: #E5E7EB;
-
-  /* Border Colors */
-  --color-border: #E5E7EB;
-  --color-border-light: #D1D5DB;
-  --color-border-dark: #64748b;
-  --color-border-subtle: rgba(156, 163, 175, 0.2);
 
   /* Text Colors */
   --color-text-primary: #171717;
   --color-text-secondary: #454545;
   --color-text-tertiary: #6B7280;
-  --color-text-inverse: #ffffff;
-  --color-text-brand: #171717;
-  --color-text-dark-brand: #054cbf;
 
-  /* Brand Colors */
-  --color-brand: #FED835;
-  --color-brand-light: #FEE168;
-  --color-brand-dark: #E5C230;
-  --color-accent: #FED835;
-  --color-accent-light: #FEE168;
-  --color-accent-dark: #E5C230;
-  --color-primary: #FED835;
-  --color-primary-hover: #E5C230;
+  /* Surface */
+  --color-surface: #ffffff;
 
-  /* Button Colors */
-  --color-button-dark: #171717;
-  --color-button-dark-hover: #333333;
-  --color-button-blue: #3B82F6;
-  --color-button-blue-hover: #2563EB;
-
-  /* Contextual Colors */
-  --color-blue-line: #3B82F6;
+  /* Feature Colors (used in integrations/landing) */
   --color-analytical: #3B82F6;
   --color-integration: #10B981;
   --color-tools: #F59E0B;
   --color-linkedin: #0077B5;
-  --color-cta: #171717;
-  --color-logo-blue: #0A2540;
-  --color-logo-gray: #4A5568;  
-
-  /* Colors - Status */
-  --color-success: #10b981;
-  --color-success-light: #34d399;
-  --color-success-dark: #059669;
-  --color-warning: #f59e0b;
-  --color-warning-light: #fbbf24;
-  --color-warning-dark: #d97706;
-  --color-error: #ef4444;
-  --color-error-light: #f87171;
-  --color-error-dark: #dc2626;
-  --color-info: #3b82f6;
-  --color-info-light: #60a5fa;
-  --color-info-dark: #2563eb;
 
   /* Typography */
   --font-sans: "inter", system-ui, -apple-system, sans-serif;
   --font-mono: "Fira Code", "Consolas", monospace;
-  --font-serif: "Merriweather", serif;
-
-  /* Font Sizes */
-  --text-xs: 0.75rem;      /* 12px */
-  --text-sm: 0.875rem;     /* 14px */
-  --text-base: 1rem;       /* 16px */
-  --text-lg: 1.125rem;     /* 18px */
-  --text-xl: 1.25rem;      /* 20px */
-  --text-2xl: 1.5rem;      /* 24px */
-  --text-3xl: 1.875rem;    /* 30px */
-  --text-4xl: 2.25rem;     /* 36px */
-  --text-5xl: 3rem;        /* 48px */
-
-  /* Font Weights */
-  --font-light: 300;
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  --font-extrabold: 800;
 
   /* Line Heights */
-  --leading-tight: 1.25;
-  --leading-snug: 1.375;
   --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
-  --leading-loose: 2;
-
-  /* Spacing */
-  --space-xs: 0.25rem;     /* 4px */
-  --space-sm: 0.5rem;      /* 8px */
-  --space-md: 1rem;        /* 16px */
-  --space-lg: 1.5rem;      /* 24px */
-  --space-xl: 2rem;        /* 32px */
-  --space-2xl: 3rem;       /* 48px */
-  --space-3xl: 4rem;       /* 64px */
-
-  /* Border Radius */
-  --radius-none: 0;
-  --radius-sm: 0.25rem;    /* 4px */
-  --radius-md: 0.5rem;     /* 8px */
-  --radius-12: 0.75rem;    /* 12px */
-  --radius-lg: 1rem;       /* 16px */
-  --radius-xl: 1.5rem;     /* 24px */
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-
-  /* Z-index */
-  --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-fixed: 1030;
-  --z-modal-backdrop: 1040;
-  --z-modal: 1050;
-  --z-popover: 1060;
-  --z-tooltip: 1070;
-
-  /* Transitions */
-  --transition-fast: 150ms ease-in-out;
-  --transition-normal: 300ms ease-in-out;
-  --transition-slow: 500ms ease-in-out;
-
-  /* Container widths */
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1280px;
-  --container-2xl: 1536px;
 }
 
-/* Base styles - Default (Dashboard/App uses dark theme values from .theme-light override) */
-html {
-  font-family: var(--font-sans);
-  line-height: var(--leading-normal);
-}
-
-body {
+/* Base styles */
+html, body {
   font-family: var(--font-sans);
   line-height: var(--leading-normal);
 }
@@ -211,12 +81,3 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
-
-/* Theme class - kept for backwards compatibility
-   All variables are now in :root, so .theme-light just adds shadows */
-.theme-light {
-  --shadow-card: 0 20px 60px -15px rgba(0, 0, 0, 0.1);
-  --shadow-button: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --shadow-button-hover: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-

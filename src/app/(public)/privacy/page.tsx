@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen theme-light" style={{ background: 'var(--color-background-secondary)' }}>
+    <div className="min-h-screen bg-secondary">
       <div className="max-w-4xl mx-auto px-6 py-16">
         {/* Header */}
         <motion.div
