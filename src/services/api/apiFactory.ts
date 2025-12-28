@@ -9,6 +9,7 @@ import { WorkspaceClient } from './clients/WorkspaceClient';
 import { UserClient } from './clients/UserClient';
 import { MailgunClient } from './clients/MailgunClient';
 import { ChatClient } from './clients/ChatClient';
+import { AccountClient } from './clients/AccountClient';
 import { GoogleAuthClient } from './auth/GoogleAuthClient';
 import { CredentialAuthClient } from './auth/CredentialAuthClient';
 
@@ -36,6 +37,7 @@ class ApiFactory {
   private _user?: UserClient;
   private _mailgun?: MailgunClient;
   private _chat?: ChatClient;
+  private _account?: AccountClient;
   private _googleAuth?: GoogleAuthClient;
   private _credentialAuth?: CredentialAuthClient;
 
@@ -151,6 +153,17 @@ class ApiFactory {
       this._chat = new ChatClient(this.baseClient);
     }
     return this._chat;
+  }
+
+  /**
+   * Account API Client
+   * Lazy-loaded on first access
+   */
+  get account(): AccountClient {
+    if (!this._account) {
+      this._account = new AccountClient(this.baseClient);
+    }
+    return this._account;
   }
 
   /**
