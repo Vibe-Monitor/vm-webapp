@@ -1,0 +1,172 @@
+'use client'
+
+import { useState } from 'react'
+import { Trash2, Star, MoreHorizontal } from 'lucide-react'
+import { toast } from 'sonner'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { RepositoryConfig } from './RepositoryConfig'
+import { useAppDispatch } from '@/lib/hooks'
+import {
+  updateEnvironment,
+  deleteEnvironment,
+  setDefaultEnvironment,
+} from '@/lib/features/environmentsSlice'
+import { EnvironmentWithRepos } from '@/types/environment'
+
+interface EnvironmentCardProps {
+  environment: EnvironmentWithRepos
+  workspaceId: string
+}
+
+export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardProps) {
+  const dispatch = useAppDispatch()
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  const handleAutoDiscoveryToggle = async (checked: boolean) => {
+    try {
+      await dispatch(
+        updateEnvironment({
+          environmentId: environment.id,
+          data: { auto_discovery: checked },
+        })
+      ).unwrap()
+      toast.success(`Auto-discovery ${checked ? 'enabled' : 'disabled'}`)
+    } catch {
+      toast.error('Failed to update auto-discovery setting')
+    }
+  }
+
+  const handleSetDefault = async () => {
+    if (environment.is_default) return
+
+    try {
+      await dispatch(setDefaultEnvironment(environment.id)).unwrap()
+      toast.success(`${environment.name} is now the default environment`)
+    } catch {
+      toast.error('Failed to set default environment')
+    }
+  }
+
+  const handleDelete = async () => {
+    if (environment.is_default) {
+      toast.error('Cannot delete the default environment')
+      return
+    }
+
+    setIsDeleting(true)
+    try {
+      await dispatch(deleteEnvironment(environment.id)).unwrap()
+      toast.success(`Environment "${environment.name}" deleted`)
+    } catch {
+      toast.error('Failed to delete environment')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  return (
+    <Accordion type="single" collapsible className="w-full">
+      <AccordionItem
+        value={environment.id}
+        className="border border-[var(--color-border)] rounded-lg overflow-hidden"
+      >
+        <AccordionTrigger className="px-4 hover:no-underline hover:bg-[var(--color-surface-hover)]">
+          <div className="flex items-center gap-3 flex-1">
+            <span className="font-medium text-[var(--color-text-primary)]">
+              {environment.name}
+            </span>
+            {environment.is_default && (
+              <Badge variant="secondary" className="text-xs">
+                Default
+              </Badge>
+            )}
+          </div>
+        </AccordionTrigger>
+
+        <AccordionContent className="px-4 pb-4">
+          <div className="space-y-4">
+            {/* Auto-discovery and Actions Row */}
+            <div className="flex items-center justify-between pt-2">
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-[var(--color-text-secondary)]">
+                  Auto-discovery
+                </span>
+                <Switch
+                  checked={environment.auto_discovery}
+                  onCheckedChange={handleAutoDiscoveryToggle}
+                  aria-label="Toggle auto-discovery"
+                />
+                <span className="text-xs text-[var(--color-text-tertiary)]">
+                  {environment.auto_discovery ? 'ON' : 'OFF'}
+                </span>
+              </div>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <MoreHorizontal className="size-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {!environment.is_default && (
+                    <DropdownMenuItem onClick={handleSetDefault}>
+                      <Star className="size-4 mr-2" />
+                      Set as default
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem
+                    onClick={handleDelete}
+                    disabled={environment.is_default || isDeleting}
+                    className="text-red-500 focus:text-red-500"
+                  >
+                    <Trash2 className="size-4 mr-2" />
+                    {isDeleting ? 'Deleting...' : 'Delete'}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* Repositories Section */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-medium text-[var(--color-text-secondary)]">
+                Repositories
+              </h4>
+
+              {environment.repository_configs.length === 0 ? (
+                <p className="text-sm text-[var(--color-text-tertiary)] py-2">
+                  No repositories configured for this environment.
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {environment.repository_configs.map((config) => (
+                    <RepositoryConfig
+                      key={config.id}
+                      environmentId={environment.id}
+                      config={config}
+                      workspaceId={workspaceId}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  )
+}

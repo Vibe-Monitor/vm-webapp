@@ -1,0 +1,61 @@
+/**
+ * Environment Types
+ *
+ * Types for environment configuration and repository mappings.
+ */
+
+export interface Environment {
+  id: string
+  name: string
+  workspace_id: string
+  is_default: boolean
+  auto_discovery: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface RepositoryBranch {
+  name: string
+  is_default: boolean
+}
+
+export interface RepositoryConfig {
+  id: string
+  environment_id: string
+  repository_full_name: string // owner/repo format
+  branch: string | null
+  is_enabled: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface AvailableRepository {
+  full_name: string // owner/repo format
+  default_branch: string
+  is_private: boolean
+}
+
+export interface EnvironmentWithRepos extends Environment {
+  repository_configs: RepositoryConfig[]
+}
+
+export interface CreateEnvironmentInput {
+  name: string
+  auto_discovery?: boolean
+}
+
+export interface UpdateEnvironmentInput {
+  name?: string
+  auto_discovery?: boolean
+}
+
+export interface CreateRepositoryConfigInput {
+  repository_full_name: string
+  branch?: string
+  is_enabled?: boolean
+}
+
+export interface UpdateRepositoryConfigInput {
+  branch?: string
+  is_enabled?: boolean
+}
