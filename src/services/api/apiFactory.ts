@@ -12,6 +12,7 @@ import { ChatClient } from './clients/ChatClient';
 import { AccountClient } from './clients/AccountClient';
 import { EnvironmentsClient } from './clients/EnvironmentsClient';
 import { ServicesClient } from './clients/ServicesClient';
+import { LLMConfigClient } from './clients/LLMConfigClient';
 import { GoogleAuthClient } from './auth/GoogleAuthClient';
 import { CredentialAuthClient } from './auth/CredentialAuthClient';
 
@@ -41,6 +42,7 @@ class ApiFactory {
   private _chat?: ChatClient;
   private _account?: AccountClient;
   private _environments?: EnvironmentsClient;
+  private _llm?: LLMConfigClient;
   private _googleAuth?: GoogleAuthClient;
   private _credentialAuth?: CredentialAuthClient;
   private _services?: ServicesClient;
@@ -179,6 +181,17 @@ class ApiFactory {
       this._environments = new EnvironmentsClient(this.baseClient);
     }
     return this._environments;
+  }
+
+  /**
+   * LLM Configuration API Client
+   * Lazy-loaded on first access
+   */
+  get llm(): LLMConfigClient {
+    if (!this._llm) {
+      this._llm = new LLMConfigClient(this.baseClient);
+    }
+    return this._llm;
   }
 
   /**

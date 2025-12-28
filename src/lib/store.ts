@@ -4,6 +4,7 @@ import workspaceReducer from './features/workspaceSlice'
 import uiReducer from './features/uiSlice'
 import environmentsReducer from './features/environmentsSlice'
 import servicesReducer from './features/servicesSlice'
+import llmConfigReducer from './features/llmConfigSlice'
 
 export const makeStore = () => {
   return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
       ui: uiReducer,
       environments: environmentsReducer,
       services: servicesReducer,
+      llmConfig: llmConfigReducer,
     },
   })
 }
