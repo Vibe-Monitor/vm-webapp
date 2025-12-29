@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
-import { GitBranch, Loader2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { GitBranch, Loader2, Trash2 } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
@@ -10,10 +11,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import {
   fetchRepositoryBranches,
   updateRepositoryConfig,
+  removeRepositoryConfig,
 } from '@/lib/features/environmentsSlice'
 import { RepositoryConfig as RepositoryConfigType, RepositoryBranch } from '@/types/environment'
 
@@ -30,21 +43,22 @@ export function RepositoryConfig({
 }: RepositoryConfigProps) {
   const dispatch = useAppDispatch()
   const { branchesCache, branchesLoading } = useAppSelector((state) => state.environments)
+  const [isDeleting, setIsDeleting] = useState(false)
 
-  const branches = branchesCache[config.repository_full_name] || []
-  const isLoadingBranches = branchesLoading[config.repository_full_name] || false
+  const branches = branchesCache[config.repo_full_name] || []
+  const isLoadingBranches = branchesLoading[config.repo_full_name] || false
 
   useEffect(() => {
     // Fetch branches if not cached
-    if (!branchesCache[config.repository_full_name] && workspaceId) {
+    if (!branchesCache[config.repo_full_name] && workspaceId) {
       dispatch(
         fetchRepositoryBranches({
           workspaceId,
-          repoFullName: config.repository_full_name,
+          repoFullName: config.repo_full_name,
         })
       )
     }
-  }, [dispatch, config.repository_full_name, workspaceId, branchesCache])
+  }, [dispatch, config.repo_full_name, workspaceId, branchesCache])
 
   const handleBranchChange = (branchName: string) => {
     dispatch(
@@ -68,8 +82,23 @@ export function RepositoryConfig({
     )
   }
 
+  const handleDelete = async () => {
+    setIsDeleting(true)
+    try {
+      await dispatch(
+        removeRepositoryConfig({
+          workspaceId,
+          environmentId,
+          repoConfigId: config.id,
+        })
+      ).unwrap()
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
   // Enable toggle is disabled until branch is selected
-  const canToggleEnabled = !!config.branch
+  const canToggleEnabled = !!config.branch_name
 
   // Find default branch for placeholder
   const defaultBranch = branches.find((b: RepositoryBranch) => b.is_default)?.name
@@ -79,7 +108,7 @@ export function RepositoryConfig({
       <div className="flex items-center gap-3 min-w-0 flex-1">
         <GitBranch className="size-4 text-muted-foreground shrink-0" />
         <span className="text-sm text-foreground truncate">
-          {config.repository_full_name}
+          {config.repo_full_name}
         </span>
       </div>
 
@@ -87,7 +116,7 @@ export function RepositoryConfig({
         {/* Branch Selector */}
         <div className="w-40">
           <Select
-            value={config.branch || ''}
+            value={config.branch_name || ''}
             onValueChange={handleBranchChange}
             disabled={isLoadingBranches}
           >
@@ -125,9 +154,44 @@ export function RepositoryConfig({
             checked={config.is_enabled}
             onCheckedChange={handleEnableToggle}
             disabled={!canToggleEnabled}
-            aria-label={`Toggle ${config.repository_full_name}`}
+            aria-label={`Toggle ${config.repo_full_name}`}
           />
         </div>
+
+        {/* Delete Button */}
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8 text-muted-foreground hover:text-destructive"
+              disabled={isDeleting}
+            >
+              {isDeleting ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Trash2 className="size-4" />
+              )}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Remove repository</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to remove <strong>{config.repo_full_name}</strong> from this environment? This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDelete}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                Remove
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   )

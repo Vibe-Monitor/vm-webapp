@@ -41,28 +41,59 @@ const initialState: EnvironmentsState = {
   branchesLoading: {},
 }
 
+// Helper to normalize environment response from backend
+function normalizeEnvironment(env: EnvironmentWithRepos): EnvironmentWithRepos {
+  const envAny = env as unknown as Record<string, unknown>
+  return {
+    ...env,
+    // Ensure auto_discovery_enabled has a default value
+    auto_discovery_enabled: env.auto_discovery_enabled ?? false,
+    // Backend may use 'repositories' instead of 'repository_configs'
+    repository_configs: env.repository_configs ||
+      (envAny.repositories as EnvironmentWithRepos['repository_configs']) ||
+      [],
+  }
+}
+
 export const fetchEnvironments = createAsyncThunk(
   'environments/fetchEnvironments',
   async (workspaceId: string, { rejectWithValue }) => {
     try {
+      // Step 1: Fetch list of environments (without repository_configs)
       const response = await api.environments.getByWorkspace(workspaceId)
       if (response.status === 200 && response.data) {
         // Handle both direct array and wrapped object responses
         const data = response.data
+        let envList: EnvironmentWithRepos[] = []
+
         if (Array.isArray(data)) {
-          return data
-        }
-        // Check for common wrapper patterns
-        if (data && typeof data === 'object') {
+          envList = data
+        } else if (data && typeof data === 'object') {
+          // Check for common wrapper patterns
           const wrapped = data as Record<string, unknown>
           if (Array.isArray(wrapped.environments)) {
-            return wrapped.environments as EnvironmentWithRepos[]
-          }
-          if (Array.isArray(wrapped.data)) {
-            return wrapped.data as EnvironmentWithRepos[]
+            envList = wrapped.environments as EnvironmentWithRepos[]
+          } else if (Array.isArray(wrapped.data)) {
+            envList = wrapped.data as EnvironmentWithRepos[]
           }
         }
-        return []
+
+        // Step 2: Fetch details for each environment to get repository_configs
+        const detailedEnvs = await Promise.all(
+          envList.map(async (env) => {
+            try {
+              const detailResponse = await api.environments.getById(workspaceId, env.id)
+              if (detailResponse.status === 200 && detailResponse.data) {
+                return normalizeEnvironment(detailResponse.data)
+              }
+            } catch {
+              // If detail fetch fails, return env without repos
+            }
+            return normalizeEnvironment(env)
+          })
+        )
+
+        return detailedEnvs
       } else if (response.status === 401) {
         errorHandler.handleAuthError('Authentication failed while fetching environments', {
           customMessage: 'Please log in again to continue.',

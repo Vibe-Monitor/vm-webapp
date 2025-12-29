@@ -49,7 +49,7 @@ export function AddEnvironmentModal({
           workspaceId,
           data: {
             name: name.trim(),
-            auto_discovery: autoDiscovery,
+            auto_discovery_enabled: autoDiscovery,
           },
         })
       ).unwrap()

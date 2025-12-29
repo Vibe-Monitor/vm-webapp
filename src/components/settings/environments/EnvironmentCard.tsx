@@ -43,7 +43,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
         updateEnvironment({
           workspaceId,
           environmentId: environment.id,
-          data: { auto_discovery: checked },
+          data: { auto_discovery_enabled: checked },
         })
       ).unwrap()
       toast.success(`Auto-discovery ${checked ? 'enabled' : 'disabled'}`)
@@ -104,12 +104,12 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
                 Auto-discovery
               </span>
               <Switch
-                checked={environment.auto_discovery}
+                checked={environment.auto_discovery_enabled}
                 onCheckedChange={handleAutoDiscoveryToggle}
                 aria-label="Toggle auto-discovery"
               />
               <span className="text-xs text-muted-foreground">
-                {environment.auto_discovery ? 'ON' : 'OFF'}
+                {environment.auto_discovery_enabled ? 'ON' : 'OFF'}
               </span>
             </div>
 
