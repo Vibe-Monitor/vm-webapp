@@ -5,8 +5,8 @@ import { useEffect } from 'react'
 import { Menu } from 'lucide-react'
 import { SidebarProvider, Sidebar, SidebarSpacer, useSidebar } from '@/components/sidebar'
 import { Button } from '@/components/ui/button'
-import { useAppDispatch } from '@/store/hooks'
-import { setUser } from '@/store/slices/userSlice'
+import { useAppDispatch } from '@/lib/hooks'
+import { setUser } from '@/lib/features/userSlice'
 
 interface AppLayoutProps {
   children: React.ReactNode
