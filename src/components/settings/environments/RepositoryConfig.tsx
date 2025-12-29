@@ -114,13 +114,13 @@ export function RepositoryConfig({
 
       <div className="flex items-center gap-4">
         {/* Branch Selector */}
-        <div className="w-40">
+        <div className="w-44">
           <Select
             value={config.branch_name || ''}
             onValueChange={handleBranchChange}
             disabled={isLoadingBranches}
           >
-            <SelectTrigger className="h-8 text-xs">
+            <SelectTrigger className="h-8 text-xs truncate">
               {isLoadingBranches ? (
                 <div className="flex items-center gap-2">
                   <Loader2 className="size-3 animate-spin" />
@@ -130,12 +130,12 @@ export function RepositoryConfig({
                 <SelectValue placeholder={defaultBranch || 'Select branch'} />
               )}
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-w-64">
               {branches.map((branch: RepositoryBranch) => (
-                <SelectItem key={branch.name} value={branch.name}>
-                  {branch.name}
+                <SelectItem key={branch.name} value={branch.name} title={branch.name}>
+                  <span className="truncate">{branch.name}</span>
                   {branch.is_default && (
-                    <span className="ml-2 text-xs text-muted-foreground">
+                    <span className="ml-2 text-xs text-muted-foreground shrink-0">
                       (default)
                     </span>
                   )}
@@ -178,7 +178,7 @@ export function RepositoryConfig({
             <AlertDialogHeader>
               <AlertDialogTitle>Remove repository</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to remove <strong>{config.repo_full_name}</strong> from this environment? This action cannot be undone.
+                Are you sure you want to remove <strong>{config.repo_full_name}</strong> from this environment? You can add it back later if needed.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

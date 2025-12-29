@@ -189,7 +189,7 @@ export function AddRepositoryModal({
                 onValueChange={handleBranchChange}
                 disabled={!selectedRepo || isLoadingBranches || isSubmitting}
               >
-                <SelectTrigger id="branch">
+                <SelectTrigger id="branch" className="truncate">
                   {isLoadingBranches ? (
                     <div className="flex items-center gap-2">
                       <Loader2 className="size-4 animate-spin" />
@@ -207,12 +207,12 @@ export function AddRepositoryModal({
                     />
                   )}
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="max-w-[var(--radix-select-trigger-width)]">
                   {branches.map((branch) => (
-                    <SelectItem key={branch.name} value={branch.name}>
-                      {branch.name}
+                    <SelectItem key={branch.name} value={branch.name} className="truncate">
+                      <span className="truncate">{branch.name}</span>
                       {branch.is_default && (
-                        <span className="ml-2 text-xs text-muted-foreground">(default)</span>
+                        <span className="ml-2 text-xs text-muted-foreground shrink-0">(default)</span>
                       )}
                     </SelectItem>
                   ))}
