@@ -132,7 +132,7 @@ export default function ChatSearchPage() {
   }
 
   return (
-    <div className="h-screen bg-background flex flex-col">
+    <div className="-m-4 md:-m-6 h-[calc(100vh-4rem)] flex flex-col">
       {/* Header */}
       <div className="border-b border-border px-4 py-3">
         <div className="max-w-2xl mx-auto flex items-center gap-3">

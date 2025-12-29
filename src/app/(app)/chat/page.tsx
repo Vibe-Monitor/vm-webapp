@@ -62,7 +62,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="h-screen bg-background">
+    <div className="-m-4 md:-m-6 h-[calc(100vh-4rem)]">
       <ChatContainer workspaceId={workspaceId} className="h-full" />
 
       <Toaster
