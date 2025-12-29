@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -12,6 +13,7 @@ import {
   Settings,
   ChevronRight,
   Eye,
+  Loader2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useSidebar } from './SidebarContext'
@@ -87,6 +89,12 @@ export function SidebarNav() {
   const { collapsed } = useSidebar()
   const pathname = usePathname()
   const { currentWorkspace } = useAppSelector((state) => state.workspace)
+  const [pendingHref, setPendingHref] = useState<string | null>(null)
+
+  // Clear pending state when navigation completes (pathname changes)
+  useEffect(() => {
+    setPendingHref(null)
+  }, [pathname])
 
   // Default to 'user' role if not specified, cast string to UserRole
   const roleString = currentWorkspace?.user_role
@@ -99,12 +107,20 @@ export function SidebarNav() {
     (item) => getItemAccess(item, userRole) !== 'hidden'
   )
 
+  const handleNavClick = (href: string) => {
+    // Don't set pending if already on this page
+    if (pathname === href || pathname.startsWith(`${href}/`)) return
+    setPendingHref(href)
+  }
+
   return (
     <nav className="shrink-0 p-2">
       <ul className="flex flex-col gap-1">
         {visibleItems.map((item) => {
-          const isActive =
-            pathname === item.href || pathname.startsWith(`${item.href}/`)
+          // Show as active if: current page OR pending navigation to this page
+          const isCurrentPage = pathname === item.href || pathname.startsWith(`${item.href}/`)
+          const isPending = pendingHref === item.href
+          const isActive = isCurrentPage || isPending
           const Icon = item.icon
           const access = getItemAccess(item, userRole)
           const isViewOnly = access === 'view'
@@ -112,6 +128,7 @@ export function SidebarNav() {
           const navLink = (
             <Link
               href={item.href}
+              onClick={() => handleNavClick(item.href)}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 'hover:bg-background',
@@ -121,7 +138,11 @@ export function SidebarNav() {
                 collapsed && 'justify-center px-2'
               )}
             >
-              <Icon className="size-5 shrink-0" />
+              {isPending ? (
+                <Loader2 className="size-5 shrink-0 animate-spin" />
+              ) : (
+                <Icon className="size-5 shrink-0" />
+              )}
               {!collapsed && (
                 <>
                   <span className="flex-1">{item.title}</span>
@@ -134,7 +155,7 @@ export function SidebarNav() {
                       View
                     </Badge>
                   )}
-                  {isActive && !isViewOnly && (
+                  {isActive && !isViewOnly && !isPending && (
                     <ChevronRight className="size-4 text-muted-foreground" />
                   )}
                 </>
