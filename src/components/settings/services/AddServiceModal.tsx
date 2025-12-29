@@ -111,11 +111,8 @@ export function AddServiceModal({ open, onOpenChange }: AddServiceModalProps) {
       toast.success(`Service "${name}" created`)
       handleClose()
     } catch (error) {
-      if (typeof error === 'string' && error.includes('limit')) {
-        toast.error(error)
-      } else {
-        toast.error('Failed to create service')
-      }
+      const errorMessage = typeof error === 'string' ? error : 'Failed to create service'
+      toast.error(errorMessage)
     }
   }
 

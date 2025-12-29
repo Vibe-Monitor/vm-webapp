@@ -123,8 +123,12 @@ export const createService = createAsyncThunk(
         return rejectWithValue('Authentication failed')
       } else if (response.status === 403) {
         return rejectWithValue('Service limit reached. Please upgrade your plan.')
+      } else if (response.status === 409) {
+        return rejectWithValue('A service with this name already exists')
       } else {
-        const errorMessage = response.error || 'Failed to create service'
+        // Extract error message from response - FastAPI returns { detail: "message" }
+        const data = response.data as { detail?: string } | undefined
+        const errorMessage = data?.detail || response.error || 'Failed to create service'
         return rejectWithValue(errorMessage)
       }
     } catch (error) {
