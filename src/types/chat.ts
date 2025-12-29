@@ -175,3 +175,20 @@ export interface ChatMessage {
   feedbackScore?: number | null;
   createdAt: string;
 }
+
+// ============================================================
+// Search Types
+// ============================================================
+
+export interface ChatSearchResult {
+  session_id: string;
+  title: string | null;
+  matched_content: string;
+  match_type: 'title' | 'message';
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface ChatSearchResponse {
+  results: ChatSearchResult[];
+}

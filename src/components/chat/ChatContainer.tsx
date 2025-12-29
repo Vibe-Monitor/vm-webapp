@@ -1,30 +1,20 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useChat } from '@/hooks/useChat';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
-import { ChatHeader } from './ChatHeader';
-import { SessionList } from './SessionList';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
 import { Bot } from 'lucide-react';
 
 interface ChatContainerProps {
   workspaceId: string;
+  sessionId?: string;
   className?: string;
 }
 
-export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
+export function ChatContainer({ workspaceId, sessionId, className }: ChatContainerProps) {
   const {
     messages,
     sessions,
@@ -32,148 +22,72 @@ export function ChatContainer({ workspaceId, className }: ChatContainerProps) {
     isLoading,
     isStreaming,
     sendMessage,
-    loadSessions,
     loadSession,
-    startNewSession,
-    deleteSession,
-    renameSession,
     submitFeedback,
-  } = useChat({ workspaceId });
+  } = useChat({ workspaceId, initialSessionId: sessionId });
 
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
-  const [renameSessionId, setRenameSessionId] = useState<string | null>(null);
-  const [renameTitle, setRenameTitle] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Get current session for header display
   const currentSession = sessions.find((s) => s.id === currentSessionId);
 
-  // Load sessions on mount
+  // Load session when sessionId changes (URL navigation)
   useEffect(() => {
-    loadSessions();
-  }, [loadSessions]);
+    if (sessionId && sessionId !== currentSessionId) {
+      loadSession(sessionId);
+    }
+  }, [sessionId, currentSessionId, loadSession]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleRenameClick = (sessionId: string) => {
-    const session = sessions.find((s) => s.id === sessionId);
-    setRenameSessionId(sessionId);
-    setRenameTitle(session?.title || '');
-    setRenameDialogOpen(true);
-  };
-
-  const handleRenameSubmit = async () => {
-    if (renameSessionId && renameTitle.trim()) {
-      await renameSession(renameSessionId, renameTitle.trim());
-      setRenameDialogOpen(false);
-      setRenameSessionId(null);
-      setRenameTitle('');
-    }
-  };
-
-  // Inline rename from header
-  const handleHeaderRename = async (newTitle: string) => {
-    if (currentSessionId) {
-      await renameSession(currentSessionId, newTitle);
-    }
-  };
-
   return (
-    <div className={cn('flex h-full', className)}>
-      {/* Sidebar */}
-      <div
-        className={cn(
-          'border-r border-border bg-secondary transition-all duration-300',
-          sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
-        )}
-      >
-        <SessionList
-          sessions={sessions}
-          activeSessionId={currentSessionId || undefined}
-          onSelectSession={loadSession}
-          onNewSession={startNewSession}
-          onDeleteSession={deleteSession}
-          onRenameSession={handleRenameClick}
-          loading={isLoading && sessions.length === 0}
-        />
+    <div className={cn('flex flex-col h-full', className)}>
+      {/* Header */}
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+        <Bot className="h-5 w-5 shrink-0 text-primary" />
+        <h1 className="font-semibold text-foreground truncate">
+          {currentSession?.title || 'AI Assistant'}
+        </h1>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
-        <ChatHeader
-          title={currentSession?.title}
-          sidebarOpen={sidebarOpen}
-          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-          onRename={currentSessionId ? handleHeaderRename : undefined}
-        />
+      {/* Messages Area */}
+      <ScrollArea className="flex-1">
+        <div className="max-w-3xl mx-auto px-4 py-4">
+          {messages.length === 0 ? (
+            <EmptyState onSendMessage={sendMessage} />
+          ) : (
+            <div className="space-y-2">
+              {messages.map((message) => (
+                <ChatMessage
+                  key={message.id}
+                  message={message}
+                  onFeedback={
+                    message.role === 'assistant'
+                      ? (score) => submitFeedback(message.id, score)
+                      : undefined
+                  }
+                />
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+          )}
+        </div>
+      </ScrollArea>
 
-        {/* Messages Area */}
-        <ScrollArea className="flex-1">
-          <div className="max-w-3xl mx-auto px-4 py-4">
-            {messages.length === 0 ? (
-              <EmptyState onSendMessage={sendMessage} />
-            ) : (
-              <div className="space-y-2">
-                {messages.map((message) => (
-                  <ChatMessage
-                    key={message.id}
-                    message={message}
-                    onFeedback={
-                      message.role === 'assistant'
-                        ? (score) => submitFeedback(message.id, score)
-                        : undefined
-                    }
-                  />
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-            )}
-          </div>
-        </ScrollArea>
-
-        {/* Input Area */}
-        <div className="border-t border-border bg-background">
-          <div className="max-w-3xl mx-auto px-4 py-4">
-            <ChatInput
-              onSend={sendMessage}
-              disabled={isLoading}
-              loading={isStreaming}
-            />
-          </div>
+      {/* Input Area */}
+      <div className="border-t border-border bg-background">
+        <div className="max-w-3xl mx-auto px-4 py-4">
+          <ChatInput
+            onSend={sendMessage}
+            disabled={isLoading}
+            loading={isStreaming}
+          />
         </div>
       </div>
 
-      {/* Rename Dialog */}
-      <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Rename Conversation</DialogTitle>
-          </DialogHeader>
-          <Input
-            value={renameTitle}
-            onChange={(e) => setRenameTitle(e.target.value)}
-            placeholder="Enter new title"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleRenameSubmit();
-              }
-            }}
-          />
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setRenameDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleRenameSubmit} disabled={!renameTitle.trim()}>
-              Save
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { api } from '@/services/api/apiFactory';
 import { tokenService } from '@/services/tokenService';
@@ -15,6 +16,7 @@ import { toast } from 'sonner';
 
 interface UseChatOptions {
   workspaceId: string;
+  initialSessionId?: string;
 }
 
 interface UseChatReturn {
@@ -32,14 +34,16 @@ interface UseChatReturn {
   submitFeedback: (turnId: string, score: 1 | 5) => Promise<void>;
 }
 
-export function useChat({ workspaceId }: UseChatOptions): UseChatReturn {
+export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseChatReturn {
+  const router = useRouter();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sessions, setSessions] = useState<ChatSessionSummary[]>([]);
-  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(initialSessionId || null);
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
 
   const abortControllerRef = useRef<AbortController | null>(null);
+  const hasLoadedInitialSession = useRef(false);
 
   const loadSessions = useCallback(async () => {
     console.log('[Chat] Loading sessions for workspace:', workspaceId);
@@ -300,9 +304,11 @@ export function useChat({ workspaceId }: UseChatOptions): UseChatReturn {
       if (response.data && response.status === 200) {
         const { turn_id, session_id } = response.data;
 
-        // Update session ID if this is a new session
+        // Update session ID and navigate if this is a new session
         if (!currentSessionId) {
           setCurrentSessionId(session_id);
+          // Navigate to the session URL for new chats
+          router.replace(`/chat/${session_id}`, { scroll: false });
         }
 
         // Add placeholder assistant message
@@ -329,7 +335,7 @@ export function useChat({ workspaceId }: UseChatOptions): UseChatReturn {
       // Remove the user message on error
       setMessages((prev) => prev.filter((m) => m.id !== userMessageId));
     }
-  }, [workspaceId, currentSessionId, isStreaming, streamTurnResponse]);
+  }, [workspaceId, currentSessionId, isStreaming, streamTurnResponse, router]);
 
   const deleteSession = useCallback(async (sessionId: string) => {
     try {
@@ -384,6 +390,17 @@ export function useChat({ workspaceId }: UseChatOptions): UseChatReturn {
       throw error;
     }
   }, [workspaceId, messages]);
+
+  // Load sessions on mount and load initial session if provided
+  useEffect(() => {
+    loadSessions();
+
+    // Load initial session if provided and not already loaded
+    if (initialSessionId && !hasLoadedInitialSession.current) {
+      hasLoadedInitialSession.current = true;
+      loadSession(initialSessionId);
+    }
+  }, [loadSessions, loadSession, initialSessionId]);
 
   return {
     messages,

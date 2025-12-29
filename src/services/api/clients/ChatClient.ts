@@ -8,6 +8,7 @@ import {
   ChatTurnResponse,
   SubmitFeedbackRequest,
   FeedbackResponse,
+  ChatSearchResponse,
 } from '@/types/chat';
 
 export class ChatClient {
@@ -114,5 +115,21 @@ export class ChatClient {
   getStreamUrl(workspaceId: string, turnId: string): string {
     const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || '';
     return `${baseUrl}/api/v1/workspaces/${workspaceId}/turns/${turnId}/stream`;
+  }
+
+  /**
+   * Search chat sessions by query
+   */
+  async searchSessions(
+    workspaceId: string,
+    query: string,
+    options?: { limit?: number }
+  ): Promise<ApiResponse<ChatSearchResponse>> {
+    const params = new URLSearchParams({ q: query });
+    if (options?.limit) params.set('limit', options.limit.toString());
+
+    return this.baseClient.get(
+      `/api/v1/workspaces/${workspaceId}/sessions/search?${params}`
+    );
   }
 }

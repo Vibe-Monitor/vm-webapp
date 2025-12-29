@@ -48,7 +48,7 @@ export function SidebarChatList() {
   const [loading, setLoading] = React.useState(false)
   const [expanded, setExpanded] = React.useState(false)
 
-  // Fetch chat sessions when workspace changes
+  // Fetch chat sessions when workspace changes or when navigating to a new chat
   React.useEffect(() => {
     async function fetchSessions() {
       if (!currentWorkspace?.id) {
@@ -72,7 +72,7 @@ export function SidebarChatList() {
     }
 
     fetchSessions()
-  }, [currentWorkspace?.id])
+  }, [currentWorkspace?.id, pathname])
 
   // Don't show chat list if sidebar is collapsed (on desktop)
   if (collapsed) {

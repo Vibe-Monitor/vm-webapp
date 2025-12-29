@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { ChatContainer } from '@/components/chat';
 import { Toaster } from 'sonner';
 import Loader from '@/components/ui/loader';
@@ -10,12 +10,15 @@ import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { fetchWorkspaces } from '@/lib/features/workspaceSlice';
 import { tokenService } from '@/services/tokenService';
 
-export default function ChatPage() {
+export default function ChatSessionPage() {
   const router = useRouter();
+  const params = useParams();
   const dispatch = useAppDispatch();
   const { workspaces, currentWorkspace, loading } = useAppSelector(
     (state) => state.workspace
   );
+
+  const sessionId = params.id as string;
 
   // Check auth and load workspaces
   useEffect(() => {
@@ -30,7 +33,6 @@ export default function ChatPage() {
       dispatch(fetchWorkspaces());
     }
   }, [dispatch, router, workspaces.length]);
-
 
   // Get the workspace ID to use
   const workspaceId = currentWorkspace?.id || workspaces[0]?.id;
@@ -63,7 +65,11 @@ export default function ChatPage() {
 
   return (
     <div className="h-screen bg-background">
-      <ChatContainer workspaceId={workspaceId} className="h-full" />
+      <ChatContainer
+        workspaceId={workspaceId}
+        sessionId={sessionId}
+        className="h-full"
+      />
 
       <Toaster
         position="top-right"
