@@ -189,7 +189,7 @@ export function AddRepositoryModal({
                 onValueChange={handleBranchChange}
                 disabled={!selectedRepo || isLoadingBranches || isSubmitting}
               >
-                <SelectTrigger id="branch" className="truncate">
+                <SelectTrigger id="branch" className="w-full overflow-hidden">
                   {isLoadingBranches ? (
                     <div className="flex items-center gap-2">
                       <Loader2 className="size-4 animate-spin" />

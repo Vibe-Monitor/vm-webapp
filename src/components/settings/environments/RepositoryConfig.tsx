@@ -122,7 +122,7 @@ export function RepositoryConfig({
             onValueChange={handleBranchChange}
             disabled={isLoadingBranches}
           >
-            <SelectTrigger className="h-8 text-xs truncate">
+            <SelectTrigger className="h-8 text-xs w-full overflow-hidden">
               {isLoadingBranches ? (
                 <div className="flex items-center gap-2">
                   <Loader2 className="size-3 animate-spin" />
