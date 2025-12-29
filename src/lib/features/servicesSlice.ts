@@ -149,8 +149,12 @@ export const updateService = createAsyncThunk(
       const response = await api.services.update(workspaceId, serviceId, data)
       if (response.status === 200 && response.data) {
         return response.data
+      } else if (response.status === 409) {
+        return rejectWithValue('A service with this name already exists')
       } else {
-        const errorMessage = response.error || 'Failed to update service'
+        // Extract error message from response - FastAPI returns { detail: "message" }
+        const data = response.data as { detail?: string } | undefined
+        const errorMessage = data?.detail || response.error || 'Failed to update service'
         return rejectWithValue(errorMessage)
       }
     } catch (error) {

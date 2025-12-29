@@ -124,8 +124,9 @@ export function EditServiceModal({ open, onOpenChange, service }: EditServiceMod
 
       toast.success('Service updated')
       onOpenChange(false)
-    } catch {
-      toast.error('Failed to update service')
+    } catch (error) {
+      const errorMessage = typeof error === 'string' ? error : 'Failed to update service'
+      toast.error(errorMessage)
     }
   }
 

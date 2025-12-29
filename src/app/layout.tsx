@@ -2,6 +2,7 @@ import "./globals.css";
 import StoreProvider from './StoreProvider';
 import { AuthGuard } from '@/components/auth-guard';
 import { PostHogProvider } from '@/components/vm-site-components/PostHog/PostHogProvider';
+import { Toaster } from 'sonner';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({
             </AuthGuard>
           </StoreProvider>
         </PostHogProvider>
+        <Toaster position="top-right" richColors closeButton />
       </body>
     </html>
   );
