@@ -59,7 +59,7 @@ export function ProfileDropdown({ collapsed = false }: ProfileDropdownProps) {
           <span className="sr-only">User menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="right" align="end" sideOffset={8} className="w-56">
+      <DropdownMenuContent side="top" align="start" sideOffset={8} className="w-56">
         {user && (
           <>
             <DropdownMenuLabel className="font-normal">
