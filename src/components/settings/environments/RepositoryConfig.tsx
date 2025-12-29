@@ -32,12 +32,14 @@ import { RepositoryConfig as RepositoryConfigType, RepositoryBranch } from '@/ty
 
 interface RepositoryConfigProps {
   environmentId: string
+  environmentName: string
   config: RepositoryConfigType
   workspaceId: string
 }
 
 export function RepositoryConfig({
   environmentId,
+  environmentName,
   config,
   workspaceId,
 }: RepositoryConfigProps) {
@@ -178,7 +180,7 @@ export function RepositoryConfig({
             <AlertDialogHeader>
               <AlertDialogTitle>Remove repository</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to remove <strong>{config.repo_full_name}</strong> from this environment? You can add it back later if needed.
+                Remove <strong>{config.repo_full_name}</strong> from <strong>{environmentName}</strong>?
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

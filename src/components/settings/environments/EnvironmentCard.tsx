@@ -166,6 +166,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
                   <RepositoryConfig
                     key={config.id}
                     environmentId={environment.id}
+                    environmentName={environment.name}
                     config={config}
                     workspaceId={workspaceId}
                   />
