@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { RoleSelector } from './RoleSelector'
 import { Loader2, Trash2 } from 'lucide-react'
@@ -32,32 +31,22 @@ export function MemberRow({
   return (
     <div className="flex items-center justify-between py-3 px-4 border-b border-border last:border-b-0">
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        {member.avatar_url ? (
-          <Image
-            src={member.avatar_url}
-            alt={member.name}
-            width={32}
-            height={32}
-            className="size-8 rounded-full shrink-0"
-          />
-        ) : (
-          <div className="size-8 rounded-full bg-accent flex items-center justify-center shrink-0">
-            <span className="text-sm font-medium text-foreground">
-              {member.name?.charAt(0)?.toUpperCase() || member.email?.charAt(0)?.toUpperCase()}
-            </span>
-          </div>
-        )}
+        <div className="size-8 rounded-full bg-accent flex items-center justify-center shrink-0">
+          <span className="text-sm font-medium text-foreground">
+            {member.user_name?.charAt(0)?.toUpperCase() || member.user_email?.charAt(0)?.toUpperCase()}
+          </span>
+        </div>
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <p className="text-sm font-medium text-foreground truncate">
-              {member.name}
+              {member.user_name || member.user_email}
             </p>
             {isCurrentUser && (
               <span className="text-xs text-muted-foreground">(you)</span>
             )}
           </div>
           <p className="text-xs text-muted-foreground truncate">
-            {member.email}
+            {member.user_email}
           </p>
         </div>
       </div>

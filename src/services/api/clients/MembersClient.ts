@@ -1,11 +1,9 @@
 import { BaseClient, ApiResponse } from '../baseClient';
 
 export interface Member {
-  id: string;
   user_id: string;
-  email: string;
-  name: string;
-  avatar_url?: string;
+  user_name: string;
+  user_email: string;
   role: 'owner' | 'user';
   joined_at: string;
 }
