@@ -7,6 +7,7 @@ import { SidebarProvider, Sidebar, SidebarSpacer, useSidebar } from '@/component
 import { Button } from '@/components/ui/button'
 import { useAppDispatch } from '@/lib/hooks'
 import { setUser } from '@/lib/features/userSlice'
+import { api } from '@/services/api/apiFactory'
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -37,10 +38,14 @@ function AppLayoutContent({ children }: AppLayoutProps) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('/api/auth/account')
-        if (response.ok) {
-          const data = await response.json()
-          dispatch(setUser(data))
+        const response = await api.account.getProfile()
+        if (response.status === 200 && response.data) {
+          dispatch(setUser({
+            id: response.data.id,
+            name: response.data.name,
+            email: response.data.email,
+            created_at: response.data.created_at,
+          }))
         }
       } catch {
         // Silent fail - user will see "Account" fallback
