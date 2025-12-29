@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import {
   IntegrationsSection,
@@ -15,6 +15,7 @@ import { useSlackIntegration } from '@/hooks/useSlackIntegration'
 import { useNewRelicIntegration } from '@/hooks/useNewRelicIntegration'
 import { useDatadogIntegration } from '@/hooks/useDatadogIntegration'
 import { useAwsIntegration } from '@/hooks/useAwsIntegration'
+import { useAppSelector } from '@/lib/hooks'
 
 // NewRelic logo component
 function NewRelicLogo({ size = 20 }: { size?: number }) {
@@ -74,17 +75,10 @@ function DatadogLogo({ size = 20 }: { size?: number }) {
   )
 }
 
-// Mock workspace context - in a real app, this would come from a context or store
-function useWorkspace() {
-  // TODO: Replace with actual workspace context
-  const [workspaceId] = useState<string | undefined>('mock-workspace-id')
-  const [isPersonalSpace] = useState(false)
-
-  return { workspaceId, isPersonalSpace }
-}
-
 export default function IntegrationsPage() {
-  const { workspaceId, isPersonalSpace } = useWorkspace()
+  const currentWorkspace = useAppSelector((state) => state.workspace.currentWorkspace)
+  const workspaceId = currentWorkspace?.id
+  const isPersonalSpace = currentWorkspace?.type === 'personal'
 
   // Integration hooks
   const github = useGithubIntegration(workspaceId)
