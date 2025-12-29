@@ -16,8 +16,8 @@ export default function MembersPage() {
     )
   }
 
-  // Determine if this is a personal space (no user_role means personal space)
-  const isPersonalSpace = !currentWorkspace.user_role
+  // Determine if this is a personal space based on workspace type
+  const isPersonalSpace = currentWorkspace.workspace_type === 'personal'
 
   return (
     <MembersSection

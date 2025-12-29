@@ -75,6 +75,10 @@ export class BaseClient {
               retryData = null;
             }
           }
+          // Extract error message for non-2xx responses
+          if (!retryResponse.ok && retryData?.detail) {
+            return { error: retryData.detail, status: retryResponse.status };
+          }
           return { data: retryData, status: retryResponse.status };
         } else {
           errorHandler.handleAuthError('Token refresh failed', {
@@ -83,6 +87,11 @@ export class BaseClient {
           });
           return { error: 'Authentication failed', status: 401 };
         }
+      }
+
+      // Extract error message for non-2xx responses
+      if (!response.ok && data?.detail) {
+        return { error: data.detail, status: response.status };
       }
 
       return { data, status: response.status };
