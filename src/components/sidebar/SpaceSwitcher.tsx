@@ -85,7 +85,7 @@ export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
           <>
             {workspaces.map((workspace) => {
               const isSelected = currentWorkspace?.id === workspace.id
-              const workspaceType = workspace.workspace_type || 'personal'
+              const workspaceType = workspace.type || 'personal'
 
               return (
                 <DropdownMenuItem

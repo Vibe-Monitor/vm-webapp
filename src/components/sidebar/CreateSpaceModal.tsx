@@ -86,7 +86,7 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
       const result = await dispatch(
         createWorkspace({
           name: name.trim(),
-          workspace_type: spaceType,
+          type: spaceType,
         })
       ).unwrap()
 

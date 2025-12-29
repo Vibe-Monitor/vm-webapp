@@ -6,8 +6,11 @@ export class WorkspaceClient {
   async getAll(): Promise<ApiResponse<{
     id: string;
     name: string;
+    type: 'personal' | 'team';
+    is_paid: boolean;
     created_at: string;
     updated_at: string;
+    user_role: 'owner' | 'user';
   }[]>> {
     return this.baseClient.get('/api/v1/workspaces/');
   }
@@ -24,9 +27,10 @@ export class WorkspaceClient {
   async getById(workspaceId: string): Promise<ApiResponse<{
     id: string;
     name: string;
-    is_paid?: boolean;
+    type: 'personal' | 'team';
+    is_paid: boolean;
     created_at: string;
-    user_role?: string;
+    user_role: 'owner' | 'user';
   }>> {
     return this.baseClient.get(`/api/v1/workspaces/${workspaceId}`);
   }

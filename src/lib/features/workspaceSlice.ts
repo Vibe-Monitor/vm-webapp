@@ -8,7 +8,7 @@ export type UserRole = 'owner' | 'user'
 export interface Workspace {
   id: string
   name: string
-  workspace_type?: WorkspaceType
+  type?: WorkspaceType
   is_paid?: boolean
   created_at: string
   updated_at?: string
@@ -65,7 +65,7 @@ export const fetchWorkspaces = createAsyncThunk(
 
 export const createWorkspace = createAsyncThunk(
   'workspace/createWorkspace',
-  async (workspaceData: { name: string; workspace_type?: WorkspaceType }, { rejectWithValue }) => {
+  async (workspaceData: { name: string; type?: WorkspaceType }, { rejectWithValue }) => {
     try {
       const response = await api.workspace.create(workspaceData)
       console.log('Workspace creation response:', { status: response.status, data: response.data, error: response.error })

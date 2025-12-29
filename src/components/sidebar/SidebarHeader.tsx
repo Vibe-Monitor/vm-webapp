@@ -30,7 +30,7 @@ export function SidebarHeader({ workspace, onClick, isOpen }: SidebarHeaderProps
   const { collapsed } = useSidebar()
 
   const workspaceName = workspace?.name || 'Select Space'
-  const workspaceType = workspace?.workspace_type || 'personal'
+  const workspaceType = workspace?.type || 'personal'
   const initials = workspace ? getWorkspaceInitials(workspace.name) : 'VM'
 
   const headerContent = (
