@@ -1,13 +1,14 @@
 'use client'
 
 import * as React from 'react'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Menu } from 'lucide-react'
 import { SidebarProvider, Sidebar, SidebarSpacer, useSidebar } from '@/components/sidebar'
 import { Button } from '@/components/ui/button'
 import { useAppDispatch } from '@/lib/hooks'
 import { setUser } from '@/lib/features/userSlice'
 import { api } from '@/services/api/apiFactory'
+import { NavigationProgress } from '@/components/NavigationProgress'
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -55,21 +56,28 @@ function AppLayoutContent({ children }: AppLayoutProps) {
   }, [dispatch])
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <Sidebar />
+    <>
+      {/* Navigation progress bar */}
+      <Suspense fallback={null}>
+        <NavigationProgress />
+      </Suspense>
 
-      {/* Sidebar spacer for desktop */}
-      <SidebarSpacer />
+      <div className="flex min-h-screen bg-background">
+        {/* Sidebar */}
+        <Sidebar />
 
-      {/* Mobile menu toggle */}
-      <MobileMenuToggle />
+        {/* Sidebar spacer for desktop */}
+        <SidebarSpacer />
 
-      {/* Main content area */}
-      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-        {children}
-      </main>
-    </div>
+        {/* Mobile menu toggle */}
+        <MobileMenuToggle />
+
+        {/* Main content area */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">
+          {children}
+        </main>
+      </div>
+    </>
   )
 }
 
