@@ -43,6 +43,34 @@ export function ChatContainer({ workspaceId, sessionId, className }: ChatContain
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // New chat: center everything vertically
+  if (messages.length === 0) {
+    return (
+      <div className={cn('flex flex-col h-full', className)}>
+        {/* Header */}
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+          <Bot className="h-5 w-5 shrink-0 text-primary" />
+          <h1 className="font-semibold text-foreground truncate">
+            {currentSession?.title || 'AI Assistant'}
+          </h1>
+        </div>
+
+        {/* Centered content */}
+        <div className="flex-1 flex flex-col items-center justify-center px-4">
+          <EmptyState />
+          <div className="w-full max-w-2xl mt-8">
+            <ChatInput
+              onSend={sendMessage}
+              disabled={isLoading}
+              loading={isStreaming}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Existing chat: messages scroll, input at bottom
   return (
     <div className={cn('flex flex-col h-full', className)}>
       {/* Header */}
@@ -56,24 +84,20 @@ export function ChatContainer({ workspaceId, sessionId, className }: ChatContain
       {/* Messages Area */}
       <ScrollArea className="flex-1">
         <div className="max-w-3xl mx-auto px-4 py-4">
-          {messages.length === 0 ? (
-            <EmptyState onSendMessage={sendMessage} />
-          ) : (
-            <div className="space-y-2">
-              {messages.map((message) => (
-                <ChatMessage
-                  key={message.id}
-                  message={message}
-                  onFeedback={
-                    message.role === 'assistant'
-                      ? (score) => submitFeedback(message.id, score)
-                      : undefined
-                  }
-                />
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-          )}
+          <div className="space-y-2">
+            {messages.map((message) => (
+              <ChatMessage
+                key={message.id}
+                message={message}
+                onFeedback={
+                  message.role === 'assistant'
+                    ? (score) => submitFeedback(message.id, score)
+                    : undefined
+                }
+              />
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
       </ScrollArea>
 
@@ -87,14 +111,13 @@ export function ChatContainer({ workspaceId, sessionId, className }: ChatContain
           />
         </div>
       </div>
-
     </div>
   );
 }
 
-function EmptyState({ onSendMessage }: { onSendMessage: (message: string) => void }) {
+function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
+    <div className="flex flex-col items-center text-center">
       <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
         <Bot className="h-8 w-8 text-primary" />
       </div>
@@ -105,22 +128,6 @@ function EmptyState({ onSendMessage }: { onSendMessage: (message: string) => voi
         Ask me about your infrastructure, debug issues, or analyze logs and metrics.
         I can help investigate problems across your services.
       </p>
-      <div className="mt-6 grid gap-2 text-sm text-left">
-        <ExamplePrompt text="Why is my API returning 500 errors?" onClick={onSendMessage} />
-        <ExamplePrompt text="Check recent errors in the payment service" onClick={onSendMessage} />
-        <ExamplePrompt text="What's causing high latency in api-gateway?" onClick={onSendMessage} />
-      </div>
-    </div>
-  );
-}
-
-function ExamplePrompt({ text, onClick }: { text: string; onClick: (text: string) => void }) {
-  return (
-    <div
-      className="px-4 py-2 rounded-lg border border-border bg-card text-muted-foreground hover:bg-secondary hover:border-ring cursor-pointer transition-colors"
-      onClick={() => onClick(text)}
-    >
-      {text}
     </div>
   );
 }

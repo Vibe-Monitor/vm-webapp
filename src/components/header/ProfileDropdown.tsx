@@ -38,11 +38,11 @@ export function ProfileDropdown({ collapsed = false }: ProfileDropdownProps) {
           variant="ghost"
           className={
             collapsed
-              ? 'w-full justify-center px-2 py-2 rounded-lg'
-              : 'w-full justify-start gap-3 px-3 py-2 rounded-lg'
+              ? 'w-full justify-center px-2 py-2 rounded-lg hover:bg-background'
+              : 'w-full justify-start gap-3 px-3 py-2 rounded-lg hover:bg-background'
           }
         >
-          <div className="flex size-5 items-center justify-center rounded-full bg-accent text-foreground shrink-0">
+          <div className="flex size-5 items-center justify-center rounded-full bg-background text-foreground shrink-0">
             {user?.name ? (
               <span className="text-[10px] font-medium">
                 {getInitials(user.name)}
@@ -52,7 +52,7 @@ export function ProfileDropdown({ collapsed = false }: ProfileDropdownProps) {
             )}
           </div>
           {!collapsed && (
-            <span className="text-sm font-medium text-muted-foreground">
+            <span className="text-sm font-medium text-foreground">
               {user?.name || user?.email || 'Account'}
             </span>
           )}

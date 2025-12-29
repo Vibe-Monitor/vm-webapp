@@ -100,7 +100,7 @@ export function SidebarNav() {
   )
 
   return (
-    <nav className="flex-1 overflow-y-auto p-2">
+    <nav className="shrink-0 p-2">
       <ul className="flex flex-col gap-1">
         {visibleItems.map((item) => {
           const isActive =
@@ -114,10 +114,10 @@ export function SidebarNav() {
               href={item.href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                'hover:bg-accent',
+                'hover:bg-background',
                 isActive
-                  ? 'bg-accent text-foreground'
-                  : 'text-muted-foreground',
+                  ? 'bg-background text-foreground'
+                  : 'text-foreground',
                 collapsed && 'justify-center px-2'
               )}
             >

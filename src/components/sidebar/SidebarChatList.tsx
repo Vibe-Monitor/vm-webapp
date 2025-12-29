@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { MessageSquare, Loader2, ChevronDown, ChevronUp } from 'lucide-react'
+import { MessageSquare, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useSidebar } from './SidebarContext'
 import { useAppSelector } from '@/lib/hooks'
@@ -14,9 +14,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Button } from '@/components/ui/button'
 
-const MAX_VISIBLE_CHATS = 5
+const MAX_CHATS_TO_FETCH = 50
 
 function formatRelativeTime(dateString: string): string {
   const date = new Date(dateString)
@@ -46,7 +45,6 @@ export function SidebarChatList() {
 
   const [sessions, setSessions] = React.useState<ChatSessionSummary[]>([])
   const [loading, setLoading] = React.useState(false)
-  const [expanded, setExpanded] = React.useState(false)
 
   // Fetch chat sessions when workspace changes or when navigating to a new chat
   React.useEffect(() => {
@@ -59,7 +57,7 @@ export function SidebarChatList() {
       setLoading(true)
       try {
         const response = await api.chat.listSessions(currentWorkspace.id, {
-          limit: 10,
+          limit: MAX_CHATS_TO_FETCH,
         })
         if (response.status === 200 && response.data) {
           setSessions(response.data)
@@ -79,14 +77,9 @@ export function SidebarChatList() {
     return null
   }
 
-  const visibleSessions = expanded
-    ? sessions
-    : sessions.slice(0, MAX_VISIBLE_CHATS)
-  const hasMore = sessions.length > MAX_VISIBLE_CHATS
-
   return (
-    <div className="border-t border-border pt-2">
-      <div className="px-5 mb-1">
+    <div className="flex-1 min-h-0 flex flex-col border-t border-border pt-2 overflow-hidden">
+      <div className="px-5 mb-1 shrink-0">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           Recent Chats
         </h3>
@@ -104,9 +97,9 @@ export function SidebarChatList() {
           </p>
         </div>
       ) : (
-        <div className="p-2">
+        <div className="flex-1 overflow-y-auto p-2">
           <ul className="flex flex-col gap-1">
-            {visibleSessions.map((session) => {
+            {sessions.map((session) => {
               const isActive = pathname === `/chat/${session.id}`
               const title = truncateTitle(session.title)
               const time = formatRelativeTime(
@@ -121,10 +114,10 @@ export function SidebarChatList() {
                         href={`/chat/${session.id}`}
                         className={cn(
                           'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                          'hover:bg-accent',
+                          'hover:bg-background',
                           isActive
-                            ? 'bg-accent text-foreground'
-                            : 'text-muted-foreground'
+                            ? 'bg-background text-foreground'
+                            : 'text-foreground'
                         )}
                       >
                         <MessageSquare className="size-5 shrink-0" />
@@ -153,27 +146,6 @@ export function SidebarChatList() {
               )
             })}
           </ul>
-
-          {hasMore && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setExpanded(!expanded)}
-              className="w-full mt-1 h-7 text-xs text-muted-foreground hover:text-foreground"
-            >
-              {expanded ? (
-                <>
-                  <ChevronUp className="size-3 mr-1" />
-                  Show less
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="size-3 mr-1" />
-                  Show {sessions.length - MAX_VISIBLE_CHATS} more
-                </>
-              )}
-            </Button>
-          )}
         </div>
       )}
     </div>

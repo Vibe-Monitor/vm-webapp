@@ -34,7 +34,7 @@ function SidebarContent() {
   const [createModalOpen, setCreateModalOpen] = React.useState(false)
 
   return (
-    <div className="flex h-full flex-col bg-background border-r border-border">
+    <div className="flex h-full flex-col bg-muted">
       {/* Space Switcher */}
       <div className="border-b border-border p-2">
         <SpaceSwitcher onCreateSpace={() => setCreateModalOpen(true)} />
@@ -59,7 +59,7 @@ function SidebarContent() {
               size="icon"
               onClick={toggle}
               className={cn(
-                'w-full',
+                'w-full hover:bg-background text-foreground',
                 collapsed ? 'justify-center' : 'justify-start gap-3 px-3'
               )}
             >
@@ -68,7 +68,7 @@ function SidebarContent() {
               ) : (
                 <>
                   <PanelLeftClose className="size-5" />
-                  <span className="text-sm">Collapse</span>
+                  <span className="text-sm font-medium">Collapse</span>
                 </>
               )}
             </Button>
@@ -106,7 +106,7 @@ function MobileSidebar() {
             <SheetTitle>Navigation</SheetTitle>
             <SheetDescription>Main navigation menu</SheetDescription>
           </SheetHeader>
-          <div className="flex h-full flex-col bg-background">
+          <div className="flex h-full flex-col bg-muted">
             {/* Space Switcher */}
             <div className="border-b border-border p-2">
               <SpaceSwitcher onCreateSpace={() => setCreateModalOpen(true)} />
