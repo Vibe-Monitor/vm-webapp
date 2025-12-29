@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { GitBranch, Loader2, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import {
@@ -62,26 +63,36 @@ export function RepositoryConfig({
     }
   }, [dispatch, config.repo_full_name, workspaceId, branchesCache])
 
-  const handleBranchChange = (branchName: string) => {
-    dispatch(
-      updateRepositoryConfig({
-        workspaceId,
-        environmentId,
-        repoConfigId: config.id,
-        data: { branch_name: branchName },
-      })
-    )
+  const handleBranchChange = async (branchName: string) => {
+    try {
+      await dispatch(
+        updateRepositoryConfig({
+          workspaceId,
+          environmentId,
+          repoConfigId: config.id,
+          data: { branch_name: branchName },
+        })
+      ).unwrap()
+      toast.success(`Branch updated to ${branchName}`)
+    } catch {
+      toast.error('Failed to update branch')
+    }
   }
 
-  const handleEnableToggle = (enabled: boolean) => {
-    dispatch(
-      updateRepositoryConfig({
-        workspaceId,
-        environmentId,
-        repoConfigId: config.id,
-        data: { is_enabled: enabled },
-      })
-    )
+  const handleEnableToggle = async (enabled: boolean) => {
+    try {
+      await dispatch(
+        updateRepositoryConfig({
+          workspaceId,
+          environmentId,
+          repoConfigId: config.id,
+          data: { is_enabled: enabled },
+        })
+      ).unwrap()
+      toast.success(`Repository ${enabled ? 'enabled' : 'disabled'}`)
+    } catch {
+      toast.error('Failed to update repository')
+    }
   }
 
   const handleDelete = async () => {
@@ -94,6 +105,9 @@ export function RepositoryConfig({
           repoConfigId: config.id,
         })
       ).unwrap()
+      toast.success('Repository removed')
+    } catch {
+      toast.error('Failed to remove repository')
     } finally {
       setIsDeleting(false)
     }
