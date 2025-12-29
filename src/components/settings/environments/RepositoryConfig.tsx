@@ -73,9 +73,9 @@ export function RepositoryConfig({
           data: { branch_name: branchName },
         })
       ).unwrap()
-      toast.success(`${config.repo_full_name} branch updated to ${branchName} in ${environmentName}`)
+      toast.success(`Branch updated to ${branchName}`)
     } catch {
-      toast.error(`Failed to update ${config.repo_full_name}`)
+      toast.error('Failed to update branch')
     }
   }
 
@@ -89,9 +89,9 @@ export function RepositoryConfig({
           data: { is_enabled: enabled },
         })
       ).unwrap()
-      toast.success(`${config.repo_full_name} ${enabled ? 'enabled' : 'disabled'} in ${environmentName}`)
+      toast.success(`Repository ${enabled ? 'enabled' : 'disabled'}`)
     } catch {
-      toast.error(`Failed to update ${config.repo_full_name}`)
+      toast.error('Failed to update repository')
     }
   }
 
@@ -105,9 +105,9 @@ export function RepositoryConfig({
           repoConfigId: config.id,
         })
       ).unwrap()
-      toast.success(`${config.repo_full_name} removed from ${environmentName}`)
+      toast.success('Repository removed')
     } catch {
-      toast.error(`Failed to remove ${config.repo_full_name}`)
+      toast.error('Failed to remove repository')
     } finally {
       setIsDeleting(false)
     }
