@@ -207,10 +207,10 @@ export function AddRepositoryModal({
                     />
                   )}
                 </SelectTrigger>
-                <SelectContent className="max-w-[var(--radix-select-trigger-width)]">
+                <SelectContent className="max-w-[350px]">
                   {branches.map((branch) => (
-                    <SelectItem key={branch.name} value={branch.name} className="truncate">
-                      <span className="truncate">{branch.name}</span>
+                    <SelectItem key={branch.name} value={branch.name} title={branch.name}>
+                      <span className="truncate max-w-[280px] inline-block">{branch.name}</span>
                       {branch.is_default && (
                         <span className="ml-2 text-xs text-muted-foreground shrink-0">(default)</span>
                       )}

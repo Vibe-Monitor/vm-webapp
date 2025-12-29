@@ -135,7 +135,7 @@ export function RepositoryConfig({
             <SelectContent className="max-w-64">
               {branches.map((branch: RepositoryBranch) => (
                 <SelectItem key={branch.name} value={branch.name} title={branch.name}>
-                  <span className="truncate">{branch.name}</span>
+                  <span className="truncate max-w-[200px] inline-block">{branch.name}</span>
                   {branch.is_default && (
                     <span className="ml-2 text-xs text-muted-foreground shrink-0">
                       (default)
