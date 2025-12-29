@@ -23,7 +23,11 @@ function getInitials(name: string): string {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
 }
 
-export function ProfileDropdown() {
+interface ProfileDropdownProps {
+  collapsed?: boolean
+}
+
+export function ProfileDropdown({ collapsed = false }: ProfileDropdownProps) {
   const user = useAppSelector((state) => state.user.user)
   const { logout } = useLogout()
 
@@ -32,22 +36,30 @@ export function ProfileDropdown() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          size="icon"
-          className="rounded-full"
+          className={
+            collapsed
+              ? 'w-full justify-center px-2 py-2 rounded-lg'
+              : 'w-full justify-start gap-3 px-3 py-2 rounded-lg'
+          }
         >
-          <div className="flex size-8 items-center justify-center rounded-full bg-accent text-foreground">
+          <div className="flex size-5 items-center justify-center rounded-full bg-accent text-foreground shrink-0">
             {user?.name ? (
-              <span className="text-xs font-medium">
+              <span className="text-[10px] font-medium">
                 {getInitials(user.name)}
               </span>
             ) : (
-              <User className="size-4" />
+              <User className="size-3.5" />
             )}
           </div>
+          {!collapsed && (
+            <span className="text-sm font-medium text-muted-foreground">
+              {user?.name || user?.email || 'Account'}
+            </span>
+          )}
           <span className="sr-only">User menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent side="right" align="end" sideOffset={8} className="w-56">
         {user && (
           <>
             <DropdownMenuLabel className="font-normal">

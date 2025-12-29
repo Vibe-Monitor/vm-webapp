@@ -85,8 +85,8 @@ export function SidebarChatList() {
   const hasMore = sessions.length > MAX_VISIBLE_CHATS
 
   return (
-    <div className="border-t border-border py-2">
-      <div className="px-3 mb-2">
+    <div className="border-t border-border pt-2">
+      <div className="px-5 mb-1">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           Recent Chats
         </h3>
@@ -104,8 +104,8 @@ export function SidebarChatList() {
           </p>
         </div>
       ) : (
-        <div className="px-2">
-          <ul className="flex flex-col gap-0.5">
+        <div className="p-2">
+          <ul className="flex flex-col gap-1">
             {visibleSessions.map((session) => {
               const isActive = pathname === `/chat/${session.id}`
               const title = truncateTitle(session.title)
@@ -120,18 +120,18 @@ export function SidebarChatList() {
                       <Link
                         href={`/chat/${session.id}`}
                         className={cn(
-                          'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
+                          'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                           'hover:bg-accent',
                           isActive
                             ? 'bg-accent text-foreground'
                             : 'text-muted-foreground'
                         )}
                       >
-                        <MessageSquare className="size-4 shrink-0 text-muted-foreground" />
-                        <span className="flex-1 truncate text-xs">
+                        <MessageSquare className="size-5 shrink-0" />
+                        <span className="flex-1 truncate">
                           {title}
                         </span>
-                        <span className="text-[10px] text-muted-foreground shrink-0">
+                        <span className="text-xs text-muted-foreground shrink-0">
                           {time}
                         </span>
                       </Link>

@@ -80,7 +80,7 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
           </Button>
         </div>
       ) : (
-        <Accordion type="single" collapsible className="w-full border border-border rounded-lg overflow-hidden">
+        <Accordion type="single" collapsible className="w-full space-y-2">
           {environments.map((environment) => (
             <EnvironmentCard
               key={environment.id}

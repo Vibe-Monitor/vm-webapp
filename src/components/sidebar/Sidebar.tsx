@@ -27,6 +27,7 @@ import { SpaceSwitcher } from './SpaceSwitcher'
 import { SidebarNav } from './SidebarNav'
 import { SidebarChatList } from './SidebarChatList'
 import { CreateSpaceModal } from './CreateSpaceModal'
+import { ProfileDropdown } from '@/components/header/ProfileDropdown'
 
 function SidebarContent() {
   const { collapsed, toggle } = useSidebar()
@@ -45,8 +46,12 @@ function SidebarContent() {
       {/* Chat List */}
       <SidebarChatList />
 
-      {/* Collapse Toggle */}
-      <div className="mt-auto border-t border-border p-2">
+      {/* Profile & Collapse */}
+      <div className="mt-auto border-t border-border p-2 space-y-1">
+        {/* Profile Dropdown */}
+        <ProfileDropdown collapsed={collapsed} />
+
+        {/* Collapse Toggle */}
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -112,6 +117,11 @@ function MobileSidebar() {
 
             {/* Chat List */}
             <SidebarChatList />
+
+            {/* Profile */}
+            <div className="mt-auto border-t border-border p-2">
+              <ProfileDropdown collapsed={false} />
+            </div>
           </div>
         </SheetContent>
       </Sheet>

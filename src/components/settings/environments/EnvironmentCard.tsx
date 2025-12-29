@@ -81,7 +81,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
   }
 
   return (
-    <AccordionItem value={environment.id}>
+    <AccordionItem value={environment.id} className="border border-border rounded-lg overflow-hidden last:border-b">
       <AccordionTrigger className="px-4 hover:no-underline hover:bg-muted">
         <div className="flex items-center gap-3 flex-1">
           <span className="font-medium text-foreground">
