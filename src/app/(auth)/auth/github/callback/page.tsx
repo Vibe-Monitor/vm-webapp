@@ -117,7 +117,15 @@ export default function GitHubCallbackPage() {
         }
 
         setStatus('Authentication successful! Redirecting...')
-        router.replace('/chat')
+
+        // Check for return URL (e.g., from invitation flow)
+        const returnUrl = localStorage.getItem('authReturnUrl')
+        if (returnUrl) {
+          localStorage.removeItem('authReturnUrl')
+          router.replace(returnUrl)
+        } else {
+          router.replace('/chat')
+        }
 
       } catch (error) {
         console.error('Callback error:', error)

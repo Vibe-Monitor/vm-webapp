@@ -72,7 +72,14 @@ export default function Auth() {
       }
 
       if (response.data.is_verified) {
-        window.location.href = '/chat'
+        // Check for return URL (e.g., from invitation flow)
+        const returnUrl = localStorage.getItem('authReturnUrl')
+        if (returnUrl) {
+          localStorage.removeItem('authReturnUrl')
+          window.location.href = returnUrl
+        } else {
+          window.location.href = '/chat'
+        }
       } else {
         setError('Please verify your email before signing in. Check your inbox for the verification link.')
       }
