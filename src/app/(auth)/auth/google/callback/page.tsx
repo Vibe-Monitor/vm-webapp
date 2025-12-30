@@ -24,7 +24,7 @@ export default function GoogleCallbackPage() {
         // If already authenticated, redirect to setup
         if (tokenService.hasValidToken()) {
           setStatus('Already authenticated! Redirecting...')
-          router.replace('/setup')
+          router.replace('/chat')
           return
         }
 
@@ -117,7 +117,7 @@ export default function GoogleCallbackPage() {
         }
 
         setStatus('Authentication successful! Redirecting...')
-        router.replace('/setup')
+        router.replace('/chat')
 
       } catch (error) {
         console.error('Callback error:', error)

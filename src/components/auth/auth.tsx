@@ -72,7 +72,7 @@ export default function Auth() {
       }
 
       if (response.data.is_verified) {
-        window.location.href = '/setup'
+        window.location.href = '/chat'
       } else {
         setError('Please verify your email before signing in. Check your inbox for the verification link.')
       }

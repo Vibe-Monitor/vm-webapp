@@ -134,9 +134,9 @@ export default function VerifyEmailPage() {
 
           {success ? (
             <div className="text-center space-y-2">
-              <Link href="/setup">
+              <Link href="/chat">
                 <Button className="w-full">
-                  Continue to Setup
+                  Continue to Chat
                 </Button>
               </Link>
             </div>
