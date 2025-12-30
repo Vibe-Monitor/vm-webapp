@@ -65,16 +65,17 @@ export function PendingInvitations({
               </div>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-4 shrink-0">
               <span className="text-sm text-muted-foreground capitalize">
                 {invitation.role}
               </span>
+              <div className="h-4 w-px bg-border" />
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onRevoke(invitation.id)}
                 disabled={revokeLoading === invitation.id}
-                className="text-muted-foreground hover:text-red-500"
+                className="text-muted-foreground hover:text-red-500 -ml-2"
               >
                 {revokeLoading === invitation.id ? (
                   <Loader2 className="size-4 animate-spin" />
