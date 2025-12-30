@@ -62,4 +62,13 @@ export class MembersClient {
   async revokeInvitation(workspaceId: string, invitationId: string): Promise<ApiResponse<void>> {
     return this.baseClient.delete(`/api/v1/workspaces/${workspaceId}/invitations/${invitationId}`);
   }
+
+  // Token-based invitation methods (for email links)
+  async getInvitationByToken(token: string): Promise<ApiResponse<Invitation>> {
+    return this.baseClient.get(`/api/v1/invitations/token/${token}`);
+  }
+
+  async acceptInvitationByToken(token: string): Promise<ApiResponse<{ id: string; name: string }>> {
+    return this.baseClient.post(`/api/v1/invitations/token/${token}/accept`, {});
+  }
 }
