@@ -10,12 +10,14 @@ export interface Member {
 
 export interface Invitation {
   id: string;
-  email: string;
+  invitee_email: string;
   role: 'owner' | 'user';
   status: 'pending' | 'accepted' | 'expired';
   expires_at: string;
   created_at: string;
-  invited_by: string;
+  inviter_name: string;
+  workspace_id: string;
+  workspace_name: string;
 }
 
 export interface InviteMemberRequest {

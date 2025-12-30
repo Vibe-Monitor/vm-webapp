@@ -52,12 +52,12 @@ export function PendingInvitations({
             <div className="flex items-center gap-3 min-w-0 flex-1">
               <div className="size-8 rounded-full bg-accent flex items-center justify-center shrink-0">
                 <span className="text-sm font-medium text-foreground">
-                  {invitation.email?.charAt(0)?.toUpperCase()}
+                  {invitation.invitee_email?.charAt(0)?.toUpperCase()}
                 </span>
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-medium text-foreground truncate">
-                  {invitation.email}
+                  {invitation.invitee_email}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {getExpiryText(invitation.expires_at)}
