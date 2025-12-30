@@ -7,34 +7,35 @@ import { ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
 
 interface ChatFeedbackProps {
   currentScore?: number | null;
-  onFeedback: (score: 1 | 5) => Promise<void>;
+  onFeedback: (isPositive: boolean) => Promise<void>;
   className?: string;
 }
 
 export function ChatFeedback({ currentScore, onFeedback, className }: ChatFeedbackProps) {
-  const [loadingScore, setLoadingScore] = useState<1 | 5 | null>(null);
+  const [loadingFeedback, setLoadingFeedback] = useState<'positive' | 'negative' | null>(null);
 
-  const handleFeedback = async (score: 1 | 5) => {
-    if (loadingScore !== null) return;
+  const handleFeedback = async (isPositive: boolean) => {
+    if (loadingFeedback !== null) return;
 
-    setLoadingScore(score);
+    setLoadingFeedback(isPositive ? 'positive' : 'negative');
     try {
-      await onFeedback(score);
+      await onFeedback(isPositive);
     } finally {
-      setLoadingScore(null);
+      setLoadingFeedback(null);
     }
   };
 
-  const isPositiveSelected = currentScore === 5;
-  const isNegativeSelected = currentScore === 1;
+  // 1 = thumbs up, -1 = thumbs down
+  const isPositiveSelected = currentScore === 1;
+  const isNegativeSelected = currentScore === -1;
 
   return (
     <div className={cn('flex items-center gap-1', className)}>
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => handleFeedback(5)}
-        disabled={loadingScore !== null}
+        onClick={() => handleFeedback(true)}
+        disabled={loadingFeedback !== null}
         className={cn(
           'h-7 w-7 p-0 transition-colors',
           isPositiveSelected
@@ -43,7 +44,7 @@ export function ChatFeedback({ currentScore, onFeedback, className }: ChatFeedba
         )}
         title="Helpful"
       >
-        {loadingScore === 5 ? (
+        {loadingFeedback === 'positive' ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
         ) : (
           <ThumbsUp className={cn('h-3.5 w-3.5', isPositiveSelected && 'fill-current')} />
@@ -52,8 +53,8 @@ export function ChatFeedback({ currentScore, onFeedback, className }: ChatFeedba
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => handleFeedback(1)}
-        disabled={loadingScore !== null}
+        onClick={() => handleFeedback(false)}
+        disabled={loadingFeedback !== null}
         className={cn(
           'h-7 w-7 p-0 transition-colors',
           isNegativeSelected
@@ -62,7 +63,7 @@ export function ChatFeedback({ currentScore, onFeedback, className }: ChatFeedba
         )}
         title="Not helpful"
       >
-        {loadingScore === 1 ? (
+        {loadingFeedback === 'negative' ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
         ) : (
           <ThumbsDown className={cn('h-3.5 w-3.5', isNegativeSelected && 'fill-current')} />

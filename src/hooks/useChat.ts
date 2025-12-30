@@ -31,7 +31,7 @@ interface UseChatReturn {
   startNewSession: () => void;
   deleteSession: (sessionId: string) => Promise<void>;
   renameSession: (sessionId: string, title: string) => Promise<void>;
-  submitFeedback: (turnId: string, score: 1 | 5) => Promise<void>;
+  submitFeedback: (turnId: string, isPositive: boolean) => Promise<void>;
 }
 
 export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseChatReturn {
@@ -368,15 +368,16 @@ export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseC
     }
   }, [workspaceId]);
 
-  const submitFeedback = useCallback(async (turnId: string, score: 1 | 5) => {
-    // Optimistic update
+  const submitFeedback = useCallback(async (turnId: string, isPositive: boolean) => {
+    // Optimistic update - store as 1 (thumbs up) or -1 (thumbs down)
     const previousMessages = messages;
+    const feedbackScore = isPositive ? 1 : -1;
     setMessages((prev) =>
-      prev.map((m) => (m.id === turnId ? { ...m, feedbackScore: score } : m))
+      prev.map((m) => (m.id === turnId ? { ...m, feedbackScore } : m))
     );
 
     try {
-      const response = await api.chat.submitFeedback(workspaceId, turnId, { score });
+      const response = await api.chat.submitFeedback(workspaceId, turnId, { is_positive: isPositive });
       if (!response.data || response.status !== 200) {
         // Rollback on failure
         setMessages(previousMessages);

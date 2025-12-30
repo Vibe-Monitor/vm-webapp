@@ -36,7 +36,7 @@ export interface UpdateSessionRequest {
 }
 
 export interface SubmitFeedbackRequest {
-  score: 1 | 2 | 3 | 4 | 5;  // 1=thumbs down, 5=thumbs up
+  is_positive: boolean;      // true=thumbs up, false=thumbs down
   comment?: string;          // Max 1000 characters
 }
 
@@ -52,7 +52,7 @@ export interface SendMessageResponse {
 
 export interface FeedbackResponse {
   turn_id: string;
-  score: number;
+  is_positive: boolean;
   comment: string | null;
   message: string;
 }

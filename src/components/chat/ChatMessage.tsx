@@ -10,7 +10,7 @@ import remarkGfm from 'remark-gfm';
 
 interface ChatMessageProps {
   message: ChatMessageType;
-  onFeedback?: (score: 1 | 5) => Promise<void>;
+  onFeedback?: (isPositive: boolean) => Promise<void>;
   className?: string;
 }
 
