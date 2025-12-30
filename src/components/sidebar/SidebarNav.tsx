@@ -39,7 +39,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   {
     title: 'New Chat',
-    href: '/chat/new',
+    href: '/chat',
     icon: MessageSquarePlus,
     ownerAccess: 'full',
     userAccess: 'full',
