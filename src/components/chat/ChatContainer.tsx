@@ -91,7 +91,7 @@ export function ChatContainer({ workspaceId, sessionId, className }: ChatContain
                 message={message}
                 onFeedback={
                   message.role === 'assistant'
-                    ? (isPositive) => submitFeedback(message.id, isPositive)
+                    ? (isPositive, comment) => submitFeedback(message.id, isPositive, comment)
                     : undefined
                 }
               />

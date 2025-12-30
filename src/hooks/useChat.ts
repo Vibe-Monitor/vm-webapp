@@ -31,7 +31,7 @@ interface UseChatReturn {
   startNewSession: () => void;
   deleteSession: (sessionId: string) => Promise<void>;
   renameSession: (sessionId: string, title: string) => Promise<void>;
-  submitFeedback: (turnId: string, isPositive: boolean) => Promise<void>;
+  submitFeedback: (turnId: string, isPositive: boolean, comment?: string) => Promise<void>;
 }
 
 export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseChatReturn {
@@ -368,7 +368,7 @@ export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseC
     }
   }, [workspaceId]);
 
-  const submitFeedback = useCallback(async (turnId: string, isPositive: boolean) => {
+  const submitFeedback = useCallback(async (turnId: string, isPositive: boolean, comment?: string) => {
     // Optimistic update - store as 1 (thumbs up) or -1 (thumbs down)
     const previousMessages = messages;
     const feedbackScore = isPositive ? 1 : -1;
@@ -377,11 +377,16 @@ export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseC
     );
 
     try {
-      const response = await api.chat.submitFeedback(workspaceId, turnId, { is_positive: isPositive });
+      const response = await api.chat.submitFeedback(workspaceId, turnId, {
+        is_positive: isPositive,
+        comment: comment || undefined,
+      });
       if (!response.data || response.status !== 200) {
         // Rollback on failure
         setMessages(previousMessages);
         toast.error('Failed to submit feedback');
+      } else if (comment) {
+        toast.success('Comment submitted');
       }
     } catch (error) {
       // Rollback on error
