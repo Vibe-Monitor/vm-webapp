@@ -57,7 +57,9 @@ export default function AcceptInvitationPage() {
       const response = await api.members.acceptInvitationByToken(token)
 
       if (response.data) {
-        // Success! Redirect to workspace
+        // Success! Set the newly joined workspace as the last visited
+        localStorage.setItem('last_visited_workspace_id', response.data.id)
+        // Redirect to workspace
         setMessage('Welcome! Redirecting to workspace...')
         setStatus('redirecting')
         setTimeout(() => {

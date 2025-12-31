@@ -87,6 +87,11 @@ export default function GitHubCallbackPage() {
             expires_in: data.expires_in
           })
 
+          // Store last visited workspace if provided
+          if (data.last_visited_workspace_id) {
+            localStorage.setItem('last_visited_workspace_id', data.last_visited_workspace_id)
+          }
+
           // Get user information
           const userData = await githubAuthClient.getCurrentUser(data.access_token)
 

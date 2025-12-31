@@ -155,9 +155,20 @@ const workspaceSlice = createSlice({
         state.loading = false
         state.workspaces = action.payload
         state.error = null
-        // Auto-select first workspace if none selected
+        // Auto-select workspace if none selected
         if (!state.currentWorkspace && action.payload.length > 0) {
-          state.currentWorkspace = action.payload[0]
+          // Try to restore last visited workspace from localStorage
+          let selectedWorkspace = action.payload[0]
+          if (typeof window !== 'undefined') {
+            const lastVisitedId = localStorage.getItem('last_visited_workspace_id')
+            if (lastVisitedId) {
+              const lastVisited = action.payload.find((ws: Workspace) => ws.id === lastVisitedId)
+              if (lastVisited) {
+                selectedWorkspace = lastVisited
+              }
+            }
+          }
+          state.currentWorkspace = selectedWorkspace
         }
       })
       .addCase(fetchWorkspaces.rejected, (state, action) => {

@@ -66,6 +66,11 @@ export default function Auth() {
         localStorage.setItem('user_email', response.data.user.email)
       }
 
+      // Store last visited workspace if provided (for signin only)
+      if (mode === 'signin' && response.data.last_visited_workspace_id) {
+        localStorage.setItem('last_visited_workspace_id', response.data.last_visited_workspace_id)
+      }
+
       if (mode === 'signup') {
         setSignupSuccess(true)
         return

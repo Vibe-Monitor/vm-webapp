@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { SidebarHeader } from './SidebarHeader'
 import { useSidebar } from './SidebarContext'
+import { api } from '@/services/api/apiFactory'
 
 interface SpaceSwitcherProps {
   onCreateSpace?: () => void
@@ -49,6 +50,12 @@ export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
   const handleSelectWorkspace = (workspace: Workspace) => {
     dispatch(setCurrentWorkspace(workspace))
     setOpen(false)
+    // Persist the selection locally for immediate page refresh support
+    localStorage.setItem('last_visited_workspace_id', workspace.id)
+    // Also persist to backend (fire-and-forget)
+    api.workspace.markVisited(workspace.id).catch(() => {
+      // Silently ignore errors - this is a best-effort persistence
+    })
   }
 
   const handleCreateSpace = () => {

@@ -45,4 +45,8 @@ export class WorkspaceClient {
   }>> {
     return this.baseClient.patch(`/api/v1/workspaces/${workspaceId}`, data);
   }
+
+  async markVisited(workspaceId: string): Promise<ApiResponse<{ message: string }>> {
+    return this.baseClient.post(`/api/v1/workspaces/${workspaceId}/visit`, {});
+  }
 }

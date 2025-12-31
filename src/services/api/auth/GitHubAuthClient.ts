@@ -5,6 +5,7 @@ export interface GitHubAuthTokenResponse {
   refresh_token: string;
   expires_in: number;
   token_type: string;
+  last_visited_workspace_id?: string | null;
 }
 
 export interface GitHubUserResponse {
