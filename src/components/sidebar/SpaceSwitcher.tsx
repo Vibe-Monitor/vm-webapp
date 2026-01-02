@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import { Check, Plus, Building2, User, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
@@ -21,6 +22,15 @@ import { SidebarHeader } from './SidebarHeader'
 import { useSidebar } from './SidebarContext'
 import { api } from '@/services/api/apiFactory'
 
+// Routes that require owner access - non-owners should be redirected away from these
+const OWNER_ONLY_ROUTES = ['/settings']
+
+function isOwnerOnlyRoute(pathname: string): boolean {
+  return OWNER_ONLY_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`)
+  )
+}
+
 interface SpaceSwitcherProps {
   onCreateSpace?: () => void
 }
@@ -36,6 +46,8 @@ function getWorkspaceInitials(name: string): string {
 
 export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
   const dispatch = useAppDispatch()
+  const router = useRouter()
+  const pathname = usePathname()
   const { collapsed } = useSidebar()
   const { workspaces, currentWorkspace, loading } = useAppSelector(
     (state) => state.workspace
@@ -48,6 +60,15 @@ export function SpaceSwitcher({ onCreateSpace }: SpaceSwitcherProps) {
   }, [dispatch])
 
   const handleSelectWorkspace = (workspace: Workspace) => {
+    const isNewWorkspaceOwner = workspace.user_role === 'owner'
+    const needsRedirect = !isNewWorkspaceOwner && isOwnerOnlyRoute(pathname)
+
+    // If switching to a workspace where user doesn't have access to current page,
+    // navigate away FIRST before updating the workspace state to prevent data flash
+    if (needsRedirect) {
+      router.push('/chat')
+    }
+
     dispatch(setCurrentWorkspace(workspace))
     setOpen(false)
     // Persist the selection locally for immediate page refresh support
