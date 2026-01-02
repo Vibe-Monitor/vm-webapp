@@ -11,6 +11,7 @@ import { MailgunClient } from './clients/MailgunClient';
 import { ChatClient } from './clients/ChatClient';
 import { AccountClient } from './clients/AccountClient';
 import { EnvironmentsClient } from './clients/EnvironmentsClient';
+import { DeploymentsClient } from './clients/DeploymentsClient';
 import { ServicesClient } from './clients/ServicesClient';
 import { LLMConfigClient } from './clients/LLMConfigClient';
 import { MembersClient } from './clients/MembersClient';
@@ -44,6 +45,7 @@ class ApiFactory {
   private _chat?: ChatClient;
   private _account?: AccountClient;
   private _environments?: EnvironmentsClient;
+  private _deployments?: DeploymentsClient;
   private _llm?: LLMConfigClient;
   private _members?: MembersClient;
   private _billing?: BillingClient;
@@ -185,6 +187,17 @@ class ApiFactory {
       this._environments = new EnvironmentsClient(this.baseClient);
     }
     return this._environments;
+  }
+
+  /**
+   * Deployments API Client
+   * Lazy-loaded on first access
+   */
+  get deployments(): DeploymentsClient {
+    if (!this._deployments) {
+      this._deployments = new DeploymentsClient(this.baseClient);
+    }
+    return this._deployments;
   }
 
   /**
