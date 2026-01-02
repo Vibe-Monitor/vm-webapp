@@ -10,6 +10,7 @@ import {
   clearCreateError,
   WorkspaceType,
 } from '@/lib/features/workspaceSlice'
+import { api } from '@/services/api/apiFactory'
 import {
   Dialog,
   DialogContent,
@@ -95,6 +96,13 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
 
       // Set the new workspace as current (creator is always owner)
       dispatch(setCurrentWorkspace({ ...result, user_role: 'owner' }))
+
+      // Persist the selection locally for immediate page refresh support
+      localStorage.setItem('last_visited_workspace_id', result.id)
+      // Also persist to backend (fire-and-forget)
+      api.workspace.markVisited(result.id).catch(() => {
+        // Silently ignore errors - this is a best-effort persistence
+      })
 
       // Close the modal
       onOpenChange(false)
