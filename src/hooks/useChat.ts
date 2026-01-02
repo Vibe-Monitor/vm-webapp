@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { api } from '@/services/api/apiFactory';
 import { tokenService } from '@/services/tokenService';
@@ -35,7 +34,6 @@ interface UseChatReturn {
 }
 
 export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseChatReturn {
-  const router = useRouter();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sessions, setSessions] = useState<ChatSessionSummary[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(initialSessionId || null);
@@ -304,11 +302,11 @@ export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseC
       if (response.data && response.status === 200) {
         const { turn_id, session_id } = response.data;
 
-        // Update session ID and navigate if this is a new session
+        // Update session ID and URL if this is a new session
         if (!currentSessionId) {
           setCurrentSessionId(session_id);
-          // Navigate to the session URL for new chats
-          router.replace(`/chat/${session_id}`, { scroll: false });
+          // Update URL without triggering navigation (prevents component remount and flicker)
+          window.history.replaceState(null, '', `/chat/${session_id}`);
         }
 
         // Add placeholder assistant message
@@ -335,7 +333,7 @@ export function useChat({ workspaceId, initialSessionId }: UseChatOptions): UseC
       // Remove the user message on error
       setMessages((prev) => prev.filter((m) => m.id !== userMessageId));
     }
-  }, [workspaceId, currentSessionId, isStreaming, streamTurnResponse, router]);
+  }, [workspaceId, currentSessionId, isStreaming, streamTurnResponse]);
 
   const deleteSession = useCallback(async (sessionId: string) => {
     try {

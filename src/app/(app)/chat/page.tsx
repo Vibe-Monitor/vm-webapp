@@ -13,7 +13,7 @@ import { tokenService } from '@/services/tokenService';
 export default function ChatPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { workspaces, currentWorkspace, loading, status } = useAppSelector(
+  const { workspaces, currentWorkspace, loading } = useAppSelector(
     (state) => state.workspace
   );
 
@@ -26,10 +26,10 @@ export default function ChatPage() {
     }
 
     // Load workspaces only if not already loaded or loading
-    if (workspaces.length === 0 && status !== 'loading') {
+    if (workspaces.length === 0 && !loading) {
       dispatch(fetchWorkspaces());
     }
-  }, [dispatch, router, workspaces.length, status]);
+  }, [dispatch, router, workspaces.length, loading]);
 
   const workspaceId = currentWorkspace?.id || workspaces[0]?.id;
 

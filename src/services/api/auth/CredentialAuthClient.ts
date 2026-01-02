@@ -49,6 +49,7 @@ export interface SignupResponse {
   expires_in: number;
   is_verified: boolean;
   user: UserInfo;
+  last_visited_workspace_id?: string | null;
 }
 
 export interface LoginResponse {
