@@ -45,6 +45,7 @@ export interface CreateEnvironmentInput {
 
 export interface UpdateEnvironmentInput {
   name?: string
+  is_default?: boolean
   auto_discovery_enabled?: boolean
 }
 

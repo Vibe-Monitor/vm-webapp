@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Trash2, Star, MoreHorizontal, Plus } from 'lucide-react'
+import { Trash2, Star, StarOff, MoreHorizontal, Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import {
   AccordionContent,
@@ -63,6 +63,23 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
     }
   }
 
+  const handleRemoveDefault = async () => {
+    if (!environment.is_default) return
+
+    try {
+      await dispatch(
+        updateEnvironment({
+          workspaceId,
+          environmentId: environment.id,
+          data: { is_default: false },
+        })
+      ).unwrap()
+      toast.success(`${environment.name} is no longer the default environment`)
+    } catch {
+      toast.error('Failed to remove default status')
+    }
+  }
+
   const handleDelete = async () => {
     setIsDeleting(true)
     try {
@@ -120,6 +137,12 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
                   <DropdownMenuItem onClick={handleSetDefault}>
                     <Star className="size-4 mr-2" />
                     Set as default
+                  </DropdownMenuItem>
+                )}
+                {environment.is_default && (
+                  <DropdownMenuItem onClick={handleRemoveDefault}>
+                    <StarOff className="size-4 mr-2" />
+                    Remove as default
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem
