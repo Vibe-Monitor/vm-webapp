@@ -61,18 +61,21 @@ const spaceTypeOptions: SpaceTypeOption[] = [
 
 export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) {
   const dispatch = useAppDispatch()
-  const { createLoading, createError } = useAppSelector(
+  const { workspaces, createLoading, createError } = useAppSelector(
     (state) => state.workspace
   )
 
   const [name, setName] = React.useState('')
-  const [spaceType, setSpaceType] = React.useState<WorkspaceType>('personal')
+  const [spaceType, setSpaceType] = React.useState<WorkspaceType>('team')
+
+  // Check if user already has a personal space
+  const hasPersonalSpace = workspaces.some((ws) => ws.type === 'personal')
 
   // Clear form on open
   React.useEffect(() => {
     if (open) {
       setName('')
-      setSpaceType('personal')
+      setSpaceType('team')
       dispatch(clearCreateError())
     }
   }, [open, dispatch])
@@ -126,17 +129,21 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
                 {spaceTypeOptions.map((option) => {
                   const Icon = option.icon
                   const isSelected = spaceType === option.value
+                  const isDisabled = option.value === 'personal' && hasPersonalSpace
 
                   return (
                     <button
                       key={option.value}
                       type="button"
-                      onClick={() => setSpaceType(option.value)}
+                      onClick={() => !isDisabled && setSpaceType(option.value)}
+                      disabled={isDisabled}
                       className={cn(
                         'relative flex flex-col items-center gap-2 rounded-lg border-2 p-4 text-center transition-all',
-                        'hover:border-primary hover:bg-accent',
                         'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
-                        isSelected
+                        isDisabled
+                          ? 'opacity-50 cursor-not-allowed border-border'
+                          : 'hover:border-primary hover:bg-accent',
+                        isSelected && !isDisabled
                           ? 'border-primary bg-primary/5'
                           : 'border-border'
                       )}
@@ -178,7 +185,9 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
                           side="top"
                           className="max-w-xs text-xs"
                         >
-                          {option.tooltip}
+                          {isDisabled
+                            ? 'You already have a personal space. Only one personal space is allowed per user.'
+                            : option.tooltip}
                         </TooltipContent>
                       </Tooltip>
                     </button>
