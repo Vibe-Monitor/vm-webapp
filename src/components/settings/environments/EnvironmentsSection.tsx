@@ -1,14 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Plus, Loader2, AlertCircle } from 'lucide-react'
+import { Plus, Loader2, AlertCircle, AlertTriangle } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Accordion } from '@/components/ui/accordion'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { EnvironmentCard } from './EnvironmentCard'
 import { AddEnvironmentModal } from './AddEnvironmentModal'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { fetchEnvironments } from '@/lib/features/environmentsSlice'
+import { fetchEnvironments, setDefaultEnvironment } from '@/lib/features/environmentsSlice'
 
 interface EnvironmentsSectionProps {
   workspaceId: string
@@ -21,12 +29,23 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
 
   // Ensure environments is always an array (API might return null/undefined)
   const environments = Array.isArray(rawEnvironments) ? rawEnvironments : []
+  const hasDefault = environments.some((env) => env.is_default)
 
   useEffect(() => {
     if (workspaceId) {
       dispatch(fetchEnvironments(workspaceId))
     }
   }, [dispatch, workspaceId])
+
+  const handleSetDefault = async (environmentId: string) => {
+    try {
+      await dispatch(setDefaultEnvironment({ workspaceId, environmentId })).unwrap()
+      const envName = environments.find((e) => e.id === environmentId)?.name
+      toast.success(`${envName} is now the default environment`)
+    } catch {
+      toast.error('Failed to set default environment')
+    }
+  }
 
   if (loading) {
     return (
@@ -64,6 +83,31 @@ export function EnvironmentsSection({ workspaceId }: EnvironmentsSectionProps) {
           </Button>
         )}
       </div>
+
+      {/* No Default Warning */}
+      {environments.length > 0 && !hasDefault && (
+        <div className="flex items-center gap-3 rounded-lg border border-warning/30 bg-warning/10 p-4">
+          <AlertTriangle className="size-5 text-warning shrink-0" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-warning">No default environment set</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Select a default environment for RCA to use when analyzing issues.
+            </p>
+          </div>
+          <Select onValueChange={handleSetDefault}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select default" />
+            </SelectTrigger>
+            <SelectContent>
+              {environments.map((env) => (
+                <SelectItem key={env.id} value={env.id}>
+                  {env.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
 
       {/* Environment List */}
       {environments.length === 0 ? (

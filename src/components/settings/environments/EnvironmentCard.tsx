@@ -64,11 +64,6 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
   }
 
   const handleDelete = async () => {
-    if (environment.is_default) {
-      toast.error('Cannot delete the default environment')
-      return
-    }
-
     setIsDeleting(true)
     try {
       await dispatch(deleteEnvironment({ workspaceId, environmentId: environment.id })).unwrap()
@@ -129,7 +124,7 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
                 )}
                 <DropdownMenuItem
                   onClick={handleDelete}
-                  disabled={environment.is_default || isDeleting}
+                  disabled={isDeleting}
                   className="text-red-500 focus:text-red-500"
                 >
                   <Trash2 className="size-4 mr-2" />
