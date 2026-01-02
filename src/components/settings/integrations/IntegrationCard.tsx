@@ -17,6 +17,7 @@ export interface IntegrationCardProps {
   isLocked?: boolean
   lockMessage?: string
   onConnect?: () => void
+  onDisconnect?: () => void
   onReconfigure?: () => void
   onRetry?: () => void
   onHealthCheck?: () => void
@@ -36,6 +37,7 @@ export function IntegrationCard({
   isLocked = false,
   lockMessage = 'Available for team spaces only',
   onConnect,
+  onDisconnect,
   onReconfigure,
   onRetry,
   onHealthCheck,
@@ -122,6 +124,17 @@ export function IntegrationCard({
               disabled={loading}
             >
               Reconfigure
+            </Button>
+          )}
+          {isConnected && onDisconnect && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onDisconnect}
+              disabled={loading}
+              className="text-destructive hover:bg-destructive/10"
+            >
+              Disconnect
             </Button>
           )}
           {isError && onRetry && (

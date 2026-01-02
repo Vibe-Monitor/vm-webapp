@@ -155,7 +155,7 @@ export default function IntegrationsPage() {
           icon: <GitHubLogoIcon className="size-5 text-foreground" />,
           status: mapStatus(github.connected, github.status),
           onConnect: github.onConnect,
-          onReconfigure: github.onConnect,
+          onDisconnect: github.onDisconnect,
           loading: github.loading,
         },
       ],
