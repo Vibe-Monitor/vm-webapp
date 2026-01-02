@@ -155,8 +155,17 @@ const workspaceSlice = createSlice({
         state.loading = false
         state.workspaces = action.payload
         state.error = null
-        // Auto-select workspace if none selected
-        if (!state.currentWorkspace && action.payload.length > 0) {
+
+        if (state.currentWorkspace) {
+          // Update currentWorkspace with fresh data from the list (e.g., after rename)
+          const updatedCurrent = action.payload.find(
+            (ws: Workspace) => ws.id === state.currentWorkspace!.id
+          )
+          if (updatedCurrent) {
+            state.currentWorkspace = updatedCurrent
+          }
+        } else if (action.payload.length > 0) {
+          // Auto-select workspace if none selected
           // Try to restore last visited workspace from localStorage
           let selectedWorkspace = action.payload[0]
           if (typeof window !== 'undefined') {

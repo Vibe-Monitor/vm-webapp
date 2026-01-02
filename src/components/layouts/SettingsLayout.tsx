@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Bot, Users, CreditCard } from 'lucide-react'
+import { Settings2, Bot, Users, CreditCard } from 'lucide-react'
 
 interface SettingsLayoutProps {
   children: React.ReactNode
@@ -18,6 +18,11 @@ interface SettingsNavItem {
 
 // Space Settings only - Environments, Services, Integrations are now top-level pages
 const settingsNavItems: SettingsNavItem[] = [
+  {
+    title: 'General',
+    href: '/settings/general',
+    icon: Settings2,
+  },
   {
     title: 'LLM Config',
     href: '/settings/llm',

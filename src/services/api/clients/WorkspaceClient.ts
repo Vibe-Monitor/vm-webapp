@@ -49,4 +49,8 @@ export class WorkspaceClient {
   async markVisited(workspaceId: string): Promise<ApiResponse<{ message: string }>> {
     return this.baseClient.post(`/api/v1/workspaces/${workspaceId}/visit`, {});
   }
+
+  async delete(workspaceId: string): Promise<ApiResponse<{ message: string }>> {
+    return this.baseClient.delete(`/api/v1/workspaces/${workspaceId}`);
+  }
 }
