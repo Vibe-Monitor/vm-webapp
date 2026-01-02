@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { createEnvironment, clearCreateError } from '@/lib/features/environmentsSlice'
+import { createEnvironment, clearCreateError, setDefaultEnvironment } from '@/lib/features/environmentsSlice'
 
 interface AddEnvironmentModalProps {
   open: boolean
@@ -30,7 +30,7 @@ export function AddEnvironmentModal({
   workspaceId,
 }: AddEnvironmentModalProps) {
   const dispatch = useAppDispatch()
-  const { createLoading, createError } = useAppSelector((state) => state.environments)
+  const { environments, createLoading, createError } = useAppSelector((state) => state.environments)
 
   const [name, setName] = useState('')
   const [autoDiscovery, setAutoDiscovery] = useState(true)
@@ -44,7 +44,9 @@ export function AddEnvironmentModal({
     }
 
     try {
-      await dispatch(
+      const isFirstEnvironment = environments.length === 0
+
+      const result = await dispatch(
         createEnvironment({
           workspaceId,
           data: {
@@ -53,6 +55,16 @@ export function AddEnvironmentModal({
           },
         })
       ).unwrap()
+
+      // Set as default if it's the first environment
+      if (isFirstEnvironment && result?.id) {
+        await dispatch(
+          setDefaultEnvironment({
+            workspaceId,
+            environmentId: result.id,
+          })
+        )
+      }
 
       toast.success(`Environment "${name}" created successfully`)
       handleClose()
