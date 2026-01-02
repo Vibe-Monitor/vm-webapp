@@ -96,10 +96,10 @@ export function MembersSection({ workspaceId, isPersonalSpace }: MembersSectionP
             <AlertCircle className="size-5 text-muted-foreground shrink-0 mt-0.5" />
             <div>
               <p className="text-sm font-medium text-foreground">
-                Personal Workspace
+                Personal Space
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                Cannot invite members to personal spaces. Create a team workspace to collaborate.
+                Personal spaces don&apos;t support members. Switch to a team space to collaborate.
               </p>
             </div>
           </div>

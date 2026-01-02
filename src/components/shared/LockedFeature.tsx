@@ -11,8 +11,8 @@ interface LockedFeatureProps {
 }
 
 export function LockedFeature({
-  message = 'This feature is only available for team workspaces',
-  actionLabel = 'Create team workspace',
+  message = 'This feature is only available for team spaces',
+  actionLabel = 'Switch to team space',
   onAction,
   className,
 }: LockedFeatureProps) {

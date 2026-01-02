@@ -34,7 +34,7 @@ export function IntegrationCard({
   lastVerified,
   errorMessage,
   isLocked = false,
-  lockMessage = 'Available for team workspaces only',
+  lockMessage = 'Available for team spaces only',
   onConnect,
   onReconfigure,
   onRetry,
