@@ -163,6 +163,12 @@ const workspaceSlice = createSlice({
           )
           if (updatedCurrent) {
             state.currentWorkspace = updatedCurrent
+          } else if (action.payload.length > 0) {
+            // Current workspace was deleted - select another one
+            state.currentWorkspace = action.payload[0]
+          } else {
+            // No workspaces left
+            state.currentWorkspace = null
           }
         } else if (action.payload.length > 0) {
           // Auto-select workspace if none selected
