@@ -26,14 +26,19 @@ export class AwsClient {
   }
 
   async getStatus(workspaceId: string): Promise<ApiResponse<{
-    aws_region: string;
-    id: string;
-    workspace_id: string;
-    role_arn: string;
-    region: string;
-    connected: boolean;
-    created_at: string;
-    updated_at: string | null;
+    is_connected: boolean;
+    integration: {
+      id: string;
+      workspace_id: string;
+      role_arn: string;
+      has_external_id: boolean;
+      aws_region: string | null;
+      is_active: boolean;
+      credentials_expiration: string | null;
+      last_verified_at: string | null;
+      created_at: string;
+      updated_at: string | null;
+    } | null;
   }>> {
     return this.baseClient.get(`/api/v1/aws/integration/status?workspace_id=${workspaceId}`);
   }

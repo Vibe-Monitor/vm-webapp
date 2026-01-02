@@ -21,7 +21,20 @@ export const awsService = {
     try {
       const response = await api.aws.getStatus(workspaceId);
       if (response.status === 200 && response.data) {
-        return { connected: true, data: response.data };
+        // Backend returns { is_connected: boolean, integration: {...} | null }
+        const isConnected = response.data.is_connected === true;
+        const integration = response.data.integration;
+        if (isConnected && integration) {
+          return {
+            connected: true,
+            data: {
+              role_arn: integration.role_arn,
+              aws_region: integration.aws_region || undefined,
+              region: integration.aws_region || undefined,
+            }
+          };
+        }
+        return { connected: false };
       }
       return { connected: false };
     } catch {
