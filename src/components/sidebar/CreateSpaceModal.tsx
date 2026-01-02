@@ -90,8 +90,8 @@ export function CreateSpaceModal({ open, onOpenChange }: CreateSpaceModalProps) 
         })
       ).unwrap()
 
-      // Set the new workspace as current
-      dispatch(setCurrentWorkspace(result))
+      // Set the new workspace as current (creator is always owner)
+      dispatch(setCurrentWorkspace({ ...result, user_role: 'owner' }))
 
       // Close the modal
       onOpenChange(false)
