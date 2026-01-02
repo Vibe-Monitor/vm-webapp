@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChatContainer } from '@/components/chat';
-import { Toaster } from 'sonner';
 import Loader from '@/components/ui/loader';
 import { Button } from '@/components/ui/button';
 import { useAppSelector, useAppDispatch } from '@/lib/hooks';
@@ -62,15 +61,6 @@ export default function ChatPage() {
   return (
     <div className="-m-4 md:-m-6 h-[calc(100vh-4rem)]">
       <ChatContainer workspaceId={workspaceId} className="h-full" />
-
-      <Toaster
-        position="top-right"
-        richColors
-        theme="light"
-        toastOptions={{
-          className: 'bg-card border-border text-foreground',
-        }}
-      />
     </div>
   );
 }

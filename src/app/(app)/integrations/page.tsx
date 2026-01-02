@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { toast } from 'sonner'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import {
   IntegrationsSection,
@@ -76,6 +78,7 @@ function DatadogLogo({ size = 20 }: { size?: number }) {
 }
 
 export default function IntegrationsPage() {
+  const searchParams = useSearchParams()
   const currentWorkspace = useAppSelector((state) => state.workspace.currentWorkspace)
   const workspaceId = currentWorkspace?.id
   const isPersonalSpace = currentWorkspace?.type === 'personal'
@@ -99,6 +102,34 @@ export default function IntegrationsPage() {
       aws.checkStatus()
     }
   }, [workspaceId])
+
+  // Handle callback query params (github=connected, slack=connected, error=...)
+  useEffect(() => {
+    const githubConnected = searchParams.get('github')
+    const slackConnected = searchParams.get('slack')
+    const error = searchParams.get('error')
+
+    if (githubConnected === 'connected') {
+      toast.success('GitHub connected successfully!')
+      github.checkStatus()
+    }
+
+    if (slackConnected === 'connected') {
+      toast.success('Slack connected successfully!')
+      slack.checkStatus()
+    }
+
+    if (error) {
+      toast.error(`Connection failed: ${error.replace(/_/g, ' ')}`)
+    }
+
+    // Clean up URL
+    if (githubConnected || slackConnected || error) {
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', window.location.pathname)
+      }
+    }
+  }, [searchParams])
 
   // Map hook status to our status type
   const mapStatus = (connected: boolean, status?: string): IntegrationStatusType => {

@@ -2,7 +2,6 @@
 import { useState, useEffect, Suspense } from "react";
 import { LandingPage } from "@/components/setup/setup";
 import { OnboardingPage } from "@/components/setup/OnboardingPage";
-import { Toaster } from "sonner";
 import Loader from "@/components/ui/loader";
 
 type SetupState = "onboarding" | "landing";
@@ -49,12 +48,6 @@ export default function Page() {
       <main>
         {renderCurrentState()}
       </main>
-
-      <Toaster
-        position="top-right"
-        richColors
-        theme="light"
-      />
     </div>
   );
 }

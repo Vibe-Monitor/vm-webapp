@@ -32,7 +32,7 @@ export default function GithubCallbackPage() {
             stage: 'validation'
           })
 
-          router.replace('/setup?error=missing_installation_id')
+          router.replace('/integrations?error=missing_installation_id')
           return
         }
 
@@ -44,7 +44,7 @@ export default function GithubCallbackPage() {
             stage: 'validation'
           })
 
-          router.replace('/setup?error=missing_setup_action')
+          router.replace('/integrations?error=missing_setup_action')
           return
         }
 
@@ -66,7 +66,7 @@ export default function GithubCallbackPage() {
         })
 
         setStatus('GitHub connected successfully! Redirecting...')
-        router.replace(`/setup?github=connected`)
+        router.replace(`/integrations?github=connected`)
 
       } catch (error) {
         console.error('GitHub callback error:', error)
@@ -77,7 +77,7 @@ export default function GithubCallbackPage() {
           stage: 'api_call'
         })
 
-        router.replace('/setup?error=github_connection_failed')
+        router.replace('/integrations?error=github_connection_failed')
       }
     }
 
