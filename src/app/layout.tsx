@@ -31,7 +31,7 @@ export default function RootLayout({
             </AuthGuard>
           </StoreProvider>
         </PostHogProvider>
-        <Toaster position="top-right" richColors closeButton />
+        <Toaster position="bottom-right" richColors closeButton />
       </body>
     </html>
   );
