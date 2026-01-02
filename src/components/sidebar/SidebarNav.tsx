@@ -74,7 +74,7 @@ const navItems: NavItem[] = [
   },
   {
     title: 'Space Settings',
-    href: '/settings',
+    href: '/settings/general',
     icon: Settings,
     ownerAccess: 'full',
     userAccess: 'hidden',
