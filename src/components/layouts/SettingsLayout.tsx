@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Settings2, Bot, Users, CreditCard } from 'lucide-react'
+import { Settings2, Bot, Users, CreditCard, Key } from 'lucide-react'
 
 interface SettingsLayoutProps {
   children: React.ReactNode
@@ -32,6 +32,11 @@ const settingsNavItems: SettingsNavItem[] = [
     title: 'Members',
     href: '/settings/members',
     icon: Users,
+  },
+  {
+    title: 'API Keys',
+    href: '/settings/api-keys',
+    icon: Key,
   },
   {
     title: 'Billing',
