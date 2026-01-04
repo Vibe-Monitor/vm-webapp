@@ -34,8 +34,8 @@ export interface Deployment {
 
 export interface CreateDeploymentInput {
   repo_full_name: string
-  branch?: string
-  commit_sha?: string
+  commit_sha: string // Required - uniquely identifies the deployed code snapshot
+  branch?: string // Optional context
   status?: DeploymentStatus
   source?: DeploymentSource
   deployed_at?: string

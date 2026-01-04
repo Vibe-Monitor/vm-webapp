@@ -7,13 +7,6 @@ import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -30,13 +23,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { useAppDispatch } from '@/lib/hooks'
 import {
-  fetchRepositoryBranches,
   updateRepositoryConfig,
   removeRepositoryConfig,
 } from '@/lib/features/environmentsSlice'
-import { RepositoryConfig as RepositoryConfigType, RepositoryBranch } from '@/types/environment'
+import { RepositoryConfig as RepositoryConfigType } from '@/types/environment'
 import { Deployment } from '@/types/deployment'
 import { api } from '@/services/api/apiFactory'
 import { UpdateDeploymentModal } from './UpdateDeploymentModal'
@@ -48,6 +40,40 @@ interface RepositoryConfigProps {
   workspaceId: string
 }
 
+// Format deployment date with relative time and full timestamp
+function formatDeploymentDate(dateString: string): { relative: string; full: string } {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / (1000 * 60))
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  let relative: string
+  if (diffMins < 1) {
+    relative = 'just now'
+  } else if (diffMins < 60) {
+    relative = `${diffMins} min${diffMins === 1 ? '' : 's'} ago`
+  } else if (diffHours < 24) {
+    relative = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`
+  } else if (diffDays < 7) {
+    relative = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`
+  } else {
+    relative = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
+  const full = date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })
+
+  return { relative, full }
+}
+
 export function RepositoryConfig({
   environmentId,
   environmentName,
@@ -55,26 +81,10 @@ export function RepositoryConfig({
   workspaceId,
 }: RepositoryConfigProps) {
   const dispatch = useAppDispatch()
-  const { branchesCache, branchesLoading } = useAppSelector((state) => state.environments)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isDeploymentModalOpen, setIsDeploymentModalOpen] = useState(false)
   const [latestDeployment, setLatestDeployment] = useState<Deployment | null>(null)
   const [isLoadingDeployment, setIsLoadingDeployment] = useState(false)
-
-  const branches = branchesCache[config.repo_full_name] || []
-  const isLoadingBranches = branchesLoading[config.repo_full_name] || false
-
-  useEffect(() => {
-    // Fetch branches if not cached
-    if (!branchesCache[config.repo_full_name] && workspaceId) {
-      dispatch(
-        fetchRepositoryBranches({
-          workspaceId,
-          repoFullName: config.repo_full_name,
-        })
-      )
-    }
-  }, [dispatch, config.repo_full_name, workspaceId, branchesCache])
 
   useEffect(() => {
     // Fetch latest deployment
@@ -87,7 +97,7 @@ export function RepositoryConfig({
           environmentId,
           config.repo_full_name
         )
-        if (response.status === 200) {
+        if (response.status === 200 && response.data) {
           setLatestDeployment(response.data)
         }
       } catch {
@@ -98,22 +108,6 @@ export function RepositoryConfig({
     }
     fetchDeployment()
   }, [workspaceId, environmentId, config.repo_full_name])
-
-  const handleBranchChange = async (branchName: string) => {
-    try {
-      await dispatch(
-        updateRepositoryConfig({
-          workspaceId,
-          environmentId,
-          repoConfigId: config.id,
-          data: { branch_name: branchName },
-        })
-      ).unwrap()
-      toast.success(`Branch updated to ${branchName}`)
-    } catch {
-      toast.error('Failed to update branch')
-    }
-  }
 
   const handleEnableToggle = async (enabled: boolean) => {
     try {
@@ -149,12 +143,6 @@ export function RepositoryConfig({
     }
   }
 
-  // Enable toggle is disabled until branch is selected
-  const canToggleEnabled = !!config.branch_name
-
-  // Find default branch for placeholder
-  const defaultBranch = branches.find((b: RepositoryBranch) => b.is_default)?.name
-
   return (
     <>
       <div className="flex flex-col gap-2 py-3 px-4 border border-border rounded-lg bg-card">
@@ -167,38 +155,6 @@ export function RepositoryConfig({
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Branch Selector */}
-            <div className="w-44">
-              <Select
-                value={config.branch_name || ''}
-                onValueChange={handleBranchChange}
-                disabled={isLoadingBranches}
-              >
-                <SelectTrigger className="h-8 text-xs w-full overflow-hidden">
-                  {isLoadingBranches ? (
-                    <div className="flex items-center gap-2">
-                      <Loader2 className="size-3 animate-spin" />
-                      <span>Loading...</span>
-                    </div>
-                  ) : (
-                    <SelectValue placeholder={defaultBranch || 'Select branch'} />
-                  )}
-                </SelectTrigger>
-                <SelectContent className="max-w-64">
-                  {branches.map((branch: RepositoryBranch) => (
-                    <SelectItem key={branch.name} value={branch.name} title={branch.name}>
-                      <span className="truncate max-w-[200px] inline-block">{branch.name}</span>
-                      {branch.is_default && (
-                        <span className="ml-2 text-xs text-muted-foreground shrink-0">
-                          (default)
-                        </span>
-                      )}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
             {/* Enable/Disable Toggle */}
             <div className="flex items-center gap-2">
               <span className="text-xs text-muted-foreground">
@@ -207,7 +163,6 @@ export function RepositoryConfig({
               <Switch
                 checked={config.is_enabled}
                 onCheckedChange={handleEnableToggle}
-                disabled={!canToggleEnabled}
                 aria-label={`Toggle ${config.repo_full_name}`}
               />
             </div>
@@ -257,10 +212,6 @@ export function RepositoryConfig({
             ) : latestDeployment ? (
               <TooltipProvider>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-xs font-normal gap-1">
-                    <Rocket className="size-3" />
-                    {latestDeployment.branch}
-                  </Badge>
                   {latestDeployment.commit_sha && (
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -274,11 +225,26 @@ export function RepositoryConfig({
                       </TooltipContent>
                     </Tooltip>
                   )}
-                  <span className="text-muted-foreground">
-                    deployed {latestDeployment.deployed_at
-                      ? new Date(latestDeployment.deployed_at).toLocaleDateString()
-                      : 'recently'}
-                  </span>
+                  {latestDeployment.branch && (
+                    <Badge variant="outline" className="text-xs font-normal gap-1">
+                      <GitBranch className="size-3" />
+                      {latestDeployment.branch}
+                    </Badge>
+                  )}
+                  {latestDeployment.deployed_at ? (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="text-muted-foreground cursor-default">
+                          deployed {formatDeploymentDate(latestDeployment.deployed_at).relative}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{formatDeploymentDate(latestDeployment.deployed_at).full}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    <span className="text-muted-foreground">deployed recently</span>
+                  )}
                 </div>
               </TooltipProvider>
             ) : (

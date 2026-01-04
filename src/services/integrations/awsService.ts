@@ -12,7 +12,15 @@ export const awsService = {
     if (response.status >= 200 && response.status < 300) {
       // Re-fetch status to get the actual connection data
       const statusCheck = await api.aws.getStatus(params.workspace_id);
-      return statusCheck.data || {};
+      const integration = statusCheck.data?.integration;
+      if (integration) {
+        return {
+          role_arn: integration.role_arn,
+          aws_region: integration.aws_region || undefined,
+          region: integration.aws_region || undefined,
+        };
+      }
+      return {};
     }
     throw new Error(response.error || 'Failed to connect AWS CloudWatch');
   },

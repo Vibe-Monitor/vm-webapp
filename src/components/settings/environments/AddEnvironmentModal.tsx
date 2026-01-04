@@ -14,7 +14,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { createEnvironment, clearCreateError, setDefaultEnvironment } from '@/lib/features/environmentsSlice'
 
@@ -33,7 +32,6 @@ export function AddEnvironmentModal({
   const { environments, createLoading, createError } = useAppSelector((state) => state.environments)
 
   const [name, setName] = useState('')
-  const [autoDiscovery, setAutoDiscovery] = useState(true)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -51,7 +49,6 @@ export function AddEnvironmentModal({
           workspaceId,
           data: {
             name: name.trim(),
-            auto_discovery_enabled: autoDiscovery,
           },
         })
       ).unwrap()
@@ -75,7 +72,6 @@ export function AddEnvironmentModal({
 
   const handleClose = () => {
     setName('')
-    setAutoDiscovery(true)
     dispatch(clearCreateError())
     onOpenChange(false)
   }
@@ -107,21 +103,6 @@ export function AddEnvironmentModal({
                 This should match the environment attribute in your logs (e.g.,
                 production, staging).
               </p>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label htmlFor="auto-discovery">Auto-discovery</Label>
-                <p className="text-xs text-muted-foreground">
-                  Automatically discover repositories from GitHub
-                </p>
-              </div>
-              <Switch
-                id="auto-discovery"
-                checked={autoDiscovery}
-                onCheckedChange={setAutoDiscovery}
-                disabled={createLoading}
-              />
             </div>
 
             {createError && (

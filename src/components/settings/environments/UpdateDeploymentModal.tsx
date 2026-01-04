@@ -51,6 +51,7 @@ export function UpdateDeploymentModal({
 
   const [branch, setBranch] = useState(currentDeployment?.branch || '')
   const [commitSha, setCommitSha] = useState(currentDeployment?.commit_sha || '')
+  const [deployedAt, setDeployedAt] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const branches = branchesCache[repoFullName] || []
@@ -68,19 +69,30 @@ export function UpdateDeploymentModal({
     }
   }, [dispatch, open, repoFullName, workspaceId, branchesCache])
 
+  // Helper to format date for datetime-local input
+  const formatDateTimeLocal = (date: Date) => {
+    const pad = (n: number) => n.toString().padStart(2, '0')
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
+  }
+
   useEffect(() => {
     // Reset form when modal opens
     if (open) {
       setBranch(currentDeployment?.branch || '')
       setCommitSha(currentDeployment?.commit_sha || '')
+      // Default to current time, or existing deployment time
+      const defaultTime = currentDeployment?.deployed_at
+        ? new Date(currentDeployment.deployed_at)
+        : new Date()
+      setDeployedAt(formatDateTimeLocal(defaultTime))
     }
   }, [open, currentDeployment])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!branch) {
-      toast.error('Please select a branch')
+    if (!commitSha.trim()) {
+      toast.error('Please enter a commit SHA')
       return
     }
 
@@ -88,8 +100,9 @@ export function UpdateDeploymentModal({
     try {
       const response = await api.deployments.create(workspaceId, environmentId, {
         repo_full_name: repoFullName,
-        branch,
-        commit_sha: commitSha || undefined,
+        commit_sha: commitSha.trim(),
+        branch: branch || undefined,
+        deployed_at: deployedAt ? new Date(deployedAt).toISOString() : undefined,
       })
 
       if (response.status === 201 && response.data) {
@@ -122,7 +135,23 @@ export function UpdateDeploymentModal({
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="branch">Branch</Label>
+              <Label htmlFor="commit">Commit SHA</Label>
+              <Input
+                id="commit"
+                placeholder="e.g., abc123def456..."
+                value={commitSha}
+                onChange={(e) => setCommitSha(e.target.value)}
+                disabled={isSubmitting}
+                maxLength={40}
+                className="font-mono"
+              />
+              <p className="text-xs text-muted-foreground">
+                The exact commit that was deployed. Available as <code className="bg-muted px-1 rounded">$GITHUB_SHA</code> in GitHub Actions.
+              </p>
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="branch">Branch (optional)</Label>
               <Select
                 value={branch}
                 onValueChange={setBranch}
@@ -135,7 +164,7 @@ export function UpdateDeploymentModal({
                       <span>Loading branches...</span>
                     </div>
                   ) : (
-                    <SelectValue placeholder="Select deployed branch" />
+                    <SelectValue placeholder="Select branch (optional)" />
                   )}
                 </SelectTrigger>
                 <SelectContent>
@@ -151,20 +180,22 @@ export function UpdateDeploymentModal({
                   ))}
                 </SelectContent>
               </Select>
+              <p className="text-xs text-muted-foreground">
+                Helpful context, but commit SHA is the source of truth.
+              </p>
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="commit">Commit SHA (optional)</Label>
+              <Label htmlFor="deployedAt">Deployment Time</Label>
               <Input
-                id="commit"
-                placeholder="e.g., abc123def456..."
-                value={commitSha}
-                onChange={(e) => setCommitSha(e.target.value)}
+                id="deployedAt"
+                type="datetime-local"
+                value={deployedAt}
+                onChange={(e) => setDeployedAt(e.target.value)}
                 disabled={isSubmitting}
-                maxLength={40}
               />
               <p className="text-xs text-muted-foreground">
-                Optionally specify the exact commit for more precise code matching.
+                When was this version deployed? Defaults to now.
               </p>
             </div>
           </div>
@@ -178,7 +209,7 @@ export function UpdateDeploymentModal({
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting || !branch}>
+            <Button type="submit" disabled={isSubmitting || !commitSha.trim()}>
               {isSubmitting ? (
                 <>
                   <Loader2 className="size-4 mr-2 animate-spin" />

@@ -46,8 +46,6 @@ function normalizeEnvironment(env: EnvironmentWithRepos): EnvironmentWithRepos {
   const envAny = env as unknown as Record<string, unknown>
   return {
     ...env,
-    // Ensure auto_discovery_enabled has a default value
-    auto_discovery_enabled: env.auto_discovery_enabled ?? false,
     // Backend may use 'repositories' instead of 'repository_configs'
     repository_configs: env.repository_configs ||
       (envAny.repositories as EnvironmentWithRepos['repository_configs']) ||

@@ -23,7 +23,6 @@ import {
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import {
   fetchAvailableRepositories,
-  fetchRepositoryBranches,
   addRepositoryConfig,
 } from '@/lib/features/environmentsSlice'
 
@@ -41,12 +40,9 @@ export function AddRepositoryModal({
   workspaceId,
 }: AddRepositoryModalProps) {
   const dispatch = useAppDispatch()
-  const { availableRepositories, branchesCache, branchesLoading } = useAppSelector(
-    (state) => state.environments
-  )
+  const { availableRepositories } = useAppSelector((state) => state.environments)
 
   const [selectedRepo, setSelectedRepo] = useState<string>('')
-  const [selectedBranch, setSelectedBranch] = useState<string>('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoadingRepos, setIsLoadingRepos] = useState(false)
 
@@ -60,38 +56,15 @@ export function AddRepositoryModal({
     }
   }, [open, environmentId, workspaceId, dispatch])
 
-  // Fetch branches when a repository is selected
-  useEffect(() => {
-    if (selectedRepo && workspaceId) {
-      dispatch(fetchRepositoryBranches({ workspaceId, repoFullName: selectedRepo }))
-    }
-  }, [selectedRepo, workspaceId, dispatch])
-
-  // Reset branch when repo changes
-  useEffect(() => {
-    setSelectedBranch('')
-  }, [selectedRepo])
-
-  const branches = selectedRepo ? branchesCache[selectedRepo] || [] : []
-  const isLoadingBranches = selectedRepo ? branchesLoading[selectedRepo] || false : false
-
-  // Find default branch for the selected repo
-  const selectedRepoData = availableRepositories.find((r) => r.full_name === selectedRepo)
-  const defaultBranch = selectedRepoData?.default_branch
-
   const handleRepoChange = (value: string) => {
     setSelectedRepo(value)
-  }
-
-  const handleBranchChange = (value: string) => {
-    setSelectedBranch(value)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!selectedRepo || !selectedBranch) {
-      toast.error('Please select both repository and branch')
+    if (!selectedRepo) {
+      toast.error('Please select a repository')
       return
     }
 
@@ -103,7 +76,6 @@ export function AddRepositoryModal({
           environmentId,
           data: {
             repo_full_name: selectedRepo,
-            branch_name: selectedBranch,
             is_enabled: true,
           },
         })
@@ -120,11 +92,10 @@ export function AddRepositoryModal({
 
   const handleClose = () => {
     setSelectedRepo('')
-    setSelectedBranch('')
     onOpenChange(false)
   }
 
-  const canSubmit = selectedRepo && selectedBranch && !isSubmitting
+  const canSubmit = selectedRepo && !isSubmitting
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -133,7 +104,7 @@ export function AddRepositoryModal({
           <DialogHeader>
             <DialogTitle>Add Repository</DialogTitle>
             <DialogDescription>
-              Select a repository and branch to add to this environment.
+              Select a repository to add to this environment.
             </DialogDescription>
           </DialogHeader>
 
@@ -177,50 +148,6 @@ export function AddRepositoryModal({
                   )}
                 </SelectContent>
               </Select>
-            </div>
-
-            {/* Branch Select */}
-            <div className="grid gap-2">
-              <Label htmlFor="branch">
-                Branch <span className="text-red-500">*</span>
-              </Label>
-              <Select
-                value={selectedBranch}
-                onValueChange={handleBranchChange}
-                disabled={!selectedRepo || isLoadingBranches || isSubmitting}
-              >
-                <SelectTrigger id="branch" className="w-full overflow-hidden">
-                  {isLoadingBranches ? (
-                    <div className="flex items-center gap-2">
-                      <Loader2 className="size-4 animate-spin" />
-                      <span>Loading branches...</span>
-                    </div>
-                  ) : (
-                    <SelectValue
-                      placeholder={
-                        !selectedRepo
-                          ? 'Select a repository first'
-                          : defaultBranch
-                            ? `Select branch (default: ${defaultBranch})`
-                            : 'Select a branch'
-                      }
-                    />
-                  )}
-                </SelectTrigger>
-                <SelectContent className="max-w-[350px]">
-                  {branches.map((branch) => (
-                    <SelectItem key={branch.name} value={branch.name} title={branch.name}>
-                      <span className="truncate max-w-[280px] inline-block">{branch.name}</span>
-                      {branch.is_default && (
-                        <span className="ml-2 text-xs text-muted-foreground shrink-0">(default)</span>
-                      )}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground">
-                Select the branch to use for code context in this environment.
-              </p>
             </div>
           </div>
 

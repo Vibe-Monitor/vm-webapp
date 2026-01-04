@@ -9,7 +9,6 @@ export interface Environment {
   name: string
   workspace_id: string
   is_default: boolean
-  auto_discovery_enabled: boolean
   created_at: string
   updated_at: string
 }
@@ -40,13 +39,11 @@ export interface EnvironmentWithRepos extends Environment {
 
 export interface CreateEnvironmentInput {
   name: string
-  auto_discovery_enabled?: boolean
 }
 
 export interface UpdateEnvironmentInput {
   name?: string
   is_default?: boolean
-  auto_discovery_enabled?: boolean
 }
 
 export interface CreateRepositoryConfigInput {

@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,21 +35,6 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
   const dispatch = useAppDispatch()
   const [isDeleting, setIsDeleting] = useState(false)
   const [isAddRepoModalOpen, setIsAddRepoModalOpen] = useState(false)
-
-  const handleAutoDiscoveryToggle = async (checked: boolean) => {
-    try {
-      await dispatch(
-        updateEnvironment({
-          workspaceId,
-          environmentId: environment.id,
-          data: { auto_discovery_enabled: checked },
-        })
-      ).unwrap()
-      toast.success(`Auto-discovery ${checked ? 'enabled' : 'disabled'}`)
-    } catch {
-      toast.error('Failed to update auto-discovery setting')
-    }
-  }
 
   const handleSetDefault = async () => {
     if (environment.is_default) return
@@ -109,69 +93,53 @@ export function EnvironmentCard({ environment, workspaceId }: EnvironmentCardPro
 
       <AccordionContent className="px-4 pb-4">
         <div className="space-y-4">
-          {/* Auto-discovery and Actions Row */}
-          <div className="flex items-center justify-between pt-2">
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">
-                Auto-discovery
-              </span>
-              <Switch
-                checked={environment.auto_discovery_enabled}
-                onCheckedChange={handleAutoDiscoveryToggle}
-                aria-label="Toggle auto-discovery"
-              />
-              <span className="text-xs text-muted-foreground">
-                {environment.auto_discovery_enabled ? 'ON' : 'OFF'}
-              </span>
-            </div>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                  <MoreHorizontal className="size-4" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {!environment.is_default && (
-                  <DropdownMenuItem onClick={handleSetDefault}>
-                    <Star className="size-4 mr-2" />
-                    Set as default
-                  </DropdownMenuItem>
-                )}
-                {environment.is_default && (
-                  <DropdownMenuItem onClick={handleRemoveDefault}>
-                    <StarOff className="size-4 mr-2" />
-                    Remove as default
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuItem
-                  onClick={handleDelete}
-                  disabled={isDeleting}
-                  className="text-red-500 focus:text-red-500"
-                >
-                  <Trash2 className="size-4 mr-2" />
-                  {isDeleting ? 'Deleting...' : 'Delete'}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
           {/* Repositories Section */}
-          <div className="space-y-3">
+          <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-medium text-muted-foreground">
                 Repositories
               </h4>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-7 text-xs"
-                onClick={() => setIsAddRepoModalOpen(true)}
-              >
-                <Plus className="size-3 mr-1" />
-                Add
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-xs"
+                  onClick={() => setIsAddRepoModalOpen(true)}
+                >
+                  <Plus className="size-3 mr-1" />
+                  Add
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
+                      <MoreHorizontal className="size-4" />
+                      <span className="sr-only">Open menu</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    {!environment.is_default && (
+                      <DropdownMenuItem onClick={handleSetDefault}>
+                        <Star className="size-4 mr-2" />
+                        Set as default
+                      </DropdownMenuItem>
+                    )}
+                    {environment.is_default && (
+                      <DropdownMenuItem onClick={handleRemoveDefault}>
+                        <StarOff className="size-4 mr-2" />
+                        Remove as default
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem
+                      onClick={handleDelete}
+                      disabled={isDeleting}
+                      className="text-red-500 focus:text-red-500"
+                    >
+                      <Trash2 className="size-4 mr-2" />
+                      {isDeleting ? 'Deleting...' : 'Delete'}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
 
             {!environment.repository_configs || environment.repository_configs.length === 0 ? (
